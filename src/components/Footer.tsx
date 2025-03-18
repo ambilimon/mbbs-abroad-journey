@@ -1,5 +1,5 @@
-
 import { cn } from "@/lib/utils";
+import Logo from "./Logo";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -10,11 +10,9 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
             <div className="mb-4">
-              <span className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800">
-                MBBS Abroad
-              </span>
+              <Logo variant="default" />
             </div>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-600 mb-4 mt-2">
               Your trusted partner for pursuing MBBS abroad with over 10 years of experience 
               and 2000+ successful placements.
             </p>
@@ -113,7 +111,7 @@ const Footer = () => {
         <div className="border-t border-gray-200 pt-8 mt-8">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
             <p className="text-gray-500 text-sm">
-              © {currentYear} MBBS Abroad. All rights reserved.
+              © {currentYear} Future Doctor. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-4">
               {["Privacy Policy", "Terms of Service", "Refund Policy", "Sitemap"].map((link) => (
