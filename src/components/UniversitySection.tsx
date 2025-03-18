@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface University {
   id: number;
@@ -169,9 +170,11 @@ const UniversitySection = () => {
                         </span>
                       ))}
                     </div>
-                    <Button variant="outline" className="w-full mt-2">
-                      View Details
-                    </Button>
+                    <Link to={`/university/${university.id}`}>
+                      <Button variant="outline" className="w-full mt-2">
+                        View Details
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -218,9 +221,11 @@ const UniversitySection = () => {
                         </span>
                       ))}
                     </div>
-                    <Button variant="outline" className="w-full mt-2">
-                      View Details
-                    </Button>
+                    <Link to={`/university/${university.id}`}>
+                      <Button variant="outline" className="w-full mt-2">
+                        View Details
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               ))}

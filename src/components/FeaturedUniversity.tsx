@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import AnimatedButton from "./AnimatedButton";
 import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const FeaturedUniversity = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -68,17 +69,21 @@ const FeaturedUniversity = () => {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <AnimatedButton
-                className="bg-white text-blue-700 hover:bg-blue-50 border-0"
-              >
-                Apply to SEU
-              </AnimatedButton>
-              <AnimatedButton
-                variant="outline" 
-                className="border-white text-white hover:bg-white/10"
-              >
-                Learn More
-              </AnimatedButton>
+              <Link to="/university/4">
+                <AnimatedButton
+                  className="bg-white text-blue-700 hover:bg-blue-50 border-0"
+                >
+                  Apply to SEU
+                </AnimatedButton>
+              </Link>
+              <Link to="/university/4">
+                <AnimatedButton
+                  variant="outline" 
+                  className="border-white text-white hover:bg-white/10"
+                >
+                  Learn More
+                </AnimatedButton>
+              </Link>
             </div>
           </div>
 

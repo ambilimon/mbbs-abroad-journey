@@ -1,20 +1,19 @@
 
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import AnimatedButton from "./AnimatedButton";
+import Logo from "./Logo";
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // Update scroll state
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
+      if (window.scrollY > 20) {
+        setScrolled(true);
       } else {
-        setIsScrolled(false);
+        setScrolled(false);
       }
     };
 
@@ -22,82 +21,95 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: "Home", href: "#home" },
-    { name: "Why MBBS Abroad", href: "#why-mbbs-abroad" },
-    { name: "Universities", href: "#universities" },
-    { name: "Apply Now", href: "#apply" },
-  ];
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-
   return (
     <header
-      className={cn(
-        "fixed w-full top-0 left-0 z-50 transition-all duration-300 ease-out py-4 md:py-5",
-        isScrolled
-          ? "bg-white/80 backdrop-blur-md shadow-sm"
-          : "bg-transparent"
-      )}
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled ? "bg-white shadow-md py-3" : "bg-transparent py-5"
+      }`}
     >
-      <div className="container mx-auto px-4 sm:px-6 flex items-center justify-between">
-        <a href="#" className="flex items-center">
-          <span className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-800">
-            MBBS Abroad
-          </span>
-        </a>
+      <div className="container px-4 mx-auto flex justify-between items-center">
+        <Logo variant={scrolled ? 'default' : 'default'} />
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="nav-link"
-            >
-              {link.name}
-            </a>
-          ))}
-          <AnimatedButton variant="highlight" size="sm">
-            Contact Us
-          </AnimatedButton>
+        <nav className="hidden md:flex space-x-1">
+          <a href="/#" className="nav-link">
+            Home
+          </a>
+          <a href="/#why-mbbs-abroad" className="nav-link">
+            Why MBBS Abroad
+          </a>
+          <a href="/#universities" className="nav-link">
+            Universities
+          </a>
+          <a href="/#application" className="nav-link">
+            Apply Now
+          </a>
+          <a href="/#contact" className="nav-link">
+            Contact
+          </a>
         </nav>
 
-        {/* Mobile Menu Button */}
+        <div className="hidden md:block">
+          <Button>Get Started</Button>
+        </div>
+
+        {/* Mobile menu button */}
         <button
-          className="md:hidden text-gray-700 hover:text-primary transition-colors"
-          onClick={toggleMobileMenu}
+          className="md:hidden"
+          onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </button>
       </div>
 
-      {/* Mobile Menu */}
-      <div
-        className={cn(
-          "md:hidden absolute top-full left-0 w-full bg-white shadow-md transition-all duration-300 ease-in-out overflow-hidden",
-          isMobileMenuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
-        )}
-      >
-        <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-          {navLinks.map((link) => (
+      {/* Mobile Navigation */}
+      {isOpen && (
+        <div className="md:hidden absolute w-full bg-white shadow-lg">
+          <div className="container px-4 mx-auto py-4 flex flex-col space-y-4">
             <a
-              key={link.name}
-              href={link.href}
-              className="text-gray-700 py-2 hover:text-primary transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
+              href="/#"
+              className="block px-4 py-2 hover:bg-blue-50 rounded-md"
+              onClick={() => setIsOpen(false)}
             >
-              {link.name}
+              Home
             </a>
-          ))}
-          <AnimatedButton variant="highlight" className="mt-4">
-            Contact Us
-          </AnimatedButton>
+            <a
+              href="/#why-mbbs-abroad"
+              className="block px-4 py-2 hover:bg-blue-50 rounded-md"
+              onClick={() => setIsOpen(false)}
+            >
+              Why MBBS Abroad
+            </a>
+            <a
+              href="/#universities"
+              className="block px-4 py-2 hover:bg-blue-50 rounded-md"
+              onClick={() => setIsOpen(false)}
+            >
+              Universities
+            </a>
+            <a
+              href="/#application"
+              className="block px-4 py-2 hover:bg-blue-50 rounded-md"
+              onClick={() => setIsOpen(false)}
+            >
+              Apply Now
+            </a>
+            <a
+              href="/#contact"
+              className="block px-4 py-2 hover:bg-blue-50 rounded-md"
+              onClick={() => setIsOpen(false)}
+            >
+              Contact
+            </a>
+            <Button className="mt-2">Get Started</Button>
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
