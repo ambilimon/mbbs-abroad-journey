@@ -90,7 +90,7 @@ const FeaturedUniversity = () => {
           <div className="relative">
             <div className="h-full min-h-[350px] lg:min-h-0">
               <img
-                src="/placeholder.svg"
+                src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?q=80&w=1374&auto=format&fit=crop"
                 alt="SEU Georgian National University Campus"
                 className="w-full h-full object-cover"
               />

@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -21,7 +22,7 @@ const universities: University[] = [
     name: "Kabardino Balkarian State University",
     location: "Nalchik, Russia",
     description: "Renowned for Surgery, General Medicine, and Cardiology with excellent research facilities.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop",
     tuitionRange: "₹20-30 Lakhs total",
     features: ["English-Medium", "WHO & NMC Approved", "Established in 1957"],
     country: "russia",
@@ -31,7 +32,7 @@ const universities: University[] = [
     name: "Altai State Medical University",
     location: "Barnaul, Russia",
     description: "One of Russia's oldest medical universities with excellent research facilities.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1606502973842-f64bc2785fe5?q=80&w=1364&auto=format&fit=crop",
     tuitionRange: "₹25-35 Lakhs total",
     features: ["6-Year Program", "Modern Campus", "Strong Alumni Network"],
     country: "russia",
@@ -41,7 +42,7 @@ const universities: University[] = [
     name: "Kazan Federal University",
     location: "Kazan, Russia",
     description: "A prestigious institution offering cutting-edge medical education.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1470&auto=format&fit=crop",
     tuitionRange: "₹30-40 Lakhs total",
     features: ["Advanced Research", "Clinical Rotations", "Modern Labs"],
     country: "russia",
@@ -51,7 +52,7 @@ const universities: University[] = [
     name: "SEU - Georgian National University",
     location: "Tbilisi, Georgia",
     description: "Top-rated university with advanced medical labs, strong clinical exposure, and international faculty.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=1473&auto=format&fit=crop",
     tuitionRange: "₹30-35 Lakhs total",
     features: ["100% English Medium", "European Standard", "High FMGE Success"],
     country: "georgia",
@@ -61,7 +62,7 @@ const universities: University[] = [
     name: "Tbilisi State Medical University",
     location: "Tbilisi, Georgia",
     description: "Georgia's oldest and most prestigious medical university.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1593377201809-2bf7bef6dc5d?q=80&w=1373&auto=format&fit=crop",
     tuitionRange: "₹25-35 Lakhs total",
     features: ["Established in 1918", "Strong Clinical Training", "Modern Campus"],
     country: "georgia",
@@ -71,7 +72,7 @@ const universities: University[] = [
     name: "New Vision University",
     location: "Tbilisi, Georgia",
     description: "Recognized by WHO, NMC, and WFME with state-of-the-art hospital affiliations.",
-    image: "/placeholder.svg",
+    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1470&auto=format&fit=crop",
     tuitionRange: "₹30-40 Lakhs total",
     features: ["Advanced Facilities", "International Faculty", "Hospital Affiliations"],
     country: "georgia",
@@ -345,7 +346,9 @@ const UniversitySection = () => {
           </div>
           <div className="relative h-full min-h-[300px] lg:min-h-full bg-blue-100">
             <img
-              src="/placeholder.svg"
+              src={activeTab === "russia" 
+                ? "https://images.unsplash.com/photo-1547448415-e9f5b28e570d?q=80&w=1470&auto=format&fit=crop" 
+                : "https://images.unsplash.com/photo-1600697230637-36eec499637e?q=80&w=1470&auto=format&fit=crop"}
               alt={`MBBS in ${activeTab === "russia" ? "Russia" : "Georgia"}`}
               className="absolute inset-0 w-full h-full object-cover"
             />

@@ -130,7 +130,7 @@ const WhyMBBSAbroad = () => {
           <div className="relative">
             <div className="aspect-video rounded-xl overflow-hidden shadow-sm">
               <img
-                src="/placeholder.svg"
+                src="https://images.unsplash.com/photo-1590650153855-d9e808231d41?q=80&w=1470&auto=format&fit=crop"
                 alt="Students on campus"
                 className="w-full h-full object-cover"
               />

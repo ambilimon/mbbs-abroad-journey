@@ -83,7 +83,7 @@ const HeroSection = () => {
             <div className="relative">
               <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-smooth-lg">
                 <img 
-                  src="/placeholder.svg" 
+                  src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?q=80&w=1470&auto=format&fit=crop" 
                   alt="Medical students in laboratory" 
                   className="w-full h-full object-cover animate-blur-in"
                 />
