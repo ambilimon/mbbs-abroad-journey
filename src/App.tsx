@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import UniversityPage from "./pages/UniversityPage";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
+import DynamicUniversityPage from "./pages/DynamicUniversityPage";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +22,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/university/:id" element={<UniversityPage />} />
           <Route path="/universities/:country" element={<UniversityPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dynamic-university/:id" element={<DynamicUniversityPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

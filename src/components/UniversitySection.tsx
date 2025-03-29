@@ -514,7 +514,7 @@ const countryNames: Record<string, string> = {
   "georgia": "Georgia",
   "philippines": "Philippines",
   "belarus": "Belarus",
-  "moldova": "Moldova",
+  "moldova": "Moldova", 
   "bulgaria": "Bulgaria",
   "bosnia": "Bosnia",
   "uzbekistan": "Uzbekistan",
@@ -606,77 +606,79 @@ const UniversitySection = () => {
               ))}
             </TabsList>
           </div>
-        </Tabs>
-      </div>
+          
+          {/* Country Tabs - must be inside the same Tabs component */}
+          <TabsContent value={activeGroup.toString()}>
+            <div className="mt-8">
+              <Tabs value={activeTab} onValueChange={setActiveTab}>
+                <div className="flex justify-center mb-10">
+                  <TabsList className="grid grid-cols-3 md:grid-cols-3 w-full max-w-2xl overflow-x-auto">
+                    {countryGroups[activeGroup].map((country) => (
+                      <TabsTrigger key={country} value={country} className="text-sm md:text-base">
+                        {countryNames[country]}
+                      </TabsTrigger>
+                    ))}
+                  </TabsList>
+                </div>
 
-      {/* Country Tabs */}
-      <div className="section-animate stagger-3">
-        <Tabs defaultValue="russia" value={activeTab} onValueChange={setActiveTab}>
-          <div className="flex justify-center mb-10">
-            <TabsList className="grid grid-cols-3 md:grid-cols-3 w-full max-w-2xl overflow-x-auto">
-              {countryGroups[activeGroup].map((country) => (
-                <TabsTrigger key={country} value={country} className="text-sm md:text-base">
-                  {countryNames[country]}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </div>
-
-          {/* Country Content */}
-          {Object.keys(countryNames).map((country) => (
-            <TabsContent key={country} value={country} className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {universities
-                  .filter((uni) => uni.country === country)
-                  .slice(0, 3)
-                  .map((university, index) => (
-                    <div
-                      key={university.id}
-                      className="university-card overflow-hidden section-animate"
-                      style={{ transitionDelay: `${0.1 * (index + 4)}s` }}
-                    >
-                      <div className="relative h-48 overflow-hidden">
-                        <img
-                          src={university.image}
-                          alt={university.name}
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-white/90 backdrop-blur-sm text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
-                            {university.tuitionRange}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="p-6">
-                        <h3 className="text-xl font-semibold mb-2">{university.name}</h3>
-                        <p className="text-sm text-gray-500 mb-3">{university.location}</p>
-                        <p className="text-gray-600 mb-4">{university.description}</p>
-                        <div className="mb-4 flex flex-wrap gap-2">
-                          {university.features.map((feature, i) => (
-                            <span
-                              key={i}
-                              className="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full"
-                            >
-                              {feature}
-                            </span>
-                          ))}
-                        </div>
-                        <Link to={`/university/${university.id}`}>
-                          <Button variant="outline" className="w-full mt-2">
-                            View Details
-                          </Button>
-                        </Link>
-                      </div>
+                {/* Country Content */}
+                {Object.keys(countryNames).map((country) => (
+                  <TabsContent key={country} value={country} className="mt-0">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                      {universities
+                        .filter((uni) => uni.country === country)
+                        .slice(0, 3)
+                        .map((university, index) => (
+                          <div
+                            key={university.id}
+                            className="university-card overflow-hidden section-animate"
+                            style={{ transitionDelay: `${0.1 * (index + 4)}s` }}
+                          >
+                            <div className="relative h-48 overflow-hidden">
+                              <img
+                                src={university.image}
+                                alt={university.name}
+                                className="w-full h-full object-cover"
+                              />
+                              <div className="absolute top-4 left-4">
+                                <span className="bg-white/90 backdrop-blur-sm text-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
+                                  {university.tuitionRange}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="p-6">
+                              <h3 className="text-xl font-semibold mb-2">{university.name}</h3>
+                              <p className="text-sm text-gray-500 mb-3">{university.location}</p>
+                              <p className="text-gray-600 mb-4">{university.description}</p>
+                              <div className="mb-4 flex flex-wrap gap-2">
+                                {university.features.map((feature, i) => (
+                                  <span
+                                    key={i}
+                                    className="bg-blue-50 text-blue-700 text-xs px-2.5 py-1 rounded-full"
+                                  >
+                                    {feature}
+                                  </span>
+                                ))}
+                              </div>
+                              <Link to={`/university/${university.id}`}>
+                                <Button variant="outline" className="w-full mt-2">
+                                  View Details
+                                </Button>
+                              </Link>
+                            </div>
+                          </div>
+                        ))}
                     </div>
-                  ))}
-              </div>
-              <div className="text-center mt-10">
-                <Link to={`/universities/${country}`}>
-                  <Button variant="outline">View All {countryNames[country]} Universities</Button>
-                </Link>
-              </div>
-            </TabsContent>
-          ))}
+                    <div className="text-center mt-10">
+                      <Link to={`/universities/${country}`}>
+                        <Button variant="outline">View All {countryNames[country]} Universities</Button>
+                      </Link>
+                    </div>
+                  </TabsContent>
+                ))}
+              </Tabs>
+            </div>
+          </TabsContent>
         </Tabs>
       </div>
 
