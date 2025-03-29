@@ -750,6 +750,54 @@ const UniversitySection = () => {
                 <TableCell>WHO, NMC</TableCell>
                 <TableCell>Student Visa</TableCell>
               </TableRow>
+              <TableRow>
+                <TableCell className="font-medium">Malaysia</TableCell>
+                <TableCell>₹35-45 Lakhs</TableCell>
+                <TableCell>5 Years</TableCell>
+                <TableCell>English</TableCell>
+                <TableCell>WHO, NMC, MQA</TableCell>
+                <TableCell>Student Visa</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium">Nepal</TableCell>
+                <TableCell>₹25-35 Lakhs</TableCell>
+                <TableCell>5.5 Years</TableCell>
+                <TableCell>English</TableCell>
+                <TableCell>WHO, NMC</TableCell>
+                <TableCell>Student Visa</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium">Moldova</TableCell>
+                <TableCell>₹24-34 Lakhs</TableCell>
+                <TableCell>6 Years</TableCell>
+                <TableCell>English</TableCell>
+                <TableCell>WHO, NMC</TableCell>
+                <TableCell>Student Visa</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium">Bulgaria</TableCell>
+                <TableCell>₹25-35 Lakhs</TableCell>
+                <TableCell>6 Years</TableCell>
+                <TableCell>English</TableCell>
+                <TableCell>WHO, NMC, EU</TableCell>
+                <TableCell>Student Visa</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium">Bosnia</TableCell>
+                <TableCell>₹24-34 Lakhs</TableCell>
+                <TableCell>6 Years</TableCell>
+                <TableCell>English</TableCell>
+                <TableCell>WHO, NMC</TableCell>
+                <TableCell>Student Visa</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className="font-medium">Uzbekistan</TableCell>
+                <TableCell>₹18-30 Lakhs</TableCell>
+                <TableCell>6 Years</TableCell>
+                <TableCell>English</TableCell>
+                <TableCell>WHO, NMC</TableCell>
+                <TableCell>Student Visa</TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </div>
