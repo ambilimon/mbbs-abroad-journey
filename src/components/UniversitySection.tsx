@@ -588,23 +588,25 @@ const UniversitySection = () => {
 
       {/* Group Tabs */}
       <div className="mb-8 section-animate stagger-3">
-        <div className="flex justify-center">
-          <TabsList className="grid grid-cols-5 w-full max-w-4xl">
-            {countryGroups.map((group, index) => (
-              <TabsTrigger 
-                key={index} 
-                value={index.toString()} 
-                className={`text-sm md:text-base ${activeGroup === index ? 'bg-blue-100 text-blue-700' : ''}`}
-                onClick={() => {
-                  setActiveGroup(index);
-                  setActiveTab(group[0]);
-                }}
-              >
-                Group {index + 1}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </div>
+        <Tabs value={activeGroup.toString()} onValueChange={(value) => {
+          const groupIndex = parseInt(value);
+          setActiveGroup(groupIndex);
+          setActiveTab(countryGroups[groupIndex][0]);
+        }}>
+          <div className="flex justify-center">
+            <TabsList className="grid grid-cols-5 w-full max-w-4xl">
+              {countryGroups.map((group, index) => (
+                <TabsTrigger 
+                  key={index} 
+                  value={index.toString()} 
+                  className={`text-sm md:text-base ${activeGroup === index ? 'bg-blue-100 text-blue-700' : ''}`}
+                >
+                  Group {index + 1}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
+        </Tabs>
       </div>
 
       {/* Country Tabs */}
