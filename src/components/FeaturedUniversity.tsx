@@ -42,22 +42,21 @@ const FeaturedUniversity = () => {
               Featured University
             </div>
             <h2 className="text-3xl md:text-4xl font-semibold mb-6">
-              SEU - Georgian National University
+              Tbilisi State Medical University
             </h2>
             <p className="opacity-90 mb-8">
-              One of the most preferred medical universities in Georgia, offering world-class
-              education with modern facilities and international recognition.
+              Georgia's oldest and most prestigious medical university, offering exceptional medical education with modern facilities and international recognition since 1918.
             </p>
 
             <div className="space-y-4 mb-8">
               {[
-                "Modern Labs & Advanced Medical Infrastructure",
-                "WHO, NMC, and WFME Recognized",
-                "Affordable MBBS Fees – ₹30-35 Lakhs Total",
-                "European Standard Medical Training",
-                "High FMGE & USMLE Success Rate",
-                "Direct Clinical Exposure from the First Year",
-                "Student-Friendly Campus & Low Cost of Living",
+                "Historic Institution with Modern Facilities",
+                "WHO, NMC, and UNESCO Recognized",
+                "Affordable MBBS Fees – ₹25-35 Lakhs Total",
+                "100% English Medium Programs",
+                "High FMGE Success Rate",
+                "Strong Clinical Training from Early Years",
+                "Safe & Student-Friendly Environment in Tbilisi",
               ].map((feature, i) => (
                 <div key={i} className="flex items-start">
                   <div className="bg-white/20 p-1 rounded-full mr-3 mt-1 flex-shrink-0">
@@ -69,14 +68,14 @@ const FeaturedUniversity = () => {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <Link to="/university/4">
+              <Link to="/university/13">
                 <AnimatedButton
                   className="bg-white text-blue-700 hover:bg-blue-50 border-0"
                 >
-                  Apply to SEU
+                  Apply to TSMU
                 </AnimatedButton>
               </Link>
-              <Link to="/university/4">
+              <Link to="/university/13">
                 <AnimatedButton
                   variant="outline" 
                   className="border-white text-white hover:bg-white/10"
@@ -90,8 +89,8 @@ const FeaturedUniversity = () => {
           <div className="relative">
             <div className="h-full min-h-[350px] lg:min-h-0">
               <img
-                src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?q=80&w=1374&auto=format&fit=crop"
-                alt="SEU Georgian National University Campus"
+                src="https://images.unsplash.com/photo-1593377201809-2bf7bef6dc5d?q=80&w=1373&auto=format&fit=crop"
+                alt="Tbilisi State Medical University Campus"
                 className="w-full h-full object-cover"
               />
             </div>
