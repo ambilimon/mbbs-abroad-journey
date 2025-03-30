@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -585,4 +586,143 @@ const UniversitySection = () => {
         </p>
       </div>
 
-      {
+      <div className="container mx-auto px-4">
+        <Tabs
+          defaultValue={activeTab}
+          onValueChange={setActiveTab}
+          className="w-full"
+        >
+          {countryGroups.map((group, groupIndex) => (
+            <div
+              key={`group-${groupIndex}`}
+              className={`mb-8 ${
+                activeGroup === groupIndex ? "block" : "hidden"
+              }`}
+            >
+              <TabsList className="w-full flex flex-wrap justify-center mb-8">
+                {group.map((country) => (
+                  <TabsTrigger
+                    key={country}
+                    value={country}
+                    className="px-6 py-3"
+                  >
+                    {countryNames[country]}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+          ))}
+
+          {Object.keys(countryNames).map((country) => (
+            <TabsContent key={country} value={country} className="mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {universities
+                  .filter((uni) => uni.country === country)
+                  .map((university) => (
+                    <div
+                      key={university.id}
+                      className="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-200 hover:shadow-xl hover:-translate-y-1"
+                    >
+                      <div className="h-48 overflow-hidden">
+                        <img
+                          src={university.image}
+                          alt={university.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold mb-2 text-primary">
+                          {university.name}
+                        </h3>
+                        <p className="text-gray-600 mb-4">
+                          {university.location}
+                        </p>
+                        <p className="text-gray-700 mb-4 line-clamp-3">
+                          {university.description}
+                        </p>
+                        <div className="mb-4">
+                          <span className="text-primary font-medium">
+                            Tuition: {university.tuitionRange}
+                          </span>
+                        </div>
+                        <div className="space-y-2">
+                          {university.features.map((feature, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center text-gray-700"
+                            >
+                              <Check
+                                size={16}
+                                className="text-green-500 mr-2 flex-shrink-0"
+                              />
+                              <span className="text-sm">{feature}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="mt-6">
+                          <Link to={`/university/${university.id}`}>
+                            <Button
+                              variant="outline"
+                              className="w-full bg-white border-primary text-primary hover:bg-primary hover:text-white"
+                            >
+                              View Details
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              <div className="mt-12 text-center">
+                <Link to={`/universities/${country}`}>
+                  <Button className="bg-primary hover:bg-primary/90">
+                    View All {countryNames[country]} Universities
+                  </Button>
+                </Link>
+              </div>
+            </TabsContent>
+          ))}
+        </Tabs>
+
+        <div className="mt-16 bg-gray-50 rounded-xl p-8">
+          <h3 className="text-2xl font-bold mb-4 text-center">
+            Compare Universities
+          </h3>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>University</TableHead>
+                <TableHead>Location</TableHead>
+                <TableHead>Tuition</TableHead>
+                <TableHead>Key Features</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {universities.slice(0, 5).map((university) => (
+                <TableRow key={university.id}>
+                  <TableCell className="font-medium">
+                    {university.name}
+                  </TableCell>
+                  <TableCell>{university.location}</TableCell>
+                  <TableCell>{university.tuitionRange}</TableCell>
+                  <TableCell>
+                    <ul className="list-disc pl-5">
+                      {university.features.map((feature, index) => (
+                        <li key={index} className="text-sm">
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default UniversitySection;
