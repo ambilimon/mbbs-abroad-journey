@@ -109,7 +109,7 @@ const UniversityList = ({ onEdit }: UniversityListProps) => {
                         >
                           <Trash2 size={16} />
                         </Button>
-                        <Link to={`/university/${university.id}`}>
+                        <Link to={`/dynamic-university/${university.id}`}>
                           <Button variant="outline" size="icon">
                             <ExternalLink size={16} />
                           </Button>
