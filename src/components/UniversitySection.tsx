@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -585,4 +586,153 @@ const UniversitySection = () => {
         </p>
       </div>
 
-      {
+      {/* Country Groups Navigation */}
+      <div className="mb-8 flex flex-wrap justify-center gap-3">
+        {countryGroups.map((group, index) => (
+          <Button
+            key={index}
+            variant={activeGroup === index ? "default" : "outline"}
+            onClick={() => {
+              setActiveGroup(index);
+              setActiveTab(group[0]); // Set first country in group as active
+            }}
+            className="min-w-[120px]"
+          >
+            Group {index + 1}
+          </Button>
+        ))}
+      </div>
+
+      {/* Countries in Active Group */}
+      <Tabs 
+        value={activeTab} 
+        onValueChange={setActiveTab}
+        className="w-full max-w-7xl mx-auto"
+      >
+        <TabsList className="flex flex-wrap justify-center mb-8 h-auto p-2">
+          {countryGroups[activeGroup].map((country) => (
+            <TabsTrigger
+              key={country}
+              value={country}
+              className="text-sm md:text-base py-2 px-4"
+            >
+              {countryNames[country]}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+
+        {Object.keys(countryNames).map((country) => (
+          <TabsContent key={country} value={country} className="w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {universities
+                .filter((uni) => uni.country === country)
+                .map((university) => (
+                  <div
+                    key={university.id}
+                    className="university-card bg-white rounded-xl shadow-md overflow-hidden transition-all hover:shadow-xl"
+                  >
+                    <div className="h-48 overflow-hidden">
+                      <img
+                        src={university.image}
+                        alt={university.name}
+                        className="w-full h-full object-cover transition-transform hover:scale-105"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                        {university.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 mb-3">
+                        {university.location}
+                      </p>
+                      <p className="text-gray-600 mb-4 line-clamp-3">
+                        {university.description}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {university.features.map((feature, index) => (
+                          <span
+                            key={index}
+                            className="inline-flex items-center text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded-full"
+                          >
+                            <Check className="mr-1 h-3 w-3" />
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm font-medium text-gray-700">
+                          {university.tuitionRange}
+                        </span>
+                        <Link
+                          to={`/university/${university.id}`}
+                          className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        >
+                          View Details →
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+            </div>
+          </TabsContent>
+        ))}
+      </Tabs>
+
+      {/* University Comparison Table (Mobile Hidden) */}
+      <div className="mt-16 hidden lg:block section-animate stagger-3">
+        <h3 className="text-2xl font-bold text-center mb-8">
+          Compare Top Universities
+        </h3>
+        <div className="overflow-x-auto">
+          <Table className="w-full">
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[250px]">University</TableHead>
+                <TableHead>Location</TableHead>
+                <TableHead>Features</TableHead>
+                <TableHead>Tuition Range</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {universities
+                .filter((uni) => uni.country === activeTab)
+                .slice(0, 5)
+                .map((university) => (
+                  <TableRow key={university.id}>
+                    <TableCell className="font-medium">
+                      {university.name}
+                    </TableCell>
+                    <TableCell>{university.location}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {university.features.map((feature, index) => (
+                          <span
+                            key={index}
+                            className="inline-block text-xs bg-gray-100 px-2 py-1 rounded-full"
+                          >
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    </TableCell>
+                    <TableCell>{university.tuitionRange}</TableCell>
+                    <TableCell className="text-right">
+                      <Link
+                        to={`/university/${university.id}`}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                      >
+                        View Details
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default UniversitySection;
