@@ -1,6 +1,5 @@
 
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import WhyMBBSAbroad from "@/components/WhyMBBSAbroad";
@@ -8,7 +7,6 @@ import UniversitySection from "@/components/UniversitySection";
 import FeaturedUniversity from "@/components/FeaturedUniversity";
 import ApplicationSection from "@/components/ApplicationSection";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 
 const Index = () => {
   // Intersection Observer for animations
@@ -36,13 +34,6 @@ const Index = () => {
     <div className="min-h-screen">
       {/* Navbar */}
       <Navbar />
-
-      {/* Admin Dashboard Link */}
-      <div className="container mx-auto px-4 pt-4 flex justify-end">
-        <Link to="/dashboard">
-          <Button variant="outline" size="sm">Admin Dashboard</Button>
-        </Link>
-      </div>
 
       {/* Hero Section */}
       <HeroSection />
