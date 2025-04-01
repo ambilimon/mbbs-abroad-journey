@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: "default" | "secondary" | "outline" | "ghost" | "link" | "destructive" | "highlight";
+  variant?: "default" | "secondary" | "outline" | "ghost" | "link" | "destructive" | "highlight" | "primary" | "success";
   size?: "default" | "sm" | "lg" | "icon";
   className?: string;
   asChild?: boolean;
@@ -15,20 +15,33 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
   ({ children, className, variant = "default", size = "default", ...props }, ref) => {
     const baseClasses = "group relative overflow-hidden transition-all duration-300 ease-out";
     
-    // Define custom variant styles
+    // Define custom variant styles with improved colors
     const variantClasses = {
-      highlight: "bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-button-hover",
+      highlight: "bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:from-blue-700 hover:to-blue-800",
+      primary: "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:from-blue-600 hover:to-blue-700",
+      success: "bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg hover:from-green-600 hover:to-green-700",
     };
     
-    const finalVariant = variant === "highlight" ? "default" : variant;
-    const additionalClasses = variant === "highlight" ? variantClasses.highlight : "";
+    // Determine the final variant for the button component
+    const finalVariant = ["highlight", "primary", "success"].includes(variant) ? "default" : variant;
+    
+    // Select the appropriate custom styles based on the variant
+    const additionalClasses = ["highlight", "primary", "success"].includes(variant) 
+      ? variantClasses[variant as keyof typeof variantClasses] 
+      : "";
 
     return (
       <Button
         ref={ref}
         variant={finalVariant}
         size={size}
-        className={cn(baseClasses, additionalClasses, className)}
+        className={cn(
+          baseClasses, 
+          additionalClasses, 
+          // Enhance hover effects
+          "hover:-translate-y-1 active:translate-y-0 transition-transform",
+          className
+        )}
         {...props}
       >
         <span className="relative z-10">{children}</span>
