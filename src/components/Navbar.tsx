@@ -1,19 +1,19 @@
-
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import Logo from "./Logo";
-import { useIsMobile } from "@/hooks/use-mobile";
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  Menu,
+  X,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
+
+import Logo from './Logo';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,9 +41,9 @@ const Navbar = () => {
   }, [isMobile, isOpen]);
 
   const navLinks = [
-    { href: "/#", label: "Home" },
+    { href: "/", label: "Home" },
+    { href: "/university/1", label: "Universities" },
     { href: "/#why-mbbs-abroad", label: "Why MBBS Abroad" },
-    { href: "/#universities", label: "Universities" },
     { href: "/#application", label: "Apply Now" },
     { href: "/#contact", label: "Contact" },
   ];
@@ -61,6 +61,14 @@ const Navbar = () => {
     </a>
   );
 
+  const isActive = (path: string) => {
+    return window.location.pathname === path;
+  };
+
+  const handleNavClick = () => {
+    setIsOpen(false);
+  };
+
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
@@ -71,24 +79,27 @@ const Navbar = () => {
         <Logo variant={scrolled ? 'default' : 'default'} />
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:block">
-          <NavigationMenu>
-            <NavigationMenuList className="gap-1">
-              {navLinks.map((link) => (
-                <NavigationMenuItem key={link.label}>
-                  <NavigationMenuLink
-                    href={link.href}
-                    className={cn(
-                      "nav-link px-3 py-2 text-sm font-medium",
-                      "text-gray-700 hover:text-primary"
-                    )}
-                  >
-                    {link.label}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
+        <nav className="hidden md:flex items-center space-x-8">
+          <Link
+            to="/"
+            className={`nav-link ${isActive("/") ? "active" : ""}`}
+            onClick={handleNavClick}
+          >
+            Home
+          </Link>
+          <Link
+            to="/university/1"
+            className={`nav-link ${isActive("/university/1") ? "active" : ""}`}
+            onClick={handleNavClick}
+          >
+            Universities
+          </Link>
+          <Button
+            asChild
+            className="ml-2 shadow-button hover:shadow-button-hover transition-transform hover:-translate-y-0.5 active:translate-y-0"
+          >
+            <Link to="/apply">Apply Now</Link>
+          </Button>
         </nav>
 
         <div className="hidden md:block">
@@ -97,6 +108,7 @@ const Navbar = () => {
 
         {/* Mobile menu button */}
         <button
+          type="button"
           className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle menu"
@@ -117,12 +129,16 @@ const Navbar = () => {
       >
         <div className="container px-4 mx-auto py-4 flex flex-col space-y-2">
           {navLinks.map((link) => (
-            <NavLink
+            <Link
               key={link.label}
-              href={link.href}
-              label={link.label}
-              className="block px-4 py-3 rounded-md text-gray-700 hover:bg-blue-50 hover:text-primary"
-            />
+              to={link.href}
+              className={`block px-4 py-2 rounded-md hover:bg-blue-50 transition-colors text-sm font-medium ${
+                isActive(link.href) ? "text-primary bg-blue-50" : "text-gray-600"
+              }`}
+              onClick={handleNavClick}
+            >
+              {link.label}
+            </Link>
           ))}
           <div className="pt-2 pb-1">
             <Button className="w-full">Get Started</Button>

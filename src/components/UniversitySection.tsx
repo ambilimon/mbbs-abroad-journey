@@ -1,17 +1,27 @@
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import { useState, useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Check } from "lucide-react";
-import { Link } from "react-router-dom";
-import { 
+import { Check } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { Button } from '@/components/ui/button';
+import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from "@/components/ui/table";
+  TableRow,
+} from '@/components/ui/table';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
 
 interface University {
   id: number;
@@ -540,11 +550,11 @@ const UniversitySection = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
+        for (const entry of entries) {
           if (entry.isIntersecting) {
             entry.target.classList.add("animate-in");
           }
-        });
+        }
       },
       { threshold: 0.1 }
     );
@@ -552,13 +562,17 @@ const UniversitySection = () => {
     const section = sectionRef.current;
     if (section) {
       const elements = section.querySelectorAll(".section-animate");
-      elements.forEach((el) => observer.observe(el));
+      for (const el of elements) {
+        observer.observe(el);
+      }
     }
 
     return () => {
       if (section) {
         const elements = section.querySelectorAll(".section-animate");
-        elements.forEach((el) => observer.unobserve(el));
+        for (const el of elements) {
+          observer.unobserve(el);
+        }
       }
     };
   }, []);
@@ -592,11 +606,11 @@ const UniversitySection = () => {
           onValueChange={setActiveTab}
           className="w-full"
         >
-          {countryGroups.map((group, groupIndex) => (
+          {countryGroups.map((group) => (
             <div
-              key={`group-${groupIndex}`}
+              key={`group-${group.join('-')}`}
               className={`mb-8 ${
-                activeGroup === groupIndex ? "block" : "hidden"
+                activeGroup === countryGroups.indexOf(group) ? "block" : "hidden"
               }`}
             >
               <TabsList className="w-full flex flex-wrap justify-center mb-8">
@@ -646,9 +660,9 @@ const UniversitySection = () => {
                           </span>
                         </div>
                         <div className="space-y-2">
-                          {university.features.map((feature, index) => (
+                          {university.features.map((feature) => (
                             <div
-                              key={index}
+                              key={`feature-${university.id}-${feature}`}
                               className="flex items-center text-gray-700"
                             >
                               <Check
@@ -675,9 +689,9 @@ const UniversitySection = () => {
               </div>
 
               <div className="mt-12 text-center">
-                <Link to={`/universities/${country}`}>
+                <Link to={`/university/${universities.find(uni => uni.country === country)?.id || 1}`}>
                   <Button className="bg-primary hover:bg-primary/90">
-                    View All {countryNames[country]} Universities
+                    View Sample {countryNames[country]} University
                   </Button>
                 </Link>
               </div>
@@ -708,8 +722,8 @@ const UniversitySection = () => {
                   <TableCell>{university.tuitionRange}</TableCell>
                   <TableCell>
                     <ul className="list-disc pl-5">
-                      {university.features.map((feature, index) => (
-                        <li key={index} className="text-sm">
+                      {university.features.map((feature) => (
+                        <li key={`compare-${university.id}-${feature}`} className="text-sm">
                           {feature}
                         </li>
                       ))}
