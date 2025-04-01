@@ -1,7 +1,7 @@
-
 import { forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -9,10 +9,11 @@ interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
   size?: "default" | "sm" | "lg" | "icon";
   className?: string;
   asChild?: boolean;
+  href?: string; // Support for href to make button act as a link
 }
 
 const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
-  ({ children, className, variant = "default", size = "default", ...props }, ref) => {
+  ({ children, className, variant = "default", size = "default", href, ...props }, ref) => {
     const baseClasses = "group relative overflow-hidden transition-all duration-300 ease-out";
     
     // Define custom variant styles with improved colors
@@ -31,20 +32,35 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
       ? variantClasses[variant as keyof typeof variantClasses] 
       : "";
 
+    const buttonProps = {
+      ref,
+      variant: finalVariant,
+      size,
+      className: cn(
+        baseClasses, 
+        additionalClasses, 
+        // Enhance hover effects
+        "hover:-translate-y-1 active:translate-y-0 transition-transform",
+        className
+      ),
+      ...props
+    };
+
+    // If href is provided, render as a Link component
+    if (href) {
+      return (
+        <Link to={href}>
+          <Button {...buttonProps}>
+            <span className="relative z-10">{children}</span>
+            <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
+          </Button>
+        </Link>
+      );
+    }
+
+    // Otherwise render as a regular button
     return (
-      <Button
-        ref={ref}
-        variant={finalVariant}
-        size={size}
-        className={cn(
-          baseClasses, 
-          additionalClasses, 
-          // Enhance hover effects
-          "hover:-translate-y-1 active:translate-y-0 transition-transform",
-          className
-        )}
-        {...props}
-      >
+      <Button {...buttonProps}>
         <span className="relative z-10">{children}</span>
         <span className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out" />
       </Button>
