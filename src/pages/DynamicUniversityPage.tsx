@@ -111,7 +111,7 @@ const DynamicUniversityPage = () => {
             </div>
             
             {/* Application Form */}
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 sticky top-24">
               <Card>
                 <CardContent className="p-6">
                   <h3 className="text-xl font-bold mb-4">Interested in {university.name}?</h3>
