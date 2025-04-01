@@ -1,29 +1,45 @@
-import { useEffect, useRef, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Check, 
-  ArrowLeft, 
-  MapPin, 
-  Calendar, 
-  GraduationCap, 
-  Building, 
-  Users, 
-  Globe, 
-  Book, 
-  FileText, 
-  Award, 
-  Clipboard, 
-  Landmark, 
-  Languages 
-} from "lucide-react";
-import AnimatedButton from "@/components/AnimatedButton";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import StudentInquiryForm from "@/components/StudentInquiryForm";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+import {
+  ArrowLeft,
+  Award,
+  Book,
+  Building,
+  Calendar,
+  Check,
+  FileText,
+  Globe,
+  GraduationCap,
+  Landmark,
+  Languages,
+  MapPin,
+  Users,
+} from 'lucide-react';
+import {
+  Link,
+  useParams,
+} from 'react-router-dom';
+
+import AnimatedButton from '@/components/AnimatedButton';
+import Footer from '@/components/Footer';
+import Navbar from '@/components/Navbar';
+import StudentInquiryForm from '@/components/StudentInquiryForm';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
 
 interface University {
   id: number;
@@ -341,11 +357,11 @@ const UniversityPage = () => {
                     Apply Now
                   </AnimatedButton>
                   <a href={`#inquiry-form`}>
-                    <AnimatedButton variant="outline" className="border-white text-white hover:bg-white/10">
+                    <AnimatedButton variant="outline" className="hover:bg-white/10">
                       Get Counselling
                     </AnimatedButton>
                   </a>
-                  <AnimatedButton variant="outline" className="border-white text-white hover:bg-white/10">
+                  <AnimatedButton variant="outline" className="hover:bg-white/10">
                     <FileText size={16} className="mr-2" />
                     Download Brochure
                   </AnimatedButton>

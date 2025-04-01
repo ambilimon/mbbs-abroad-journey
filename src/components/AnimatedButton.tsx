@@ -1,7 +1,7 @@
+import { forwardRef } from 'react';
 
-import { forwardRef } from "react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
@@ -20,24 +20,34 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
       highlight: "bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:from-blue-700 hover:to-blue-800",
       primary: "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:from-blue-600 hover:to-blue-700",
       success: "bg-gradient-to-r from-green-500 to-green-600 text-white hover:shadow-lg hover:from-green-600 hover:to-green-700",
+      customOutline: "border-2 border-white text-white hover:bg-white hover:text-blue-700 hover:border-white",
     };
     
-    // Determine the final variant for the button component
-    const finalVariant = ["highlight", "primary", "success"].includes(variant) ? "default" : variant;
+    // Map custom variants to base variants
+    const getBaseVariant = (v: AnimatedButtonProps["variant"]) => {
+      if (v === "highlight" || v === "primary" || v === "success") return "default";
+      return v;
+    };
     
     // Select the appropriate custom styles based on the variant
-    const additionalClasses = ["highlight", "primary", "success"].includes(variant) 
-      ? variantClasses[variant as keyof typeof variantClasses] 
-      : "";
+    const getCustomStyles = (v: AnimatedButtonProps["variant"]) => {
+      if (v === "highlight" || v === "primary" || v === "success") {
+        return variantClasses[v];
+      }
+      if (v === "outline") {
+        return variantClasses.customOutline;
+      }
+      return "";
+    };
 
     return (
       <Button
         ref={ref}
-        variant={finalVariant}
+        variant={getBaseVariant(variant)}
         size={size}
         className={cn(
           baseClasses, 
-          additionalClasses, 
+          getCustomStyles(variant),
           // Enhance hover effects
           "hover:-translate-y-1 active:translate-y-0 transition-transform",
           className
