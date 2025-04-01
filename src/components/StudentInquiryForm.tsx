@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
+import { GraduationCap } from "lucide-react";
 
 // Validation schema
 const formSchema = z.object({
@@ -25,14 +26,15 @@ type StudentInquiryFormValues = z.infer<typeof formSchema>;
 interface StudentInquiryFormProps {
   universityId?: number;
   onSuccess?: () => void;
+  className?: string;
 }
 
-const StudentInquiryForm = ({ universityId, onSuccess }: StudentInquiryFormProps) => {
+const StudentInquiryForm = ({ universityId, onSuccess, className }: StudentInquiryFormProps) => {
   const { toast } = useToast();
   const [universities, setUniversities] = useState<any[]>([]);
   
   // Load universities from localStorage
-  useState(() => {
+  useEffect(() => {
     try {
       const stored = localStorage.getItem('universities');
       if (stored) {
@@ -42,7 +44,7 @@ const StudentInquiryForm = ({ universityId, onSuccess }: StudentInquiryFormProps
     } catch (e) {
       console.error("Error loading universities from localStorage", e);
     }
-  });
+  }, []);
   
   // Setup form with Zod validation
   const form = useForm<StudentInquiryFormValues>({
@@ -93,115 +95,129 @@ const StudentInquiryForm = ({ universityId, onSuccess }: StudentInquiryFormProps
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Full Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your full name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your phone number" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <div className={`bg-white rounded-lg shadow-lg p-6 ${className}`}>
+      <div className="mb-6 text-center">
+        <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-4">
+          <GraduationCap className="w-6 h-6 text-blue-700" />
         </div>
+        <h3 className="text-2xl font-bold text-blue-900">Start Your Medical Journey Today</h3>
+        <p className="text-gray-600 mt-2">Fill out this form to get personalized guidance for your medical education abroad</p>
+      </div>
+      
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your full name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email Address</FormLabel>
-              <FormControl>
-                <Input placeholder="Your email address" type="email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your phone number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-        <FormField
-          control={form.control}
-          name="college"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Current College (if any)</FormLabel>
-              <FormControl>
-                <Input placeholder="Your current college/school" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="preferredUniversity"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Preferred University</FormLabel>
-              <Select 
-                onValueChange={field.onChange} 
-                defaultValue={field.value}
-              >
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email Address</FormLabel>
                 <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a university" />
-                  </SelectTrigger>
+                  <Input placeholder="Your email address" type="email" {...field} />
                 </FormControl>
-                <SelectContent>
-                  {universities.map((university) => (
-                    <SelectItem key={university.id} value={String(university.id)}>
-                      {university.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Additional Message</FormLabel>
-              <FormControl>
-                <Textarea 
-                  placeholder="Any specific questions or requirements?" 
-                  className="min-h-[100px]"
-                  {...field} 
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="college"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Current College (if any)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your current college/school" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <Button type="submit" className="w-full">Submit Inquiry</Button>
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="preferredUniversity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Preferred University</FormLabel>
+                <Select 
+                  onValueChange={field.onChange} 
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a university" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {universities.map((university) => (
+                      <SelectItem key={university.id} value={String(university.id)}>
+                        {university.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="message"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Additional Questions/Comments</FormLabel>
+                <FormControl>
+                  <Textarea 
+                    placeholder="Any specific questions or requirements?" 
+                    className="min-h-[80px]"
+                    {...field} 
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3">Submit Inquiry</Button>
+          
+          <p className="text-xs text-center text-gray-500 mt-4">
+            By submitting this form, you agree to our privacy policy and consent to be contacted about educational opportunities.
+          </p>
+        </form>
+      </Form>
+    </div>
   );
 };
 
