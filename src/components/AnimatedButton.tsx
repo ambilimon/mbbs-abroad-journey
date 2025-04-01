@@ -23,7 +23,8 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
     };
     
     // Determine the final variant for the button component
-    const finalVariant = ["highlight", "primary", "success"].includes(variant) ? "default" : variant;
+    // Only pass allowed variants to the underlying Button component
+    const finalVariant = (["highlight", "primary", "success"].includes(variant) ? "default" : variant) as "default" | "secondary" | "outline" | "ghost" | "link" | "destructive";
     
     // Select the appropriate custom styles based on the variant
     const additionalClasses = ["highlight", "primary", "success"].includes(variant) 

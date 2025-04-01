@@ -27,9 +27,10 @@ interface StudentInquiryFormProps {
   universityId?: number;
   onSuccess?: () => void;
   className?: string;
+  sticky?: boolean; // Added the missing sticky prop
 }
 
-const StudentInquiryForm = ({ universityId, onSuccess, className }: StudentInquiryFormProps) => {
+const StudentInquiryForm = ({ universityId, onSuccess, className, sticky = false }: StudentInquiryFormProps) => {
   const { toast } = useToast();
   const [universities, setUniversities] = useState<any[]>([]);
   
@@ -95,7 +96,7 @@ const StudentInquiryForm = ({ universityId, onSuccess, className }: StudentInqui
   };
 
   return (
-    <div className={`bg-white rounded-lg shadow-lg p-6 ${className}`}>
+    <div className={`bg-white rounded-lg shadow-lg p-6 ${sticky ? "sticky top-24" : ""} ${className || ""}`}>
       <div className="mb-6 text-center">
         <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-4">
           <GraduationCap className="w-6 h-6 text-blue-700" />
