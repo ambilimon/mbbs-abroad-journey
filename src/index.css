@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -136,14 +137,11 @@
   }
   
   .nav-link {
-    @apply relative text-gray-600 hover:text-primary transition-all duration-300 py-2 text-sm font-medium;
-    @apply after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-primary;
-    @apply after:transition-all after:duration-300 after:ease-out;
-    @apply hover:after:w-full;
+    @apply relative text-gray-700 hover:text-primary transition-colors duration-200 py-2 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:bg-primary after:scale-x-0 after:origin-right after:transition-transform hover:after:scale-x-100 hover:after:origin-left;
   }
 
   .nav-link.active {
-    @apply text-primary after:w-full;
+    @apply text-primary after:scale-x-100;
   }
 }
 

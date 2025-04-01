@@ -1,58 +1,38 @@
-import {
-  useEffect,
-  useState,
-} from 'react';
 
-import { GraduationCap } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+import { useState, useEffect } from "react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
+import { GraduationCap } from "lucide-react";
 
-import AnimatedButton from '@/components/AnimatedButton';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/components/ui/use-toast';
-import { zodResolver } from '@hookform/resolvers/zod';
-
-interface StudentInquiryFormProps {
-  universityId?: number;
-  className?: string;
-  sticky?: boolean;
-  onSuccess?: () => void;
-}
-
-interface University {
-  id: number;
-  name: string;
-}
-
+// Validation schema
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   email: z.string().email("Invalid email address"),
-  preferredUniversity: z.string().optional(),
-  message: z.string().min(10, "Message must be at least 10 characters"),
+  college: z.string().optional(),
+  preferredUniversity: z.string().min(1, "Please select a preferred university"),
+  message: z.string().optional(),
 });
 
 type StudentInquiryFormValues = z.infer<typeof formSchema>;
 
+interface StudentInquiryFormProps {
+  universityId?: number;
+  onSuccess?: () => void;
+  className?: string;
+  sticky?: boolean; // Added the missing sticky prop
+}
+
 const StudentInquiryForm = ({ universityId, onSuccess, className, sticky = false }: StudentInquiryFormProps) => {
   const { toast } = useToast();
-  const [universities, setUniversities] = useState<University[]>([]);
+  const [universities, setUniversities] = useState<any[]>([]);
   
   // Load universities from localStorage
   useEffect(() => {
@@ -74,28 +54,42 @@ const StudentInquiryForm = ({ universityId, onSuccess, className, sticky = false
       name: "",
       phone: "",
       email: "",
+      college: "",
       preferredUniversity: universityId ? String(universityId) : "",
       message: "",
     },
   });
 
-  const onSubmit = async (data: StudentInquiryFormValues) => {
+  const onSubmit = (values: StudentInquiryFormValues) => {
+    // In a real app, this would send data to a backend API
+    console.log("Form submitted:", values);
+    
+    // Save inquiry to localStorage for demonstration
     try {
-      // Here you would typically send the data to your backend
-      console.log("Form submitted:", data);
+      const inquiries = JSON.parse(localStorage.getItem('inquiries') || '[]');
+      inquiries.push({
+        ...values,
+        timestamp: new Date().toISOString(),
+        id: Date.now()
+      });
+      localStorage.setItem('inquiries', JSON.stringify(inquiries));
       
       toast({
-        title: "Success!",
-        description: "Your inquiry has been submitted successfully.",
+        title: "Inquiry Submitted!",
+        description: "We'll contact you shortly about your application.",
       });
       
+      // Reset form
       form.reset();
-      onSuccess?.();
-    } catch (error) {
-      console.error("Error submitting form:", error);
+      
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (e) {
+      console.error("Error saving inquiry", e);
       toast({
         title: "Error",
-        description: "There was a problem submitting your inquiry. Please try again.",
+        description: "There was a problem submitting your inquiry.",
         variant: "destructive",
       });
     }
@@ -150,51 +144,66 @@ const StudentInquiryForm = ({ universityId, onSuccess, className, sticky = false
               <FormItem>
                 <FormLabel>Email Address</FormLabel>
                 <FormControl>
-                  <Input type="email" placeholder="Your email address" {...field} />
+                  <Input placeholder="Your email address" type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {universities.length > 0 && !universityId && (
-            <FormField
-              control={form.control}
-              name="preferredUniversity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Preferred University</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select a university" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {universities.map((university) => (
-                        <SelectItem key={university.id} value={String(university.id)}>
-                          {university.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+          <FormField
+            control={form.control}
+            name="college"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Current College (if any)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your current college/school" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="preferredUniversity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Preferred University</FormLabel>
+                <Select 
+                  onValueChange={field.onChange} 
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a university" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {universities.map((university) => (
+                      <SelectItem key={university.id} value={String(university.id)}>
+                        {university.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}
             name="message"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Message</FormLabel>
+                <FormLabel>Additional Questions/Comments</FormLabel>
                 <FormControl>
                   <Textarea 
-                    placeholder="Tell us about your educational background and what you're looking for..."
-                    className="min-h-[100px]"
-                    {...field}
+                    placeholder="Any specific questions or requirements?" 
+                    className="min-h-[80px]"
+                    {...field} 
                   />
                 </FormControl>
                 <FormMessage />
@@ -202,9 +211,11 @@ const StudentInquiryForm = ({ universityId, onSuccess, className, sticky = false
             )}
           />
 
-          <AnimatedButton type="submit" className="w-full" variant="primary">
-            Submit Inquiry
-          </AnimatedButton>
+          <Button type="submit" className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3">Submit Inquiry</Button>
+          
+          <p className="text-xs text-center text-gray-500 mt-4">
+            By submitting this form, you agree to our privacy policy and consent to be contacted about educational opportunities.
+          </p>
         </form>
       </Form>
     </div>
