@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -291,6 +292,7 @@ const UniversityPage = () => {
         <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white">
           <div className="container mx-auto px-4 py-16 md:py-24">
             <div className="flex flex-col lg:flex-row items-start gap-8 relative">
+              {/* Left column */}
               <div className="w-full lg:w-1/2 section-animate">
                 <Link to="/#universities" className="inline-flex items-center text-blue-100 hover:text-white mb-6">
                   <ArrowLeft size={16} className="mr-2" />
@@ -359,6 +361,7 @@ const UniversityPage = () => {
                 </div>
               </div>
               
+              {/* Right column */}
               <div className="w-full lg:w-1/2 mt-8 lg:mt-0 section-animate stagger-1">
                 <div className="relative rounded-lg overflow-hidden shadow-xl">
                   <img 
@@ -676,4 +679,446 @@ const UniversityPage = () => {
                     <div className="mb-10 section-animate stagger-3">
                       <div className="relative mb-6">
                         <h2 className="text-2xl font-bold text-blue-800">Recognition & Accreditation</h2>
-                        <div className="absolute -bottom-2 left-0 w-16
+                        <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                      </div>
+                      
+                      <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {university.recognition.map((item, index) => (
+                            <div key={index} className="flex items-start">
+                              <div className="mr-3 text-blue-600 bg-blue-100 p-1.5 rounded-full">
+                                <Check size={16} />
+                              </div>
+                              <span className="text-gray-800">{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Documents Required */}
+                  {university.documents && (
+                    <div className="mb-10 section-animate stagger-4">
+                      <div className="relative mb-6">
+                        <h2 className="text-2xl font-bold text-blue-800">Documents Required</h2>
+                        <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {university.documents.map((doc, index) => (
+                          <div key={index} className="flex items-start bg-gray-50 p-4 rounded-lg">
+                            <div className="mr-3 text-orange-600 bg-orange-100 p-1.5 rounded-full">
+                              <FileText size={16} />
+                            </div>
+                            <p className="text-gray-800">{doc}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </TabsContent>
+            
+            {/* Courses & Fees Tab */}
+            <TabsContent value="courses">
+              <div className="max-w-4xl mx-auto">
+                <div className="relative mb-6">
+                  <h2 className="text-2xl font-bold text-blue-800">Courses & Fees</h2>
+                  <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                </div>
+                
+                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Course Name
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Duration
+                        </th>
+                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Tuition Fees
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {(university.courses || [
+                        { name: "MBBS", duration: "6 years", fees: university.tuitionRange },
+                      ]).map((course, index) => (
+                        <tr key={index}>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {course.name}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {course.duration}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {course.fees}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                  <p className="text-blue-800 font-medium">
+                    Note: The fees mentioned are approximate and subject to change. Please contact us for the exact fee structure.
+                  </p>
+                </div>
+                
+                <div className="mt-10">
+                  <div className="relative mb-6">
+                    <h2 className="text-2xl font-bold text-blue-800">Additional Expenses</h2>
+                    <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <Card>
+                      <CardContent className="pt-6">
+                        <h3 className="text-lg font-semibold mb-4">Living Expenses</h3>
+                        <ul className="space-y-2">
+                          <li className="flex items-center">
+                            <Check size={16} className="text-green-500 mr-2" />
+                            <span>Accommodation: ₹2-3 Lakhs per year</span>
+                          </li>
+                          <li className="flex items-center">
+                            <Check size={16} className="text-green-500 mr-2" />
+                            <span>Food: ₹1-1.5 Lakhs per year</span>
+                          </li>
+                          <li className="flex items-center">
+                            <Check size={16} className="text-green-500 mr-2" />
+                            <span>Transportation: ₹30,000-50,000 per year</span>
+                          </li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                    
+                    <Card>
+                      <CardContent className="pt-6">
+                        <h3 className="text-lg font-semibold mb-4">One-time Expenses</h3>
+                        <ul className="space-y-2">
+                          <li className="flex items-center">
+                            <Check size={16} className="text-green-500 mr-2" />
+                            <span>Visa Fee: ₹15,000-20,000</span>
+                          </li>
+                          <li className="flex items-center">
+                            <Check size={16} className="text-green-500 mr-2" />
+                            <span>Medical Insurance: ₹20,000-25,000 per year</span>
+                          </li>
+                          <li className="flex items-center">
+                            <Check size={16} className="text-green-500 mr-2" />
+                            <span>Flight Ticket: ₹30,000-40,000</span>
+                          </li>
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            
+            {/* Admission Process Tab */}
+            <TabsContent value="admission">
+              <div className="max-w-4xl mx-auto">
+                <div className="relative mb-6">
+                  <h2 className="text-2xl font-bold text-blue-800">Admission Process</h2>
+                  <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                </div>
+                
+                <div className="bg-white rounded-lg border border-gray-200 p-6">
+                  <ol className="relative border-l border-gray-200">
+                    {(university.admissionProcess || [
+                      "Online Application Submission",
+                      "Document Verification",
+                      "Admission Offer Letter",
+                      "Visa Processing Assistance",
+                      "Pre-Departure Orientation"
+                    ]).map((step, index) => (
+                      <li key={index} className="mb-10 ml-6">
+                        <span className="flex absolute -left-3 justify-center items-center w-6 h-6 rounded-full bg-blue-600 text-white">
+                          {index + 1}
+                        </span>
+                        <h3 className="mb-2 text-lg font-semibold text-gray-900">{step}</h3>
+                        <p className="text-gray-600">
+                          {index === 0 && "Complete the online application form with all required details and pay the application fee."}
+                          {index === 1 && "Submit all necessary documents for verification, including academic records and test scores."}
+                          {index === 2 && "Upon successful verification, receive your official offer letter from the university."}
+                          {index === 3 && "Our team will guide you through the visa application process with all necessary documentation."}
+                          {index === 4 && "Attend our comprehensive orientation program to prepare for your journey and studies abroad."}
+                        </p>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+                
+                <div className="mt-10">
+                  <div className="relative mb-6">
+                    <h2 className="text-2xl font-bold text-blue-800">Application Timeline</h2>
+                    <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                  </div>
+                  
+                  <div className="bg-white rounded-lg border border-gray-200 p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="bg-blue-50 p-4 rounded-lg">
+                        <h3 className="font-semibold text-blue-800 mb-2">Fall Intake (September)</h3>
+                        <ul className="space-y-2">
+                          <li className="flex items-start">
+                            <span className="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">→</span>
+                            <div>
+                              <span className="font-medium">Application Deadline:</span> June 15
+                            </div>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">→</span>
+                            <div>
+                              <span className="font-medium">Document Submission:</span> June 30
+                            </div>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">→</span>
+                            <div>
+                              <span className="font-medium">Visa Processing:</span> July
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                      
+                      <div className="bg-blue-50 p-4 rounded-lg">
+                        <h3 className="font-semibold text-blue-800 mb-2">Spring Intake (February)</h3>
+                        <ul className="space-y-2">
+                          <li className="flex items-start">
+                            <span className="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">→</span>
+                            <div>
+                              <span className="font-medium">Application Deadline:</span> November 15
+                            </div>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">→</span>
+                            <div>
+                              <span className="font-medium">Document Submission:</span> November 30
+                            </div>
+                          </li>
+                          <li className="flex items-start">
+                            <span className="bg-blue-600 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs mr-2 mt-0.5">→</span>
+                            <div>
+                              <span className="font-medium">Visa Processing:</span> December
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            
+            {/* Facilities Tab */}
+            <TabsContent value="facilities">
+              <div className="max-w-4xl mx-auto">
+                <div className="relative mb-6">
+                  <h2 className="text-2xl font-bold text-blue-800">Campus Facilities</h2>
+                  <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {(university.facilities || [
+                    "Modern Laboratories",
+                    "Digital Library",
+                    "Simulation Centers",
+                    "Sports Complex",
+                    "Student Hostels",
+                    "Cafeteria & Food Courts",
+                    "Wi-Fi Campus",
+                    "Auditorium",
+                    "Student Lounge"
+                  ]).map((facility, index) => (
+                    <Card key={index} className="hover:shadow-lg transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-center mb-4">
+                          <div className="p-2 bg-blue-100 rounded-lg mr-4">
+                            <Building className="text-blue-700" size={24} />
+                          </div>
+                          <h3 className="font-semibold">{facility}</h3>
+                        </div>
+                        <p className="text-gray-600 text-sm">
+                          State-of-the-art {facility.toLowerCase()} providing students with the best learning environment.
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+                
+                {university.hostelInfo && (
+                  <div className="mt-10">
+                    <div className="relative mb-6">
+                      <h2 className="text-2xl font-bold text-blue-800">Accommodation</h2>
+                      <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                    </div>
+                    
+                    <div className="bg-white rounded-lg border border-gray-200 p-6">
+                      <p className="text-gray-700 mb-4">
+                        {university.hostelInfo}
+                      </p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-gray-800 mb-2">Hostel Facilities</h3>
+                          <ul className="space-y-2">
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>24/7 Security</span>
+                            </li>
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>Hot Water Supply</span>
+                            </li>
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>Laundry Service</span>
+                            </li>
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>Wi-Fi Connection</span>
+                            </li>
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>Recreational Area</span>
+                            </li>
+                          </ul>
+                        </div>
+                        
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <h3 className="font-semibold text-gray-800 mb-2">Room Types</h3>
+                          <ul className="space-y-2">
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>Single Occupancy</span>
+                            </li>
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>Double Sharing</span>
+                            </li>
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>Triple Sharing</span>
+                            </li>
+                            <li className="flex items-center">
+                              <Check size={16} className="text-green-500 mr-2" />
+                              <span>Apartment Style</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+            
+            {/* Gallery Tab */}
+            <TabsContent value="gallery">
+              <div className="max-w-4xl mx-auto">
+                <div className="relative mb-6">
+                  <h2 className="text-2xl font-bold text-blue-800">Photo Gallery</h2>
+                  <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[1, 2, 3, 4, 5, 6].map((item) => (
+                    <div key={item} className="rounded-lg overflow-hidden shadow-md">
+                      <img 
+                        src="https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?q=80&w=1374&auto=format&fit=crop" 
+                        alt={`University Campus ${item}`}
+                        className="w-full h-48 object-cover hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-10">
+                  <div className="relative mb-6">
+                    <h2 className="text-2xl font-bold text-blue-800">Virtual Tour</h2>
+                    <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                  </div>
+                  
+                  <div className="bg-gray-50 rounded-lg p-6 text-center">
+                    <h3 className="text-lg font-semibold mb-4">Experience the campus virtually</h3>
+                    <p className="text-gray-600 mb-6">
+                      Explore the university facilities, classrooms, laboratories, and student life in our 360° virtual tour.
+                    </p>
+                    <Button>Start Virtual Tour</Button>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            
+            {/* FAQ Tab */}
+            <TabsContent value="faq">
+              <div className="max-w-4xl mx-auto">
+                <div className="relative mb-6">
+                  <h2 className="text-2xl font-bold text-blue-800">Frequently Asked Questions</h2>
+                  <div className="absolute -bottom-2 left-0 w-16 h-1 bg-blue-600"></div>
+                </div>
+                
+                <div className="space-y-4">
+                  {[
+                    {
+                      question: "Is NEET mandatory for Indian students?",
+                      answer: "Yes, as per the National Medical Commission (NMC) regulations, NEET qualification is mandatory for Indian students seeking admission to MBBS programs abroad."
+                    },
+                    {
+                      question: "What is the medium of instruction?",
+                      answer: "The medium of instruction is English for all international students."
+                    },
+                    {
+                      question: "Are scholarships available?",
+                      answer: "Yes, the university offers various merit-based scholarships and financial aid options for deserving students."
+                    },
+                    {
+                      question: "Is the degree recognized in India?",
+                      answer: "Yes, the university is recognized by the National Medical Commission (NMC) and other international bodies, making the degree valid in India after clearing the necessary licensing examinations."
+                    },
+                    {
+                      question: "What is the hostel accommodation like?",
+                      answer: "The university provides comfortable hostel accommodation with various facilities including 24/7 security, Wi-Fi, laundry services, and recreational areas."
+                    }
+                  ].map((faq, index) => (
+                    <div key={index} className="bg-white rounded-lg border border-gray-200 p-6">
+                      <h3 className="text-lg font-semibold text-blue-800 mb-2">{faq.question}</h3>
+                      <p className="text-gray-700">{faq.answer}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+        
+        {/* Inquiry Form */}
+        <div id="inquiry-form" className="bg-gray-50 py-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold text-blue-800">Start Your Medical Journey Today</h2>
+                <p className="text-gray-600 mt-2">Fill out this form to get personalized guidance for your medical education abroad</p>
+              </div>
+              
+              <StudentInquiryForm 
+                universityId={university.id} 
+                className={showInquiryForm ? "animate-in" : ""} 
+              />
+            </div>
+          </div>
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
+
+export default UniversityPage;
