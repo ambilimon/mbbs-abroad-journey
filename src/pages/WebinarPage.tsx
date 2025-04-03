@@ -26,11 +26,6 @@ const WebinarPage = () => {
   // YouTube video ID
   const videoId = "dQw4w9WgXcQ"; // Replace with your actual webinar video ID
   
-  // Protected route - redirect if not authenticated
-  if (!loading && !user) {
-    return <Navigate to="/auth" replace />;
-  }
-  
   useEffect(() => {
     // Simulate generating random number of attendees every few minutes
     const interval = setInterval(() => {
@@ -122,6 +117,11 @@ const WebinarPage = () => {
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
+  
+  // Protected route - redirect if not authenticated
+  if (!loading && !user) {
+    return <Navigate to="/auth" replace />;
+  }
   
   return (
     <div className="min-h-screen flex flex-col">
