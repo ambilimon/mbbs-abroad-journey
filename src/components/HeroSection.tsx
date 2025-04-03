@@ -3,6 +3,56 @@ import { useSupabase } from '@/hooks/useSupabase';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef } from "react";
 import AnimatedButton from "./AnimatedButton";
+import { 
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious
+} from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
+import { University } from '@/data/medical-universities';
+import { Hospital, Globe, GraduationCap, Users, MapPin } from 'lucide-react';
+
+// Sample university data for the carousel
+const carouselUniversities = [
+  {
+    id: 1,
+    name: "Oxford Medical College",
+    country: "United Kingdom",
+    students: "15,000+",
+    established: "1096",
+    image: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+    description: "World-renowned for medical research and innovation"
+  },
+  {
+    id: 2,
+    name: "Tbilisi State Medical University",
+    country: "Georgia",
+    students: "10,000+",
+    established: "1918",
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop",
+    description: "Historical excellence in medical education since 1918"
+  },
+  {
+    id: 3,
+    name: "Kyiv Medical University",
+    country: "Ukraine",
+    students: "8,000+",
+    established: "1841",
+    image: "https://images.unsplash.com/photo-1598018553943-93e017e803df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
+    description: "Modern approach to medical training with clinical focus"
+  },
+  {
+    id: 4,
+    name: "Berlin Institute of Health",
+    country: "Germany",
+    students: "12,000+",
+    established: "1935",
+    image: "https://images.unsplash.com/photo-1544298621-35a989e4e54a?q=80&w=2070&auto=format&fit=crop",
+    description: "Cutting-edge research and breakthrough medical technologies"
+  }
+];
 
 const HeroSection = () => {
   const { user } = useSupabase();
@@ -98,17 +148,53 @@ const HeroSection = () => {
           
           <div className="order-1 lg:order-2 section-animate">
             <div className="relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-smooth-lg">
-                <img 
-                  src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?q=80&w=1470&auto=format&fit=crop" 
-                  alt="Medical students in laboratory" 
-                  className="w-full h-full object-cover animate-blur-in"
-                />
-              </div>
+              <Carousel className="w-full max-w-xl mx-auto">
+                <CarouselContent>
+                  {carouselUniversities.map((university) => (
+                    <CarouselItem key={university.id}>
+                      <div className="p-1">
+                        <div className="rounded-2xl overflow-hidden shadow-smooth-lg">
+                          <div className="relative">
+                            <div className="aspect-[4/3] w-full">
+                              <img 
+                                src={university.image} 
+                                alt={`${university.name} campus`} 
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="absolute top-4 left-4">
+                              <Badge variant="secondary" className="bg-white/80 text-blue-700">
+                                {university.country}
+                              </Badge>
+                            </div>
+                          </div>
+                          <div className="p-5 bg-white">
+                            <h3 className="text-xl font-semibold mb-2 text-gray-900">{university.name}</h3>
+                            <p className="text-gray-600 mb-4">{university.description}</p>
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className="flex items-center">
+                                <GraduationCap size={16} className="mr-2 text-blue-600" />
+                                <span className="text-sm text-gray-700">Est. {university.established}</span>
+                              </div>
+                              <div className="flex items-center">
+                                <Users size={16} className="mr-2 text-blue-600" />
+                                <span className="text-sm text-gray-700">{university.students}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2" />
+                <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
+              </Carousel>
+
               <div className="absolute -bottom-6 -left-6 glass-card rounded-xl p-4 shadow-smooth animate-fade-in-up">
                 <div className="flex items-center space-x-3">
                   <div className="bg-blue-100 rounded-full p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                    <Hospital className="h-5 w-5 text-blue-700" />
                   </div>
                   <div>
                     <p className="text-sm font-medium">WHO & NMC Approved</p>
@@ -119,7 +205,7 @@ const HeroSection = () => {
               <div className="absolute -top-6 -right-6 glass-card rounded-xl p-4 shadow-smooth animate-fade-in-up animation-delay-300">
                 <div className="flex items-center space-x-3">
                   <div className="bg-blue-100 rounded-full p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></svg>
+                    <Globe className="h-5 w-5 text-blue-700" />
                   </div>
                   <div>
                     <p className="text-sm font-medium">Affordable Tuition</p>
@@ -136,4 +222,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-
