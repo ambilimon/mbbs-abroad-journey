@@ -1,8 +1,11 @@
 
+import { useSupabase } from '@/hooks/useSupabase';
+import { Link } from 'react-router-dom';
 import { useEffect, useRef } from "react";
 import AnimatedButton from "./AnimatedButton";
 
 const HeroSection = () => {
+  const { user } = useSupabase();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,12 +58,26 @@ const HeroSection = () => {
               Get a globally recognized MBBS degree at 1/4th the cost of Indian private medical colleges, with no donation and direct admission in WHO, NMC, and UNESCO-approved universities.
             </p>
             <div className="flex flex-wrap gap-4 section-animate stagger-4">
-              <AnimatedButton variant="highlight" size="lg">
-                Apply Now
-              </AnimatedButton>
-              <AnimatedButton variant="outline" size="lg">
-                Explore Universities
-              </AnimatedButton>
+              {user ? (
+                <Link to="/dashboard">
+                  <AnimatedButton variant="highlight" size="lg">
+                    Go to Dashboard
+                  </AnimatedButton>
+                </Link>
+              ) : (
+                <>
+                  <Link to="/auth?mode=signup">
+                    <AnimatedButton variant="highlight" size="lg">
+                      Sign Up
+                    </AnimatedButton>
+                  </Link>
+                  <Link to="/auth?mode=signin">
+                    <AnimatedButton variant="outline" size="lg">
+                      Sign In
+                    </AnimatedButton>
+                  </Link>
+                </>
+              )}
             </div>
             
             <div className="mt-12 grid grid-cols-3 gap-4 section-animate stagger-5">
@@ -119,3 +136,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
