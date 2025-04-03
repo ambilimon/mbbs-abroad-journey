@@ -18,3 +18,6 @@ export interface StudentInquiryFormProps {
   className?: string;
   sticky?: boolean;
 }
+
+// Define available countries for MBBS
+export const availableCountries = ["Russia", "Georgia", "Kazakhstan", "Ukraine", "Germany", "United Kingdom"];
