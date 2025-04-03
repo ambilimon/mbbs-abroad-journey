@@ -3,6 +3,13 @@ import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface BudgetRangeSliderProps {
   minValue: number;
@@ -11,6 +18,7 @@ interface BudgetRangeSliderProps {
   value: [number, number];
   onChange: (value: [number, number]) => void;
   currency?: string;
+  onCurrencyChange?: (currency: string) => void;
 }
 
 export function BudgetRangeSlider({
@@ -19,7 +27,8 @@ export function BudgetRangeSlider({
   step,
   value,
   onChange,
-  currency = "$"
+  currency = "$",
+  onCurrencyChange
 }: BudgetRangeSliderProps) {
   const [localValue, setLocalValue] = useState(value);
   const [minInput, setMinInput] = useState(value[0].toString());
@@ -64,11 +73,44 @@ export function BudgetRangeSlider({
   };
 
   const formatCurrency = (value: number) => {
-    return `${currency}${value.toLocaleString()}`;
+    switch(currency) {
+      case "₹":
+        return `${currency}${value.toLocaleString('en-IN')}`;
+      case "€":
+        return `${currency}${value.toLocaleString('de-DE')}`;
+      case "£":
+        return `${currency}${value.toLocaleString('en-GB')}`;
+      default:
+        return `${currency}${value.toLocaleString()}`;
+    }
+  };
+
+  const handleCurrencyChange = (newCurrency: string) => {
+    if (onCurrencyChange) {
+      onCurrencyChange(newCurrency);
+    }
   };
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center justify-between gap-2 mb-2">
+        <Label>Currency</Label>
+        <Select 
+          defaultValue={currency} 
+          onValueChange={handleCurrencyChange}
+        >
+          <SelectTrigger className="w-24">
+            <SelectValue placeholder="Currency" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="₹">₹ INR</SelectItem>
+            <SelectItem value="$">$ USD</SelectItem>
+            <SelectItem value="€">€ EUR</SelectItem>
+            <SelectItem value="£">£ GBP</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      
       <Slider
         value={localValue}
         min={minValue}

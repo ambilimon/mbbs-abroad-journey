@@ -80,12 +80,12 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
                 {currency}{tuitionFee.toLocaleString()} / year
               </p>
             </CardContent>
-            <CardFooter className="p-0 pt-2 flex justify-between items-center">
-              <Link to={`/university/${id}`}>
-                <Button>View Details</Button>
+            <CardFooter className="p-0 pt-3 flex justify-between items-center gap-3">
+              <Link to={`/university/${id}`} className="flex-1">
+                <Button className="w-full">View Details</Button>
               </Link>
-              <Link to="/#application">
-                <Button variant="outline">Apply Now</Button>
+              <Link to="/#application" className="flex-1">
+                <Button variant="outline" className="w-full">Apply Now</Button>
               </Link>
             </CardFooter>
           </div>
@@ -113,11 +113,11 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
       <CardHeader>
         <div className="flex justify-between items-start">
           <CardTitle className="line-clamp-1">{name}</CardTitle>
-          <Badge variant="secondary" className="text-xs">{category}</Badge>
+          <Badge variant="secondary" className="text-xs whitespace-nowrap">{category}</Badge>
         </div>
         <CardDescription className="flex items-center text-sm mt-1">
-          <MapPin className="h-3.5 w-3.5 mr-1" />
-          {city}, {country}
+          <MapPin className="h-3.5 w-3.5 mr-1 flex-shrink-0" />
+          <span className="truncate">{city}, {country}</span>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
@@ -137,14 +137,12 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
           {currency}{tuitionFee.toLocaleString()} / year
         </p>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Link to={`/university/${id}`}>
-          <Button size="sm">View Details</Button>
+      <CardFooter className="grid grid-cols-2 gap-3 pt-2">
+        <Link to={`/university/${id}`} className="col-span-1">
+          <Button size="sm" className="w-full">View Details</Button>
         </Link>
-        <Link to="/#application">
-          <Button size="sm" variant="outline">
-            Apply
-          </Button>
+        <Link to="/#application" className="col-span-1">
+          <Button size="sm" variant="outline" className="w-full">Apply</Button>
         </Link>
       </CardFooter>
     </Card>
