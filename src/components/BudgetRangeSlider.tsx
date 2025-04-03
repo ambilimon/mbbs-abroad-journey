@@ -27,7 +27,7 @@ export function BudgetRangeSlider({
   step,
   value,
   onChange,
-  currency = "$",
+  currency = "₹",
   onCurrencyChange
 }: BudgetRangeSliderProps) {
   const [localValue, setLocalValue] = useState(value);
@@ -76,6 +76,8 @@ export function BudgetRangeSlider({
     switch(currency) {
       case "₹":
         return `${currency}${value.toLocaleString('en-IN')}`;
+      case "$":
+        return `${currency}${value.toLocaleString('en-US')}`;
       case "€":
         return `${currency}${value.toLocaleString('de-DE')}`;
       case "£":
@@ -96,7 +98,7 @@ export function BudgetRangeSlider({
       <div className="flex items-center justify-between gap-2 mb-2">
         <Label>Currency</Label>
         <Select 
-          defaultValue={currency} 
+          value={currency} 
           onValueChange={handleCurrencyChange}
         >
           <SelectTrigger className="w-24">
@@ -111,14 +113,20 @@ export function BudgetRangeSlider({
         </Select>
       </div>
       
-      <Slider
-        value={localValue}
-        min={minValue}
-        max={maxValue}
-        step={step}
-        onValueChange={handleSliderChange}
-        className="my-6"
-      />
+      <div className="py-4">
+        <div className="flex justify-between mb-2 text-sm text-muted-foreground">
+          <span>{formatCurrency(localValue[0])}</span>
+          <span>{formatCurrency(localValue[1])}</span>
+        </div>
+        <Slider
+          value={localValue}
+          min={minValue}
+          max={maxValue}
+          step={step}
+          onValueChange={handleSliderChange}
+          className="my-4"
+        />
+      </div>
       
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1.5 w-full">

@@ -62,23 +62,23 @@ export function CategoriesSidebar({
     <div className="space-y-6 sticky top-24">
       {/* Countries */}
       <Card>
-        <CardHeader className="pb-2">
-          <CollapsibleTrigger asChild>
-            <CardTitle className="text-lg flex items-center justify-between gap-2 cursor-pointer">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                Countries
-              </div>
-              {countriesOpen ? (
-                <ChevronUp className="h-4 w-4 text-muted-foreground" />
-              ) : (
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
-              )}
-            </CardTitle>
-          </CollapsibleTrigger>
-        </CardHeader>
-        <Separator />
         <Collapsible open={countriesOpen} onOpenChange={setCountriesOpen}>
+          <CardHeader className="pb-2">
+            <CollapsibleTrigger asChild>
+              <CardTitle className="text-lg flex items-center justify-between gap-2 cursor-pointer">
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-4 w-4" />
+                  Countries
+                </div>
+                {countriesOpen ? (
+                  <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                )}
+              </CardTitle>
+            </CollapsibleTrigger>
+          </CardHeader>
+          <Separator />
           <CollapsibleContent>
             <CardContent className="pt-4">
               <ScrollArea className="h-[220px] pr-3">
@@ -102,23 +102,23 @@ export function CategoriesSidebar({
 
       {/* Categories */}
       <Card>
-        <CardHeader className="pb-2">
-          <CollapsibleTrigger asChild>
-            <CardTitle className="text-lg flex items-center justify-between gap-2 cursor-pointer">
-              <div className="flex items-center gap-2">
-                <GraduationCap className="h-4 w-4" />
-                Categories
-              </div>
-              {categoriesOpen ? (
-                <ChevronUp className="h-4 w-4 text-muted-foreground" />
-              ) : (
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
-              )}
-            </CardTitle>
-          </CollapsibleTrigger>
-        </CardHeader>
-        <Separator />
         <Collapsible open={categoriesOpen} onOpenChange={setCategoriesOpen}>
+          <CardHeader className="pb-2">
+            <CollapsibleTrigger asChild>
+              <CardTitle className="text-lg flex items-center justify-between gap-2 cursor-pointer">
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="h-4 w-4" />
+                  Categories
+                </div>
+                {categoriesOpen ? (
+                  <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                )}
+              </CardTitle>
+            </CollapsibleTrigger>
+          </CardHeader>
+          <Separator />
           <CollapsibleContent>
             <CardContent className="pt-4">
               <ScrollArea className="h-[220px] pr-3">
