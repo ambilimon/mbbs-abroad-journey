@@ -1,3 +1,4 @@
+
 import {
   useEffect,
   useState,
@@ -42,7 +43,7 @@ const Navbar = () => {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/university/1", label: "Universities" },
+    { href: "/universities", label: "Universities" },
     { href: "/#why-mbbs-abroad", label: "Why MBBS Abroad" },
     { href: "/#application", label: "Apply Now" },
     { href: "/#contact", label: "Contact" },
@@ -88,8 +89,8 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            to="/university/1"
-            className={`nav-link ${isActive("/university/1") ? "active" : ""}`}
+            to="/universities"
+            className={`nav-link ${isActive("/universities") ? "active" : ""}`}
             onClick={handleNavClick}
           >
             Universities

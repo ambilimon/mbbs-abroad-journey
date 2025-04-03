@@ -1,3 +1,4 @@
+
 import {
   BrowserRouter,
   Route,
@@ -16,6 +17,7 @@ import DynamicUniversityPage from './pages/DynamicUniversityPage';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import UniversityPage from './pages/UniversityPage';
+import UniversitiesPage from './pages/UniversitiesPage';
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/university/:id" element={<UniversityPage />} />
+          <Route path="/universities" element={<UniversitiesPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dynamic-university/:id" element={<DynamicUniversityPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
