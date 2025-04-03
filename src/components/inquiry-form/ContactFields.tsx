@@ -54,20 +54,6 @@ const ContactFields = ({ control }: ContactFieldsProps) => {
           </FormItem>
         )}
       />
-
-      <FormField
-        control={control}
-        name="college"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Current College (if any)</FormLabel>
-            <FormControl>
-              <Input placeholder="Your current college/school" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
     </>
   );
 };
