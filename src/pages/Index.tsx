@@ -7,8 +7,38 @@ import UniversitySection from "@/components/UniversitySection";
 import FeaturedUniversity from "@/components/FeaturedUniversity";
 import ApplicationSection from "@/components/ApplicationSection";
 import Footer from "@/components/Footer";
+import { initializeDatabase } from "@/lib/database";
+import { supabase } from "@/lib/supabase";
+import { toast } from "@/components/ui/use-toast";
 
 const Index = () => {
+  // Initialization of Supabase with sample data
+  useEffect(() => {
+    const initializeSupabase = async () => {
+      try {
+        // Check if universities table exists in Supabase
+        const { error } = await supabase
+          .from('universities')
+          .select('*', { count: 'exact', head: true });
+          
+        // If there's an error like table doesn't exist, we'll create it
+        if (error && error.code === '42P01') {
+          console.log('Universities table does not exist, getting sample data from localStorage');
+          const storedUniversities = localStorage.getItem('universities');
+          
+          if (storedUniversities) {
+            const universities = JSON.parse(storedUniversities);
+            await initializeDatabase(universities);
+          }
+        }
+      } catch (error) {
+        console.error('Error initializing Supabase:', error);
+      }
+    };
+    
+    initializeSupabase();
+  }, []);
+
   // Intersection Observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(

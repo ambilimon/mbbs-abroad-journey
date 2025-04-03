@@ -18,7 +18,9 @@ import Index from './pages/Index';
 import NotFound from './pages/NotFound';
 import UniversityPage from './pages/UniversityPage';
 import UniversitiesPage from './pages/UniversitiesPage';
+import AuthPage from './pages/AuthPage';
 
+// Create a client
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -33,6 +35,7 @@ const App = () => (
           <Route path="/universities" element={<UniversitiesPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dynamic-university/:id" element={<DynamicUniversityPage />} />
+          <Route path="/auth" element={<AuthPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
