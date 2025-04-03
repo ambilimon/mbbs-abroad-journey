@@ -1,7 +1,5 @@
 
 import { useEffect, useState, useRef } from "react";
-import { Navigate } from "react-router-dom";
-import { useSupabase } from "@/hooks/useSupabase";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,7 +7,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { Volume2, VolumeX, Play, Pause, Maximize } from "lucide-react";
 
 const WebinarPage = () => {
-  const { user, loading } = useSupabase();
   const [isVideoReady, setIsVideoReady] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -92,21 +89,11 @@ const WebinarPage = () => {
       description: "You are now watching the live webinar.",
     });
     
-    // Update in localStorage that user has watched (would use Supabase in production)
+    // Get participant data from localStorage
     try {
       const participants = JSON.parse(localStorage.getItem("webinarParticipants") || "[]");
-      const userEmail = user?.email;
-      
-      if (userEmail) {
-        const updatedParticipants = participants.map((p: any) => {
-          if (p.email === userEmail) {
-            return { ...p, hasWatched: true };
-          }
-          return p;
-        });
-        
-        localStorage.setItem("webinarParticipants", JSON.stringify(updatedParticipants));
-      }
+      // Mark as watched in localStorage
+      localStorage.setItem("webinarWatched", "true");
     } catch (e) {
       console.error("Error updating participant data", e);
     }
@@ -117,11 +104,6 @@ const WebinarPage = () => {
     const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
-  
-  // Protected route - redirect if not authenticated
-  if (!loading && !user) {
-    return <Navigate to="/auth" replace />;
-  }
   
   return (
     <div className="min-h-screen flex flex-col">

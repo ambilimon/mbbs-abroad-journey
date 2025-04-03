@@ -9,22 +9,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useSupabase } from "@/hooks/useSupabase";
 import WebinarSignupForm from "./WebinarSignupForm";
 
 const WebinarPromoSection = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { user } = useSupabase();
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
-    if (user) {
-      // If already logged in, go directly to webinar
-      navigate("/webinar");
-    } else {
-      // If not logged in, show signup dialog
-      setIsDialogOpen(true);
-    }
+    // Show signup dialog for everyone
+    setIsDialogOpen(true);
   };
 
   return (
@@ -47,7 +40,7 @@ const WebinarPromoSection = () => {
                 onClick={handleRegisterClick}
                 className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900"
               >
-                {user ? "Watch Webinar Now" : "Register for Webinar"}
+                Register for Webinar
               </Button>
             </div>
           </div>

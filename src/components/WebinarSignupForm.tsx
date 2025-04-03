@@ -14,7 +14,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useSupabase } from "@/hooks/useSupabase";
 
 // Form schema
 const formSchema = z.object({
@@ -32,7 +31,6 @@ interface WebinarSignupFormProps {
 const WebinarSignupForm = ({ onSuccess }: WebinarSignupFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-  const { signUp } = useSupabase();
 
   const form = useForm<WebinarSignupFormValues>({
     resolver: zodResolver(formSchema),
@@ -47,21 +45,14 @@ const WebinarSignupForm = ({ onSuccess }: WebinarSignupFormProps) => {
     setIsSubmitting(true);
     
     try {
-      // First create the account
-      const { success, error } = await signUp(values.email, "webinar" + values.phone.substring(0, 4));
-      
-      if (!success) {
-        throw error;
-      }
-      
-      // Save webinar participant data
+      // Store webinar participant data in localStorage
       const webinarData = {
         ...values,
         registeredAt: new Date().toISOString(),
         hasWatched: false,
       };
       
-      // Store in localStorage as fallback
+      // Store in localStorage
       const participants = JSON.parse(localStorage.getItem("webinarParticipants") || "[]");
       participants.push(webinarData);
       localStorage.setItem("webinarParticipants", JSON.stringify(participants));
