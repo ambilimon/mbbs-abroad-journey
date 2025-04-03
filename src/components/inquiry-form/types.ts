@@ -6,8 +6,7 @@ export const inquiryFormSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   phone: z.string().min(10, "Phone number must be at least 10 digits"),
   email: z.string().email("Invalid email address"),
-  college: z.string().optional(),
-  preferredUniversity: z.string().min(1, "Please select a preferred university"),
+  preferredCountries: z.array(z.string()).min(1, "Please select at least one country"),
   message: z.string().optional(),
 });
 
