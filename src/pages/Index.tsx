@@ -6,6 +6,7 @@ import WhyMBBSAbroad from "@/components/WhyMBBSAbroad";
 import UniversitySection from "@/components/UniversitySection";
 import FeaturedUniversity from "@/components/FeaturedUniversity";
 import ApplicationSection from "@/components/ApplicationSection";
+import WebinarPromoSection from "@/components/WebinarPromoSection";
 import Footer from "@/components/Footer";
 import { initializeDatabase } from "@/lib/database";
 import { supabase } from "@/lib/supabase";
@@ -70,6 +71,9 @@ const Index = () => {
 
       {/* Why MBBS Abroad Section */}
       <WhyMBBSAbroad />
+
+      {/* Webinar Promo Section - Adding the new section here */}
+      <WebinarPromoSection />
 
       {/* University Section */}
       <UniversitySection />
