@@ -74,9 +74,18 @@ const UniversitiesPage = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <div className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 text-primary">Find Your Perfect University</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Explore and filter through top medical universities across the globe to find the ideal match for your academic journey.
+          </p>
+        </div>
+
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Universities</h1>
+          <div className="font-medium">
+            {filteredUniversities.length} {filteredUniversities.length === 1 ? 'University' : 'Universities'} found
+          </div>
           <div className="flex items-center gap-3">
             <Button
               variant="outline"
@@ -111,13 +120,13 @@ const UniversitiesPage = () => {
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left Sidebar - Filters */}
           {showFilterSidebar && (
-            <div className="w-full md:w-1/4 lg:w-1/5">
+            <aside className="w-full md:w-1/4 lg:w-1/5 space-y-6">
               <FilterSidebar 
                 filters={filters} 
                 setFilters={setFilters} 
                 onClose={() => setShowFilterSidebar(false)}
               />
-            </div>
+            </aside>
           )}
 
           {/* Main Content - University Cards */}
@@ -139,15 +148,15 @@ const UniversitiesPage = () => {
           </div>
 
           {/* Right Sidebar - Categories */}
-          <div className="hidden lg:block w-1/4">
+          <aside className="hidden lg:block w-1/4">
             <CategoriesSidebar 
               filters={filters} 
               setFilters={setFilters} 
               universities={universities}
             />
-          </div>
+          </aside>
         </div>
-      </div>
+      </main>
 
       <Footer />
     </div>

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { MapPin, GraduationCap } from "lucide-react";
 
 interface CategoriesSidebarProps {
   filters: Filters;
@@ -57,7 +58,10 @@ export function CategoriesSidebar({
       {/* Countries */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Countries</CardTitle>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <MapPin className="h-4 w-4" />
+            Countries
+          </CardTitle>
         </CardHeader>
         <Separator />
         <CardContent className="pt-4">
@@ -67,7 +71,7 @@ export function CategoriesSidebar({
                 <Badge
                   key={name}
                   variant={filters.countries.includes(name) ? "default" : "outline"}
-                  className="cursor-pointer"
+                  className="cursor-pointer transition-colors hover:bg-primary/90"
                   onClick={() => toggleCountry(name)}
                 >
                   {name} ({count})
@@ -81,7 +85,10 @@ export function CategoriesSidebar({
       {/* Categories */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">Categories</CardTitle>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <GraduationCap className="h-4 w-4" />
+            Categories
+          </CardTitle>
         </CardHeader>
         <Separator />
         <CardContent className="pt-4">
@@ -91,7 +98,7 @@ export function CategoriesSidebar({
                 <Badge
                   key={name}
                   variant={filters.categories.includes(name) ? "default" : "outline"}
-                  className="cursor-pointer"
+                  className="cursor-pointer transition-colors hover:bg-primary/90"
                   onClick={() => toggleCategory(name)}
                 >
                   {name} ({count})

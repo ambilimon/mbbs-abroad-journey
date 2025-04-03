@@ -29,22 +29,26 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
     image,
     facilities,
     rating,
+    category,
   } = university;
 
   if (viewMode === "list") {
     return (
       <Card className="overflow-hidden transition-all hover:shadow-md">
         <div className="flex flex-col md:flex-row">
-          <div className="w-full md:w-1/4 h-48 md:h-auto">
+          <div className="w-full md:w-1/4 h-48 md:h-auto relative">
             <img
               src={image}
               alt={name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover absolute inset-0"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop";
+              }}
             />
           </div>
           <div className="flex flex-col flex-1 p-4">
             <CardHeader className="p-0 pb-2">
-              <div className="flex justify-between">
+              <div className="flex justify-between items-start">
                 <div>
                   <CardTitle className="text-xl mb-1">{name}</CardTitle>
                   <CardDescription className="flex items-center text-sm">
@@ -52,22 +56,23 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
                     {city}, {country}
                   </CardDescription>
                 </div>
-                <div className="flex items-center space-x-1">
-                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                  <span className="font-medium">{rating.toFixed(1)}</span>
+                <div className="flex items-center space-x-1 bg-amber-50 px-2 py-1 rounded-md">
+                  <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+                  <span className="font-medium text-amber-700">{rating.toFixed(1)}</span>
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="p-0 py-2 flex-grow">
+            <CardContent className="p-0 py-3 flex-grow">
               <div className="flex flex-wrap gap-1 mb-3">
-                {facilities.slice(0, 4).map((facility) => (
+                <Badge variant="secondary" className="text-xs">{category}</Badge>
+                {facilities.slice(0, 3).map((facility) => (
                   <Badge key={facility} variant="outline" className="text-xs">
                     {facility}
                   </Badge>
                 ))}
-                {facilities.length > 4 && (
+                {facilities.length > 3 && (
                   <Badge variant="outline" className="text-xs">
-                    +{facilities.length - 4} more
+                    +{facilities.length - 3} more
                   </Badge>
                 )}
               </div>
@@ -75,7 +80,7 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
                 {currency}{tuitionFee.toLocaleString()} / year
               </p>
             </CardContent>
-            <CardFooter className="p-0 pt-2 flex justify-between">
+            <CardFooter className="p-0 pt-2 flex justify-between items-center">
               <Link to={`/university/${id}`}>
                 <Button>View Details</Button>
               </Link>
@@ -90,26 +95,32 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
   }
 
   return (
-    <Card className="overflow-hidden transition-all hover:shadow-md">
+    <Card className="overflow-hidden transition-all hover:shadow-md flex flex-col h-full">
       <div className="aspect-video relative">
         <img
           src={image}
           alt={name}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover absolute inset-0"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop";
+          }}
         />
         <div className="absolute top-2 right-2 bg-white/90 rounded-md px-2 py-1 flex items-center space-x-1">
-          <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+          <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
           <span className="font-medium">{rating.toFixed(1)}</span>
         </div>
       </div>
       <CardHeader>
-        <CardTitle className="line-clamp-1">{name}</CardTitle>
-        <CardDescription className="flex items-center text-sm">
+        <div className="flex justify-between items-start">
+          <CardTitle className="line-clamp-1">{name}</CardTitle>
+          <Badge variant="secondary" className="text-xs">{category}</Badge>
+        </div>
+        <CardDescription className="flex items-center text-sm mt-1">
           <MapPin className="h-3.5 w-3.5 mr-1" />
           {city}, {country}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-grow">
         <div className="flex flex-wrap gap-1 mb-3">
           {facilities.slice(0, 3).map((facility) => (
             <Badge key={facility} variant="outline" className="text-xs">
