@@ -12,6 +12,7 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { ThemeProvider } from './hooks/use-theme';
+import { HelmetProvider } from 'react-helmet-async';
 
 import Dashboard from './pages/Dashboard';
 import DynamicUniversityPage from './pages/DynamicUniversityPage';
@@ -41,43 +42,45 @@ import SitemapPage from './pages/SitemapPage';
 const queryClient = new QueryClient();
 
 const App = () => (
-  <ThemeProvider defaultTheme="light">
-    <QueryClientProvider client={queryClient}>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <div className="flex flex-col min-h-screen">
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/university/:id" element={<UniversityPage />} />
-            <Route path="/universities" element={<UniversitiesPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dynamic-university/:id" element={<DynamicUniversityPage />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/country/:country" element={<CountryPage />} />
-            <Route path="/webinar" element={<WebinarPage />} />
-            
-            {/* Footer pages */}
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/admission-process" element={<AdmissionProcessPage />} />
-            <Route path="/coaching" element={<CoachingPage />} />
-            <Route path="/success-stories" element={<SuccessStoriesPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/news" element={<NewsPage />} />
-            <Route path="/faq" element={<FaqPage />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-            <Route path="/refund-policy" element={<RefundPolicyPage />} />
-            <Route path="/sitemap" element={<SitemapPage />} />
-            
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </QueryClientProvider>
-  </ThemeProvider>
+  <HelmetProvider>
+    <ThemeProvider defaultTheme="light">
+      <QueryClientProvider client={queryClient}>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <div className="flex flex-col min-h-screen">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/university/:id" element={<UniversityPage />} />
+              <Route path="/universities" element={<UniversitiesPage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dynamic-university/:id" element={<DynamicUniversityPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/country/:country" element={<CountryPage />} />
+              <Route path="/webinar" element={<WebinarPage />} />
+              
+              {/* Footer pages */}
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/admission-process" element={<AdmissionProcessPage />} />
+              <Route path="/coaching" element={<CoachingPage />} />
+              <Route path="/success-stories" element={<SuccessStoriesPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/news" element={<NewsPage />} />
+              <Route path="/faq" element={<FaqPage />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+              <Route path="/refund-policy" element={<RefundPolicyPage />} />
+              <Route path="/sitemap" element={<SitemapPage />} />
+              
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </ThemeProvider>
+  </HelmetProvider>
 );
 
 export default App;
