@@ -1,3 +1,5 @@
+
+import { Link } from 'react-router-dom';
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 
@@ -41,8 +43,12 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">MBBS Destinations</h3>
             <ul className="space-y-2">
+              <li>
+                <Link to="/mbbs-in-russia" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  MBBS in Russia
+                </Link>
+              </li>
               {[
-                "MBBS in Russia",
                 "MBBS in Georgia",
                 "MBBS in Kazakhstan",
                 "MBBS in Kyrgyzstan",
@@ -61,9 +67,17 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Useful Links</h3>
             <ul className="space-y-2">
+              <li>
+                <Link to="/about-us" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/our-services" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  Our Services
+                </Link>
+              </li>
               {[
-                "About Us",
-                "Our Services",
                 "Admission Process",
                 "FMGE/NEXT Coaching",
                 "Success Stories",

@@ -46,9 +46,6 @@ const Navbar = () => {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/universities", label: "Universities" },
-    { href: "/mbbs-in-russia", label: "MBBS in Russia" },
-    { href: "/about-us", label: "About Us" },
-    { href: "/our-services", label: "Our Services" },
     { href: "/#application", label: "Apply Now" },
     { href: "/#contact", label: "Contact" },
   ];
@@ -100,27 +97,6 @@ const Navbar = () => {
             Universities
           </Link>
           <CountryNavigation />
-          <Link
-            to="/about-us"
-            className={`nav-link ${isActive("/about-us") ? "active" : ""}`}
-            onClick={handleNavClick}
-          >
-            About Us
-          </Link>
-          <Link
-            to="/our-services"
-            className={`nav-link ${isActive("/our-services") ? "active" : ""}`}
-            onClick={handleNavClick}
-          >
-            Our Services
-          </Link>
-          <Link
-            to="/mbbs-in-russia"
-            className={`nav-link ${isActive("/mbbs-in-russia") ? "active" : ""}`}
-            onClick={handleNavClick}
-          >
-            MBBS in Russia
-          </Link>
           <ShimmerButton
             variant="primary"
             className="ml-2"
