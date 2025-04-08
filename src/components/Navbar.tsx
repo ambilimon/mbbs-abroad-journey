@@ -16,7 +16,6 @@ import { cn } from '@/lib/utils';
 
 import CountryNavigation from './CountryNavigation';
 import Logo from './Logo';
-import { ModeToggle } from '@/components/ModeToggle';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -105,10 +104,6 @@ const Navbar = () => {
           </ShimmerButton>
         </nav>
 
-        <div className="hidden md:block">
-          <ModeToggle />
-        </div>
-
         {/* Mobile menu button */}
         <button
           type="button"
@@ -143,9 +138,6 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
-          <div className="pt-2 pb-1">
-            <ModeToggle />
-          </div>
         </div>
       </div>
     </header>
