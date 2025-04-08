@@ -1,10 +1,9 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { CalendarIcon, Clock, User } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 const BlogPage = () => {
   const blogPosts = [
