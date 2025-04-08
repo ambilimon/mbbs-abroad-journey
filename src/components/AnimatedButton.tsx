@@ -13,7 +13,7 @@ interface AnimatedButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
 
 const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
   ({ children, className, variant = "default", size = "default", ...props }, ref) => {
-    const baseClasses = "group relative overflow-hidden transition-all duration-300 ease-out";
+    const baseClasses = "group relative overflow-hidden transition-all duration-300 ease-out rounded-xl"; // Increased border radius
     
     // Define custom variant styles with improved colors
     const variantClasses = {
@@ -40,7 +40,7 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
           baseClasses, 
           additionalClasses, 
           // Enhance hover effects
-          "hover:-translate-y-1 active:translate-y-0 transition-transform",
+          "hover:-translate-y-1 active:translate-y-0 transition-transform rounded-xl", // Ensure rounded corners
           className
         )}
         {...props}
