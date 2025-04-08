@@ -1,108 +1,151 @@
-import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "./ModeToggle";
-import { Logo } from "./Logo";
-import CountryNavigation from "./CountryNavigation";
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  Menu,
+  X,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+import { ShimmerButton } from '@/components/ShimmerButton';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { cn } from '@/lib/utils';
+
+import Logo from './Logo';
 
 const Navbar = () => {
-  const [open, setOpen] = useState(false);
-  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const isMobile = useIsMobile();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close mobile menu when switching to desktop view
+  useEffect(() => {
+    if (!isMobile && isOpen) {
+      setIsOpen(false);
+    }
+  }, [isMobile, isOpen]);
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/universities", label: "Universities" },
+    { href: "/#why-mbbs-abroad", label: "Why MBBS Abroad" },
+    { href: "/#application", label: "Apply Now" },
+    { href: "/#contact", label: "Contact" },
+  ];
+
+  const NavLink = ({ href, label, className }: { href: string; label: string; className?: string }) => (
+    <a
+      href={href}
+      className={cn(
+        "transition-colors duration-200",
+        className
+      )}
+      onClick={() => setIsOpen(false)}
+    >
+      {label}
+    </a>
+  );
 
   const isActive = (path: string) => {
-    return location.pathname === path;
+    return window.location.pathname === path;
   };
 
-  const navLinkClass = (isActive: boolean) => {
-    return `transition-colors hover:text-foreground/80 ${
-      isActive ? "text-foreground/80" : "text-foreground"
-    }`;
+  const handleNavClick = () => {
+    setIsOpen(false);
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container flex h-16 items-center">
-        <Link to="/" className="flex items-center gap-2">
-          <Logo />
-        </Link>
-        <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-4">
-          <Link to="/" className={navLinkClass(isActive("/"))}>
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        scrolled ? "bg-white/95 backdrop-blur-sm shadow-md py-2" : "bg-transparent py-4"
+      }`}
+    >
+      <div className="container px-4 mx-auto flex justify-between items-center">
+        <Logo variant={scrolled ? 'default' : 'default'} />
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-8">
+          <Link
+            to="/"
+            className={`nav-link ${isActive("/") ? "active" : ""}`}
+            onClick={handleNavClick}
+          >
             Home
           </Link>
-          <CountryNavigation />
-          <Link 
+          <Link
             to="/universities"
-            className={navLinkClass(isActive("/universities"))}
+            className={`nav-link ${isActive("/universities") ? "active" : ""}`}
+            onClick={handleNavClick}
           >
             Universities
           </Link>
-          <Link
-            to="/webinar"
-            className={navLinkClass(isActive("/webinar"))}
+          <ShimmerButton
+            variant="primary"
+            className="ml-2"
           >
-            Webinars
-          </Link>
-          <Link
-            to="/#contact"
-            className={navLinkClass(isActive("/#contact"))}
-          >
-            Contact
-          </Link>
-          <Link
-            to="/auth"
-            className={navLinkClass(isActive("/auth"))}
-          >
-            Login
-          </Link>
-          <ModeToggle />
+            <Link to="/apply" className="text-white">Apply Now</Link>
+          </ShimmerButton>
+        </nav>
+
+        <div className="hidden md:block">
+          <ShimmerButton variant="primary">Get Started</ShimmerButton>
         </div>
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="ml-auto flex items-center md:hidden"
+
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
+        >
+          {isOpen ? (
+            <X className="h-6 w-6 text-gray-700" />
+          ) : (
+            <Menu className="h-6 w-6 text-gray-700" />
+          )}
+        </button>
+      </div>
+
+      {/* Mobile Navigation - Slide down animation */}
+      <div 
+        className={`md:hidden absolute top-full left-0 w-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
+          isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+        }`}
+      >
+        <div className="container px-4 mx-auto py-4 flex flex-col space-y-2">
+          {navLinks.map((link) => (
+            <Link
+              key={link.label}
+              to={link.href}
+              className={`block px-4 py-2 rounded-md hover:bg-blue-50 transition-colors text-sm font-medium ${
+                isActive(link.href) ? "text-primary bg-blue-50" : "text-gray-600"
+              }`}
+              onClick={handleNavClick}
             >
-              <Menu className="h-4 w-4" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="left" className="pr-0">
-            <SheetHeader className="text-left">
-              <SheetTitle>Menu</SheetTitle>
-              <SheetDescription>
-                Navigate through the website.
-              </SheetDescription>
-            </SheetHeader>
-            <div className="flex flex-col gap-4 text-lg font-medium">
-              <Link to="/" className="hover:text-primary">
-                Home
-              </Link>
-              <Link to="/universities" className="hover:text-primary">
-                Universities
-              </Link>
-              <Link to="/webinar" className="hover:text-primary">
-                Webinars
-              </Link>
-              <Link to="/#contact" className="hover:text-primary">
-                Contact
-              </Link>
-              <Link to="/auth" className="hover:text-primary">
-                Login
-              </Link>
-              <ModeToggle />
-            </div>
-          </SheetContent>
-        </Sheet>
-      </nav>
+              {link.label}
+            </Link>
+          ))}
+          <div className="pt-2 pb-1">
+            <ShimmerButton className="w-full">Get Started</ShimmerButton>
+          </div>
+        </div>
+      </div>
     </header>
   );
 };
