@@ -1,281 +1,150 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ShimmerButton } from "@/components/ShimmerButton";
-import { Pencil, Trash2, ExternalLink, Eye } from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Pencil, Trash2, ExternalLink } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { UniversityCard } from "./UniversityCard";
-
-interface University {
-  id: number;
-  name: string;
-  location: string;
-  country: string;
-  description: string;
-  tuitionRange: string;
-  image: string;
-  features: string[];
-  [key: string]: any;
-}
 
 interface UniversityListProps {
   onEdit: (id: number) => void;
-  searchQuery?: string;
-  viewMode?: "grid" | "list";
 }
 
-const UniversityList = ({ onEdit, searchQuery = "", viewMode = "grid" }: UniversityListProps) => {
-  const [universities, setUniversities] = useState<University[]>([]);
-  const [loading, setLoading] = useState(true);
+const UniversityList = ({ onEdit }: UniversityListProps) => {
+  const [universities, setUniversities] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
-    // Fetch universities from localStorage
+    loadUniversities();
+  }, []);
+
+  const loadUniversities = () => {
     try {
       const stored = localStorage.getItem('universities');
       if (stored) {
         setUniversities(JSON.parse(stored));
       }
-      setLoading(false);
     } catch (e) {
-      console.error("Error loading universities", e);
-      setLoading(false);
-    }
-  }, []);
-
-  const handleDelete = (id: number) => {
-    try {
-      const updatedUniversities = universities.filter(uni => uni.id !== id);
-      setUniversities(updatedUniversities);
-      localStorage.setItem('universities', JSON.stringify(updatedUniversities));
-      
-      toast({
-        title: "University deleted",
-        description: "The university has been successfully removed.",
-      });
-    } catch (e) {
-      console.error("Error deleting university", e);
-      toast({
-        title: "Error",
-        description: "There was a problem deleting the university.",
-        variant: "destructive",
-      });
+      console.error("Error loading universities from localStorage", e);
     }
   };
 
-  const filteredUniversities = universities.filter(uni => 
-    uni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    uni.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    uni.country.toLowerCase().includes(searchQuery.toLowerCase())
+  const handleDelete = (id: number) => {
+    if (window.confirm("Are you sure you want to delete this university?")) {
+      try {
+        const filtered = universities.filter(u => u.id !== id);
+        localStorage.setItem('universities', JSON.stringify(filtered));
+        setUniversities(filtered);
+        
+        toast({
+          title: "University deleted",
+          description: "The university has been successfully removed.",
+        });
+      } catch (e) {
+        console.error("Error deleting university", e);
+        toast({
+          title: "Error",
+          description: "There was a problem deleting the university.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
+  const filteredUniversities = universities.filter(
+    university => 
+      university.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      university.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      university.country.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) {
-    return (
-      <div className="text-center py-12">
-        <div className="animate-pulse">Loading universities...</div>
-      </div>
-    );
-  }
-
-  if (universities.length === 0) {
-    return (
-      <div className="text-center py-12 bg-blue-50 rounded-lg border border-blue-100">
-        <h3 className="text-xl font-medium mb-2">No Universities Yet</h3>
-        <p className="text-gray-600 mb-6">Get started by adding your first university</p>
-        <div className="flex justify-center">
-          <ShimmerButton
-            onClick={() => onEdit(0)}
-            shimmerColor="rgba(59, 130, 246, 0.5)"
-            background="linear-gradient(45deg, #3b82f6, #1d4ed8)"
-          >
-            Add University
-          </ShimmerButton>
-        </div>
-      </div>
-    );
-  }
-
-  if (filteredUniversities.length === 0) {
-    return (
-      <div className="text-center py-12 bg-amber-50 rounded-lg border border-amber-100">
-        <h3 className="text-xl font-medium mb-2">No Matching Universities</h3>
-        <p className="text-gray-600">No universities match your search criteria.</p>
-      </div>
-    );
-  }
-
-  if (viewMode === "grid") {
-    return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredUniversities.map((university) => (
-          <div key={university.id} className="relative group">
-            <UniversityCard 
-              university={{
-                id: university.id,
-                name: university.name,
-                country: university.country,
-                city: university.location.split(',')[0]?.trim() || '',
-                tuitionFee: 0, // This would need to be parsed from tuitionRange
-                currency: "₹",
-                image: university.image,
-                facilities: university.features,
-                rating: 4.5,
-                category: "Medical",
-              }}
-              viewMode="grid"
-            />
-            
-            {/* Overlay with action buttons */}
-            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-              <ShimmerButton
-                onClick={() => onEdit(university.id)}
-                className="p-2"
-                shimmerColor="rgba(59, 130, 246, 0.5)"
-                background="linear-gradient(45deg, #3b82f6, #1d4ed8)"
-              >
-                <Pencil size={16} />
-              </ShimmerButton>
-              
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <ShimmerButton
-                    className="p-2"
-                    shimmerColor="rgba(239, 68, 68, 0.5)"
-                    background="linear-gradient(45deg, #ef4444, #b91c1c)"
-                  >
-                    <Trash2 size={16} />
-                  </ShimmerButton>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This will permanently delete the university "{university.name}". This action cannot be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleDelete(university.id)}>
-                      Delete
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-              
-              <Link to={`/dynamic-university/${university.id}`}>
-                <ShimmerButton
-                  className="p-2"
-                  shimmerColor="rgba(22, 163, 74, 0.5)"
-                  background="linear-gradient(45deg, #16a34a, #15803d)"
-                >
-                  <Eye size={16} />
-                </ShimmerButton>
-              </Link>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   return (
-    <div className="rounded-lg border overflow-hidden">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[250px]">University</TableHead>
-            <TableHead>Location</TableHead>
-            <TableHead>Tuition Range</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {filteredUniversities.map((university) => (
-            <TableRow key={university.id}>
-              <TableCell className="font-medium flex items-center gap-3">
-                <img 
-                  src={university.image} 
-                  alt={university.name}
-                  className="w-10 h-10 rounded-md object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://placehold.co/100?text=Uni";
-                  }}
-                />
-                {university.name}
-              </TableCell>
-              <TableCell>{university.location}</TableCell>
-              <TableCell>{university.tuitionRange}</TableCell>
-              <TableCell className="text-right">
-                <div className="flex items-center justify-end gap-2">
-                  <ShimmerButton
-                    onClick={() => onEdit(university.id)}
-                    className="p-2"
-                    shimmerColor="rgba(59, 130, 246, 0.5)"
-                    background="linear-gradient(45deg, #3b82f6, #1d4ed8)"
-                  >
-                    <Pencil size={16} />
-                  </ShimmerButton>
-                  
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <ShimmerButton
-                        className="p-2"
-                        shimmerColor="rgba(239, 68, 68, 0.5)"
-                        background="linear-gradient(45deg, #ef4444, #b91c1c)"
-                      >
-                        <Trash2 size={16} />
-                      </ShimmerButton>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          This will permanently delete the university "{university.name}". This action cannot be undone.
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => handleDelete(university.id)}>
-                          Delete
-                        </AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                  
-                  <Link to={`/dynamic-university/${university.id}`}>
-                    <ShimmerButton
-                      className="p-2"
-                      shimmerColor="rgba(22, 163, 74, 0.5)"
-                      background="linear-gradient(45deg, #16a34a, #15803d)"
-                    >
-                      <ExternalLink size={16} />
-                    </ShimmerButton>
-                  </Link>
+    <div>
+      <div className="mb-6">
+        <Input
+          placeholder="Search universities..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="max-w-md"
+        />
+      </div>
+
+      {filteredUniversities.length === 0 ? (
+        <div className="text-center py-8">
+          <p className="text-gray-500">No universities found. Add your first university!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6">
+          {filteredUniversities.map(university => (
+            <Card key={university.id} className="overflow-hidden">
+              <CardContent className="p-0">
+                <div className="flex flex-col md:flex-row">
+                  <div className="w-full md:w-1/4 h-48 md:h-auto">
+                    <img 
+                      src={university.image} 
+                      alt={university.name}
+                      className="w-full h-full object-cover" 
+                    />
+                  </div>
+                  <div className="flex-1 p-6">
+                    <div className="flex justify-between">
+                      <div>
+                        <h3 className="text-xl font-semibold">{university.name}</h3>
+                        <p className="text-gray-500">{university.location}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="outline" 
+                          size="icon" 
+                          onClick={() => onEdit(university.id)}
+                        >
+                          <Pencil size={16} />
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          size="icon"
+                          onClick={() => handleDelete(university.id)}
+                        >
+                          <Trash2 size={16} />
+                        </Button>
+                        <Link to={`/dynamic-university/${university.id}`}>
+                          <Button variant="outline" size="icon">
+                            <ExternalLink size={16} />
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                    
+                    <p className="mt-4 text-gray-600 line-clamp-2">{university.description}</p>
+                    
+                    <div className="mt-4">
+                      <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
+                        {university.tuitionRange}
+                      </span>
+                      <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
+                        {university.country}
+                      </span>
+                    </div>
+                    
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {university.features.map((feature: string, i: number) => (
+                        <span 
+                          key={i}
+                          className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
+                        >
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </TableCell>
-            </TableRow>
+              </CardContent>
+            </Card>
           ))}
-        </TableBody>
-      </Table>
+        </div>
+      )}
     </div>
   );
 };
