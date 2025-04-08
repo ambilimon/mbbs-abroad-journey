@@ -7,12 +7,12 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious
+  CarouselPrevious,
+  type CarouselApi
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
 import { PhoneCall, Globe, GraduationCap, Users, Hospital, ChevronRight } from 'lucide-react';
 
-// Sample university data for the carousel
 const carouselUniversities = [
   {
     id: 1,
@@ -56,6 +56,24 @@ const HeroSection = () => {
   const { user } = useSupabase();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
+
+  useEffect(() => {
+    if (!carouselApi) {
+      return;
+    }
+
+    const handleSelect = () => {
+      setCurrentSlide(carouselApi.selectedScrollSnap());
+    };
+
+    carouselApi.on("select", handleSelect);
+    handleSelect();
+
+    return () => {
+      carouselApi.off("select", handleSelect);
+    };
+  }, [carouselApi]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -149,10 +167,7 @@ const HeroSection = () => {
             <div className="relative">
               <Carousel 
                 className="w-full max-w-xl mx-auto"
-                onSelect={(api) => {
-                  const selectedIndex = api.selectedScrollSnap();
-                  setCurrentSlide(selectedIndex);
-                }}
+                setApi={setCarouselApi}
               >
                 <CarouselContent>
                   {carouselUniversities.map((university, index) => (
