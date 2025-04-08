@@ -42,25 +42,25 @@ const Navbar = () => {
     }
   }, [isMobile, isOpen]);
 
+  // Add effect to prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
+
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/universities", label: "Universities" },
     { href: "/#application", label: "Apply Now" },
     { href: "/#contact", label: "Contact" },
   ];
-
-  const NavLink = ({ href, label, className }: { href: string; label: string; className?: string }) => (
-    <a
-      href={href}
-      className={cn(
-        "transition-colors duration-200",
-        className
-      )}
-      onClick={() => setIsOpen(false)}
-    >
-      {label}
-    </a>
-  );
 
   const isActive = (path: string) => {
     return window.location.pathname === path;
@@ -80,17 +80,17 @@ const Navbar = () => {
         <Logo variant={scrolled ? 'default' : 'default'} />
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
           <Link
             to="/"
-            className={`nav-link ${isActive("/") ? "active" : ""}`}
+            className={`nav-link font-medium ${isActive("/") ? "active" : ""}`}
             onClick={handleNavClick}
           >
             Home
           </Link>
           <Link
             to="/universities"
-            className={`nav-link ${isActive("/universities") ? "active" : ""}`}
+            className={`nav-link font-medium ${isActive("/universities") ? "active" : ""}`}
             onClick={handleNavClick}
           >
             Universities
@@ -98,7 +98,8 @@ const Navbar = () => {
           <CountryNavigation />
           <ShimmerButton
             variant="primary"
-            className="ml-2"
+            size="sm"
+            className="ml-2 rounded-full px-5"
           >
             <Link to="/#application" className="text-white">Apply Now</Link>
           </ShimmerButton>
@@ -119,25 +120,40 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Navigation - Slide down animation */}
+      {/* Mobile Navigation - Improved animation and styling */}
       <div 
-        className={`md:hidden absolute top-full left-0 w-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
-        }`}
+        className={cn(
+          "md:hidden fixed top-[60px] left-0 w-full h-[calc(100vh-60px)] bg-white z-50 transform transition-all duration-300 ease-in-out",
+          isOpen ? "translate-y-0 opacity-100" : "translate-y-[-100%] opacity-0 pointer-events-none"
+        )}
       >
-        <div className="container px-4 mx-auto py-4 flex flex-col space-y-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.label}
-              to={link.href}
-              className={`block px-4 py-2 rounded-md hover:bg-blue-50 transition-colors text-sm font-medium ${
-                isActive(link.href) ? "text-primary bg-blue-50" : "text-gray-600"
-              }`}
-              onClick={handleNavClick}
+        <div className="container h-full px-4 mx-auto py-8 flex flex-col">
+          <div className="space-y-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.label}
+                to={link.href}
+                className={cn(
+                  "block text-lg font-medium transition-colors",
+                  isActive(link.href) ? "text-primary" : "text-gray-700 hover:text-primary"
+                )}
+                onClick={handleNavClick}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          
+          <div className="mt-auto py-6">
+            <ShimmerButton
+              variant="primary"
+              className="w-full rounded-full"
             >
-              {link.label}
-            </Link>
-          ))}
+              <Link to="/#application" className="text-white" onClick={handleNavClick}>
+                Apply Now
+              </Link>
+            </ShimmerButton>
+          </div>
         </div>
       </div>
     </header>
