@@ -1,3 +1,4 @@
+
 import { useSupabase } from '@/hooks/useSupabase';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
@@ -222,6 +223,7 @@ const HeroSection = () => {
                       currentSlide === index ? "w-6 bg-blue-600" : "w-2 bg-gray-300"
                     }`}
                     aria-label={`Go to slide ${index + 1}`}
+                    onClick={() => carouselApi?.scrollTo(index)}
                   />
                 ))}
               </div>
