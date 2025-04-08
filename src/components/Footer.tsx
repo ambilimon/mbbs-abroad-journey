@@ -77,9 +77,17 @@ const Footer = () => {
                   Our Services
                 </Link>
               </li>
+              <li>
+                <Link to="/admission-process" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  Admission Process
+                </Link>
+              </li>
+              <li>
+                <Link to="/fmge-next-coaching" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  FMGE/NEXT Coaching
+                </Link>
+              </li>
               {[
-                "Admission Process",
-                "FMGE/NEXT Coaching",
                 "Success Stories",
                 "Blog & News",
                 "FAQ",
