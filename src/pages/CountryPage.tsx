@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,8 +8,8 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { availableCountries } from "@/components/inquiry-form/types";
+import { Helmet } from "react-helmet-async";
 
-// Map of country information
 const countryInfo: Record<string, {
   heading: string;
   description: string;
@@ -68,14 +67,17 @@ const CountryPage = () => {
     image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop"
   };
 
-  // Capitalize the first letter of the country name
   const displayCountry = country ? country.charAt(0).toUpperCase() + country.slice(1) : "";
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>{`MBBS in ${displayCountry} | Future Doctor`}</title>
+        <meta name="description" content={`Comprehensive guide to studying MBBS in ${displayCountry}. Explore top medical universities, admission process, and student opportunities.`} />
+      </Helmet>
+      
       <Navbar />
       
-      {/* Hero Section */}
       <section className="relative h-[50vh] min-h-[400px]">
         <img 
           src={info.image} 
