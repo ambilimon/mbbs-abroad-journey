@@ -1,4 +1,3 @@
-
 import { useSupabase } from '@/hooks/useSupabase';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef } from "react";
@@ -11,48 +10,7 @@ import {
   CarouselPrevious
 } from "@/components/ui/carousel";
 import { Badge } from "@/components/ui/badge";
-import { University } from '@/data/medical-universities';
-import { Hospital, Globe, GraduationCap, Users, MapPin } from 'lucide-react';
-
-// Sample university data for the carousel
-const carouselUniversities = [
-  {
-    id: 1,
-    name: "Oxford Medical College",
-    country: "United Kingdom",
-    students: "15,000+",
-    established: "1096",
-    image: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "World-renowned for medical research and innovation"
-  },
-  {
-    id: 2,
-    name: "Tbilisi State Medical University",
-    country: "Georgia",
-    students: "10,000+",
-    established: "1918",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop",
-    description: "Historical excellence in medical education since 1918"
-  },
-  {
-    id: 3,
-    name: "Kyiv Medical University",
-    country: "Ukraine",
-    students: "8,000+",
-    established: "1841",
-    image: "https://images.unsplash.com/photo-1598018553943-93e017e803df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80",
-    description: "Modern approach to medical training with clinical focus"
-  },
-  {
-    id: 4,
-    name: "Berlin Institute of Health",
-    country: "Germany",
-    students: "12,000+",
-    established: "1935",
-    image: "https://images.unsplash.com/photo-1544298621-35a989e4e54a?q=80&w=2070&auto=format&fit=crop",
-    description: "Cutting-edge research and breakthrough medical technologies"
-  }
-];
+import { PhoneCall, Globe } from 'lucide-react';
 
 const HeroSection = () => {
   const { user } = useSupabase();
@@ -90,10 +48,8 @@ const HeroSection = () => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center pt-16 overflow-hidden"
     >
-      {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-blue-50 to-white -z-10" />
       
-      {/* Decorative circles */}
       <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-200 rounded-full filter blur-3xl opacity-30 animate-float -z-10" />
       <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-blue-100 rounded-full filter blur-3xl opacity-20 animate-float animation-delay-2000 -z-10" />
       
@@ -108,26 +64,26 @@ const HeroSection = () => {
               Get a globally recognized MBBS degree at 1/4th the cost of Indian private medical colleges, with no donation and direct admission in WHO, NMC, and UNESCO-approved universities.
             </p>
             <div className="flex flex-wrap gap-4 section-animate stagger-4">
-              {user ? (
-                <Link to="/dashboard">
-                  <AnimatedButton variant="highlight" size="lg">
-                    Go to Dashboard
-                  </AnimatedButton>
-                </Link>
-              ) : (
-                <>
-                  <Link to="/auth?mode=signup">
-                    <AnimatedButton variant="highlight" size="lg">
-                      Sign Up
-                    </AnimatedButton>
-                  </Link>
-                  <Link to="/auth?mode=signin">
-                    <AnimatedButton variant="outline" size="lg">
-                      Sign In
-                    </AnimatedButton>
-                  </Link>
-                </>
-              )}
+              <Link to="/contact" className="w-full sm:w-auto">
+                <AnimatedButton 
+                  variant="highlight" 
+                  size="lg" 
+                  className="w-full flex items-center justify-center"
+                >
+                  <PhoneCall className="mr-2" size={20} />
+                  Request Call Back
+                </AnimatedButton>
+              </Link>
+              <Link to="/universities" className="w-full sm:w-auto">
+                <AnimatedButton 
+                  variant="outline" 
+                  size="lg" 
+                  className="w-full flex items-center justify-center"
+                >
+                  <Globe className="mr-2" size={20} />
+                  Explore Universities
+                </AnimatedButton>
+              </Link>
             </div>
             
             <div className="mt-12 grid grid-cols-3 gap-4 section-animate stagger-5">
