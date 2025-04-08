@@ -1,4 +1,3 @@
-
 import { useSupabase } from '@/hooks/useSupabase';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
@@ -92,7 +91,6 @@ const HeroSection = () => {
     >
       <div className="absolute inset-0 bg-gradient-to-b from-blue-50 to-white -z-10" />
       
-      {/* Improved decorative elements */}
       <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-200 rounded-full filter blur-3xl opacity-30 animate-float -z-10" />
       <div className="absolute bottom-1/4 left-1/4 w-72 h-72 bg-blue-100 rounded-full filter blur-3xl opacity-20 animate-float animation-delay-1200 -z-10" />
       <div className="absolute top-3/4 right-1/3 w-48 h-48 bg-indigo-100 rounded-full filter blur-3xl opacity-20 animate-float animation-delay-600 -z-10" />
@@ -123,7 +121,7 @@ const HeroSection = () => {
                   variant="outline" 
                   size="lg" 
                   className="w-full flex items-center justify-center gap-2 rounded-full"
-                  shimmerColor="rgba(37, 99, 235, 0.5)" // Blue shimmer for outline
+                  shimmerColor="rgba(37, 99, 235, 0.5)"
                 >
                   <Globe className="w-5 h-5" />
                   Explore Universities
@@ -151,7 +149,10 @@ const HeroSection = () => {
             <div className="relative">
               <Carousel 
                 className="w-full max-w-xl mx-auto"
-                onSelect={(index) => setCurrentSlide(index)}
+                onSelect={(api) => {
+                  const selectedIndex = api.selectedScrollSnap();
+                  setCurrentSlide(selectedIndex);
+                }}
               >
                 <CarouselContent>
                   {carouselUniversities.map((university, index) => (
@@ -198,7 +199,6 @@ const HeroSection = () => {
                 <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2" />
               </Carousel>
 
-              {/* Carousel indicators */}
               <div className="flex justify-center mt-4 space-x-2">
                 {carouselUniversities.map((_, index) => (
                   <button
@@ -211,7 +211,6 @@ const HeroSection = () => {
                 ))}
               </div>
 
-              {/* Enhanced floating cards */}
               <div className="absolute -bottom-6 -left-6 glass-card rounded-xl p-4 shadow-smooth animate-fade-in-up">
                 <div className="flex items-center space-x-3">
                   <div className="bg-blue-100 rounded-full p-2">
