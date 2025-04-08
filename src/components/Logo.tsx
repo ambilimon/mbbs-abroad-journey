@@ -8,11 +8,7 @@ interface LogoProps {
   showTagline?: boolean;
 }
 
-export default function Logo({ 
-  className = "", 
-  variant = 'default', 
-  showTagline = true 
-}: LogoProps) {
+const Logo = ({ className = "", variant = 'default', showTagline = true }: LogoProps) => {
   const textColor = 
     variant === 'light' ? 'text-white' : 
     variant === 'dark' ? 'text-gray-900' : 
@@ -63,4 +59,6 @@ export default function Logo({
       </div>
     </Link>
   );
-}
+};
+
+export default Logo;
