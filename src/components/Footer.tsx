@@ -1,20 +1,18 @@
-
 import { cn } from "@/lib/utils";
-import { Link } from "react-router-dom";
 import Logo from "./Logo";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 pt-16 pb-8">
+    <footer className="bg-gray-50 pt-16 pb-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div>
             <div className="mb-4">
-              <Logo />
+              <Logo variant="default" />
             </div>
-            <p className="text-gray-600 dark:text-gray-400 mb-4 mt-2">
+            <p className="text-gray-600 mb-4 mt-2">
               Your trusted partner for pursuing MBBS abroad with over 10 years of experience 
               and 2000+ successful placements.
             </p>
@@ -24,8 +22,8 @@ const Footer = () => {
                   key={social}
                   href="#"
                   className={cn(
-                    "h-10 w-10 rounded-full bg-white dark:bg-gray-800 shadow-sm flex items-center justify-center",
-                    "text-gray-600 dark:text-gray-400 hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
+                    "h-10 w-10 rounded-full bg-white shadow-sm flex items-center justify-center",
+                    "text-gray-600 hover:text-blue-700 transition-colors"
                   )}
                 >
                   <span className="sr-only">{social}</span>
@@ -44,20 +42,17 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">MBBS Destinations</h3>
             <ul className="space-y-2">
               {[
-                { name: "MBBS in Russia", path: "/country/russia" },
-                { name: "MBBS in Georgia", path: "/country/georgia" },
-                { name: "MBBS in Kazakhstan", path: "/country/kazakhstan" },
-                { name: "MBBS in Kyrgyzstan", path: "/country/kyrgyzstan" },
-                { name: "MBBS in Philippines", path: "/country/philippines" },
-                { name: "MBBS in Bangladesh", path: "/country/bangladesh" },
+                "MBBS in Russia",
+                "MBBS in Georgia",
+                "MBBS in Kazakhstan",
+                "MBBS in Kyrgyzstan",
+                "MBBS in Philippines",
+                "MBBS in Bangladesh",
               ].map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    to={link.path} 
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
+                <li key={link}>
+                  <a href="#" className="text-gray-600 hover:text-blue-700 transition-colors">
+                    {link}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -67,21 +62,18 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Useful Links</h3>
             <ul className="space-y-2">
               {[
-                { name: "About Us", path: "/about" },
-                { name: "Our Services", path: "/services" },
-                { name: "Admission Process", path: "/admission-process" },
-                { name: "FMGE/NEXT Coaching", path: "/coaching" },
-                { name: "Success Stories", path: "/success-stories" },
-                { name: "Blog & News", path: "/blog" },
-                { name: "FAQ", path: "/faq" },
+                "About Us",
+                "Our Services",
+                "Admission Process",
+                "FMGE/NEXT Coaching",
+                "Success Stories",
+                "Blog & News",
+                "FAQ",
               ].map((link) => (
-                <li key={link.name}>
-                  <Link 
-                    to={link.path} 
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
-                  >
-                    {link.name}
-                  </Link>
+                <li key={link}>
+                  <a href="#" className="text-gray-600 hover:text-blue-700 transition-colors">
+                    {link}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -91,50 +83,45 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <ul className="space-y-3">
               <li className="flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700 dark:text-blue-400 mr-3 mt-1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700 mr-3 mt-1"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-gray-600">
                     Office #123, ABC Complex, MG Road, Bangalore - 560001
                   </p>
                 </div>
               </li>
               <li className="flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700 dark:text-blue-400 mr-3 mt-1"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700 mr-3 mt-1"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400">+91 98765 43210</p>
-                  <p className="text-gray-600 dark:text-gray-400">+91 98765 43211</p>
+                  <p className="text-gray-600">+91 98765 43210</p>
+                  <p className="text-gray-600">+91 98765 43211</p>
                 </div>
               </li>
               <li className="flex items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700 dark:text-blue-400 mr-3 mt-1"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-700 mr-3 mt-1"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400">info@futuredoctor.com</p>
-                  <p className="text-gray-600 dark:text-gray-400">support@futuredoctor.com</p>
+                  <p className="text-gray-600">info@mbbsabroad.com</p>
+                  <p className="text-gray-600">support@mbbsabroad.com</p>
                 </div>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-gray-200 dark:border-gray-800 pt-8 mt-8">
+        <div className="border-t border-gray-200 pt-8 mt-8">
           <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-            <p className="text-gray-500 dark:text-gray-500 text-sm">
+            <p className="text-gray-500 text-sm">
               © {currentYear} Future Doctor. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-4">
-              {[
-                { name: "Privacy Policy", path: "/privacy-policy" },
-                { name: "Terms of Service", path: "/terms-of-service" },
-                { name: "Refund Policy", path: "/refund-policy" },
-                { name: "Sitemap", path: "/sitemap" },
-              ].map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className="text-sm text-gray-500 dark:text-gray-500 hover:text-blue-700 dark:hover:text-blue-400 transition-colors"
+              {["Privacy Policy", "Terms of Service", "Refund Policy", "Sitemap"].map((link) => (
+                <a
+                  key={link}
+                  href="#"
+                  className="text-sm text-gray-500 hover:text-blue-700 transition-colors"
                 >
-                  {link.name}
-                </Link>
+                  {link}
+                </a>
               ))}
             </div>
           </div>
