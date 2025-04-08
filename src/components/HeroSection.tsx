@@ -2,7 +2,7 @@
 import { useSupabase } from '@/hooks/useSupabase';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef } from "react";
-import AnimatedButton from "./AnimatedButton";
+import { ShimmerButton } from "./ShimmerButton";
 import { 
   Carousel,
   CarouselContent,
@@ -106,24 +106,25 @@ const HeroSection = () => {
             </p>
             <div className="flex flex-wrap gap-4 section-animate stagger-4">
               <Link to="/contact" className="w-full sm:w-auto">
-                <AnimatedButton 
+                <ShimmerButton 
                   variant="highlight" 
                   size="lg" 
-                  className="w-full flex items-center justify-center"
+                  className="w-full flex items-center justify-center gap-2"
                 >
-                  <PhoneCall className="mr-2" size={20} />
+                  <PhoneCall className="w-5 h-5" />
                   Request Call Back
-                </AnimatedButton>
+                </ShimmerButton>
               </Link>
               <Link to="/universities" className="w-full sm:w-auto">
-                <AnimatedButton 
+                <ShimmerButton 
                   variant="outline" 
                   size="lg" 
-                  className="w-full flex items-center justify-center"
+                  className="w-full flex items-center justify-center gap-2"
+                  shimmerColor="rgba(37, 99, 235, 0.5)" // Blue shimmer for outline
                 >
-                  <Globe className="mr-2" size={20} />
+                  <Globe className="w-5 h-5" />
                   Explore Universities
-                </AnimatedButton>
+                </ShimmerButton>
               </Link>
             </div>
             

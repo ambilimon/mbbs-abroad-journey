@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ShimmerButton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,12 +23,12 @@ const Dashboard = () => {
       <main className="flex-grow container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">University Dashboard</h1>
-          <Button onClick={() => {
+          <ShimmerButton onClick={() => {
             setEditing(null);
             setShowForm(true);
           }} className="flex items-center gap-2">
             <Plus size={16} /> Add University
-          </Button>
+          </ShimmerButton>
         </div>
 
         {showForm ? (

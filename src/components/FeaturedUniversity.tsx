@@ -1,6 +1,6 @@
 
 import { useEffect, useRef } from "react";
-import AnimatedButton from "./AnimatedButton";
+import { ShimmerButton } from "./ShimmerButton";
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -69,19 +69,22 @@ const FeaturedUniversity = () => {
 
             <div className="flex flex-wrap gap-4">
               <Link to="/university/13">
-                <AnimatedButton
-                  className="bg-white text-blue-700 hover:bg-blue-50 border-0"
+                <ShimmerButton
+                  background="#ffffff"
+                  shimmerColor="rgba(59, 130, 246, 0.5)"
+                  className="text-blue-700"
                 >
                   Apply to TSMU
-                </AnimatedButton>
+                </ShimmerButton>
               </Link>
               <Link to="/university/13">
-                <AnimatedButton
-                  variant="outline" 
-                  className="border-white text-white hover:bg-white/10"
+                <ShimmerButton
+                  background="transparent"
+                  shimmerColor="rgba(255, 255, 255, 0.3)"
+                  className="border border-white text-white"
                 >
                   Learn More
-                </AnimatedButton>
+                </ShimmerButton>
               </Link>
             </div>
           </div>

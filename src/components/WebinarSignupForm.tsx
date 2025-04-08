@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ShimmerButton";
 import {
   Form,
   FormControl,
@@ -121,13 +121,14 @@ const WebinarSignupForm = ({ onSuccess }: WebinarSignupFormProps) => {
           )}
         />
         
-        <Button 
+        <ShimmerButton 
           type="submit" 
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900"
+          className="w-full"
           disabled={isSubmitting}
+          variant="primary"
         >
           {isSubmitting ? "Registering..." : "Register Now"}
-        </Button>
+        </ShimmerButton>
       </form>
     </Form>
   );

@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-import { Button } from '@/components/ui/button';
+import { ShimmerButton } from '@/components/ShimmerButton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
@@ -95,16 +95,16 @@ const Navbar = () => {
           >
             Universities
           </Link>
-          <Button
-            asChild
-            className="ml-2 shadow-button hover:shadow-button-hover transition-transform hover:-translate-y-0.5 active:translate-y-0"
+          <ShimmerButton
+            variant="primary"
+            className="ml-2"
           >
-            <Link to="/apply">Apply Now</Link>
-          </Button>
+            <Link to="/apply" className="text-white">Apply Now</Link>
+          </ShimmerButton>
         </nav>
 
         <div className="hidden md:block">
-          <Button>Get Started</Button>
+          <ShimmerButton variant="primary">Get Started</ShimmerButton>
         </div>
 
         {/* Mobile menu button */}
@@ -142,7 +142,7 @@ const Navbar = () => {
             </Link>
           ))}
           <div className="pt-2 pb-1">
-            <Button className="w-full">Get Started</Button>
+            <ShimmerButton className="w-full">Get Started</ShimmerButton>
           </div>
         </div>
       </div>

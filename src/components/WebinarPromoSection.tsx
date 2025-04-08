@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ShimmerButton";
 import {
   Dialog,
   DialogContent,
@@ -36,12 +36,12 @@ const WebinarPromoSection = () => {
               Learn about admission processes, costs, and career opportunities.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button 
+              <ShimmerButton 
                 onClick={handleRegisterClick}
-                className="bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900"
+                variant="primary"
               >
                 Register for Webinar
-              </Button>
+              </ShimmerButton>
             </div>
           </div>
           <div className="md:w-1/2">

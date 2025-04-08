@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ShimmerButton";
 import { ExternalLink, MapPin } from "lucide-react";
 import { University } from "@/data/medical-universities";
 
@@ -48,10 +48,10 @@ const CountryUniversityList = ({ universities, country }: CountryUniversityListP
             
             <div className="mt-auto flex gap-2">
               <Link to={`/university/${university.id}`} className="flex-1">
-                <Button size="sm" className="w-full">View Details</Button>
+                <ShimmerButton size="sm" className="w-full">View Details</ShimmerButton>
               </Link>
               <Link to="/#application" className="flex-shrink-0">
-                <Button size="sm" variant="outline">Apply</Button>
+                <ShimmerButton size="sm" variant="outline" shimmerColor="rgba(37, 99, 235, 0.4)">Apply</ShimmerButton>
               </Link>
             </div>
           </CardContent>

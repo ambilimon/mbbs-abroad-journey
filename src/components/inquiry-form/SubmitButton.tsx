@@ -1,5 +1,5 @@
 
-import { Button } from "@/components/ui/button";
+import { ShimmerButton } from "@/components/ShimmerButton";
 
 interface SubmitButtonProps {
   isSubmitting: boolean;
@@ -8,13 +8,14 @@ interface SubmitButtonProps {
 const SubmitButton = ({ isSubmitting }: SubmitButtonProps) => {
   return (
     <>
-      <Button 
+      <ShimmerButton 
         type="submit" 
-        className="w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white py-3"
+        className="w-full"
         disabled={isSubmitting}
+        variant="primary"
       >
         {isSubmitting ? "Submitting..." : "Submit Inquiry"}
-      </Button>
+      </ShimmerButton>
       
       <p className="text-xs text-center text-gray-500 mt-4">
         By submitting this form, you agree to our privacy policy and consent to be contacted about educational opportunities.
