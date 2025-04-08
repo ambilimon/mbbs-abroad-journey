@@ -14,6 +14,7 @@ import { ShimmerButton } from '@/components/ShimmerButton';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
 
+import CountryNavigation from './CountryNavigation';
 import Logo from './Logo';
 
 const Navbar = () => {
@@ -44,6 +45,7 @@ const Navbar = () => {
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/universities", label: "Universities" },
+    { href: "/mbbs-in-russia", label: "MBBS in Russia" },
     { href: "/#why-mbbs-abroad", label: "Why MBBS Abroad" },
     { href: "/#application", label: "Apply Now" },
     { href: "/#contact", label: "Contact" },
@@ -95,11 +97,19 @@ const Navbar = () => {
           >
             Universities
           </Link>
+          <CountryNavigation />
+          <Link
+            to="/mbbs-in-russia"
+            className={`nav-link ${isActive("/mbbs-in-russia") ? "active" : ""}`}
+            onClick={handleNavClick}
+          >
+            MBBS in Russia
+          </Link>
           <ShimmerButton
             variant="primary"
             className="ml-2"
           >
-            <Link to="/apply" className="text-white">Apply Now</Link>
+            <Link to="/#application" className="text-white">Apply Now</Link>
           </ShimmerButton>
         </nav>
 
