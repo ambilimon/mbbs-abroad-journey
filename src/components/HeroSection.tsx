@@ -1,4 +1,3 @@
-
 import { useSupabase } from '@/hooks/useSupabase';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
@@ -69,6 +68,7 @@ const HeroSection = () => {
     };
 
     carouselApi.on("select", handleSelect);
+    
     handleSelect();
 
     return () => {

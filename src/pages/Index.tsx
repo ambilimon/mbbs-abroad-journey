@@ -62,7 +62,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       {/* Navbar */}
       <Navbar />
 
@@ -72,7 +72,7 @@ const Index = () => {
       {/* Why MBBS Abroad Section */}
       <WhyMBBSAbroad />
 
-      {/* Webinar Promo Section - Adding the new section here */}
+      {/* Webinar Promo Section */}
       <WebinarPromoSection />
 
       {/* University Section */}
