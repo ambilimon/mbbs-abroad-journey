@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -12,7 +11,7 @@ import {
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./ModeToggle";
-import Logo from "./Logo";
+import { Logo } from "./Logo";
 import CountryNavigation from "./CountryNavigation";
 
 const Navbar = () => {
