@@ -26,6 +26,8 @@ import AboutUsPage from './pages/AboutUsPage';
 import OurServicesPage from './pages/OurServicesPage';
 import AdmissionProcessPage from './pages/AdmissionProcessPage';
 import FMGECoachingPage from './pages/FMGECoachingPage';
+import SuccessStoriesPage from './pages/SuccessStoriesPage';
+import BlogNewsPage from './pages/BlogNewsPage';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -50,6 +52,8 @@ const App = () => (
           <Route path="/our-services" element={<OurServicesPage />} />
           <Route path="/admission-process" element={<AdmissionProcessPage />} />
           <Route path="/fmge-next-coaching" element={<FMGECoachingPage />} />
+          <Route path="/success-stories" element={<SuccessStoriesPage />} />
+          <Route path="/blog-news" element={<BlogNewsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

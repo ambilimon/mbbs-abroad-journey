@@ -87,17 +87,21 @@ const Footer = () => {
                   FMGE/NEXT Coaching
                 </Link>
               </li>
-              {[
-                "Success Stories",
-                "Blog & News",
-                "FAQ",
-              ].map((link) => (
-                <li key={link}>
-                  <a href="#" className="text-gray-600 hover:text-blue-700 transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <Link to="/success-stories" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  Success Stories
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog-news" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  Blog & News
+                </Link>
+              </li>
+              <li>
+                <a href="#" className="text-gray-600 hover:text-blue-700 transition-colors">
+                  FAQ
+                </a>
+              </li>
             </ul>
           </div>
           
