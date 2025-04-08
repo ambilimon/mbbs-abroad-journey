@@ -16,6 +16,7 @@ import { cn } from '@/lib/utils';
 
 import CountryNavigation from './CountryNavigation';
 import Logo from './Logo';
+import { ModeToggle } from '@/components/ModeToggle';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -46,7 +47,8 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/universities", label: "Universities" },
     { href: "/mbbs-in-russia", label: "MBBS in Russia" },
-    { href: "/#why-mbbs-abroad", label: "Why MBBS Abroad" },
+    { href: "/about-us", label: "About Us" },
+    { href: "/our-services", label: "Our Services" },
     { href: "/#application", label: "Apply Now" },
     { href: "/#contact", label: "Contact" },
   ];
@@ -99,6 +101,20 @@ const Navbar = () => {
           </Link>
           <CountryNavigation />
           <Link
+            to="/about-us"
+            className={`nav-link ${isActive("/about-us") ? "active" : ""}`}
+            onClick={handleNavClick}
+          >
+            About Us
+          </Link>
+          <Link
+            to="/our-services"
+            className={`nav-link ${isActive("/our-services") ? "active" : ""}`}
+            onClick={handleNavClick}
+          >
+            Our Services
+          </Link>
+          <Link
             to="/mbbs-in-russia"
             className={`nav-link ${isActive("/mbbs-in-russia") ? "active" : ""}`}
             onClick={handleNavClick}
@@ -114,7 +130,7 @@ const Navbar = () => {
         </nav>
 
         <div className="hidden md:block">
-          <ShimmerButton variant="primary">Get Started</ShimmerButton>
+          <ModeToggle />
         </div>
 
         {/* Mobile menu button */}
@@ -152,7 +168,7 @@ const Navbar = () => {
             </Link>
           ))}
           <div className="pt-2 pb-1">
-            <ShimmerButton className="w-full">Get Started</ShimmerButton>
+            <ModeToggle />
           </div>
         </div>
       </div>

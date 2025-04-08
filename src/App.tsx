@@ -22,6 +22,8 @@ import AuthPage from './pages/AuthPage';
 import CountryPage from './pages/CountryPage';
 import WebinarPage from './pages/WebinarPage';
 import MBBSRussiaPage from './pages/MBBSRussiaPage';
+import AboutUsPage from './pages/AboutUsPage';
+import OurServicesPage from './pages/OurServicesPage';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -42,6 +44,8 @@ const App = () => (
           <Route path="/country/:country" element={<CountryPage />} />
           <Route path="/webinar" element={<WebinarPage />} />
           <Route path="/mbbs-in-russia" element={<MBBSRussiaPage />} />
+          <Route path="/about-us" element={<AboutUsPage />} />
+          <Route path="/our-services" element={<OurServicesPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
