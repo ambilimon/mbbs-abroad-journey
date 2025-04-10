@@ -20,4 +20,21 @@ export interface StudentInquiryFormProps {
 }
 
 // Define available countries for MBBS
-export const availableCountries = ["Russia", "Georgia", "Kazakhstan", "Ukraine", "Germany", "United Kingdom"];
+export const availableCountries = [
+  "Russia",
+  "Georgia",
+  "Philippines",
+  "Belarus",
+  "Moldova",
+  "Bulgaria",
+  "Bosnia",
+  "Uzbekistan",
+  "Kazakhstan",
+  "Kyrgyzstan",
+  "Malaysia",
+  "Nepal",
+  "Ukraine",
+  "Germany",
+  "United Kingdom"
+];
+

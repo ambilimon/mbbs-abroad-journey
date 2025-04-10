@@ -1,742 +1,890 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-
-import { Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
-
-import { Button } from '@/components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs';
-
+import { useState } from "react";
+import { UniversityCard } from "@/components/UniversityCard";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 interface University {
   id: number;
   name: string;
   location: string;
+  city: string;
+  tuitionFee: number;
+  currency: string;
+  facilities: string[];
   description: string;
-  image: string;
-  tuitionRange: string;
   features: string[];
-  country: "russia" | "georgia" | "philippines" | "belarus" | "moldova" | "bulgaria" | "bosnia" | "uzbekistan" | "kazakhstan" | "kyrgyzstan" | "malaysia" | "nepal";
+  image: string;
+  country: string;
+  rating: number;
+  category: string;
+  duration?: string;
+  medium?: string;
 }
 
 const universities: University[] = [
   // Russia
   {
     id: 1,
-    name: "Kabardino Balkarian State University",
-    location: "Nalchik, Russia",
-    description: "Renowned for Surgery, General Medicine, and Cardiology with excellent research facilities.",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹20-30 Lakhs total",
-    features: ["English-Medium", "WHO & NMC Approved", "Established in 1957"],
+    name: "Altai State Medical University",
     country: "russia",
+    location: "Russia",
+    city: "Barnaul",
+    tuitionFee: 5000,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "A well-known medical university in Russia.",
+    features: ["Affordable", "English medium", "Recognized by WHO"],
+    facilities: ["Library", "Hostel"],
+    rating: 4.5,
+    category: "Medical",
   },
+
+  // Russia
   {
     id: 2,
-    name: "Altai State Medical University",
-    location: "Barnaul, Russia",
-    description: "One of Russia's oldest medical universities with excellent research facilities.",
-    image: "https://images.unsplash.com/photo-1606502973842-f64bc2785fe5?q=80&w=1364&auto=format&fit=crop",
-    tuitionRange: "₹25-35 Lakhs total",
-    features: ["6-Year Program", "Modern Campus", "Strong Alumni Network"],
+    name: "Bashkir State Medical University",
     country: "russia",
+    location: "Russia",
+    city: "Ufa",
+    tuitionFee: 4800,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "A top-rated medical university located in Ufa.",
+    features: ["Recognized by WHO", "Affordable fees"],
+    facilities: ["Library", "Hostel"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 3,
-    name: "Bashkir State Medical University",
-    location: "Ufa, Russia",
-    description: "Prestigious medical institution known for high-quality education and research.",
-    image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=1473&auto=format&fit=crop",
-    tuitionRange: "₹22-32 Lakhs total",
-    features: ["English Medium", "WHO Recognized", "Modern Infrastructure"],
+    name: "Mari State University",
     country: "russia",
+    location: "Russia",
+    city: "Yoshkar-Ola",
+    tuitionFee: 4700,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Popular among Indian students pursuing MBBS.",
+    features: ["WHO recognition", "English medium"],
+    facilities: ["Library", "Hostel"],
+    rating: 4.2,
+    category: "Medical",
   },
   {
     id: 4,
-    name: "Mari State University",
-    location: "Yoshkar-Ola, Russia",
-    description: "Offers comprehensive medical programs with a focus on practical training.",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1470&auto=format&fit=crop", 
-    tuitionRange: "₹18-28 Lakhs total",
-    features: ["Clinical Exposure", "Affordable Fees", "NMC Approved"],
+    name: "Syktyvkar State University",
     country: "russia",
+    location: "Russia",
+    city: "Syktyvkar",
+    tuitionFee: 4500,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Renowned for medical and technical education.",
+    features: ["Low cost", "Modern labs"],
+    facilities: ["Library", "Cafeteria"],
+    rating: 4.1,
+    category: "Medical",
   },
   {
     id: 5,
-    name: "Syktyvkar State University",
-    location: "Syktyvkar, Russia",
-    description: "Known for medical education with strong emphasis on research methodology.",
-    image: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹20-30 Lakhs total",
-    features: ["Research Focus", "Modern Labs", "English Medium"],
+    name: "V.I Vernadsky Crimean Federal University",
     country: "russia",
+    location: "Russia",
+    city: "Simferopol",
+    tuitionFee: 5000,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "One of the leading federal universities in Crimea.",
+    features: ["WHO/NMC approved", "Modern campus"],
+    facilities: ["Library", "Gym", "Hostel"],
+    rating: 4.4,
+    category: "Medical",
   },
   {
     id: 6,
-    name: "V.I Vernadsky Crimean Federal University",
-    location: "Simferopol, Russia",
-    description: "Historic institution offering progressive medical education since 1918.",
-    image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹22-32 Lakhs total",
-    features: ["Historical Campus", "Strong Clinical Training", "International Faculty"],
+    name: "Orel State Medical University",
     country: "russia",
+    location: "Russia",
+    city: "Orel",
+    tuitionFee: 4600,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Affordable and quality education for international students.",
+    features: ["Recognized globally", "Affordable"],
+    facilities: ["Library", "Sports Complex"],
+    rating: 4.2,
+    category: "Medical",
   },
   {
     id: 7,
-    name: "Orel State Medical University",
-    location: "Orel, Russia",
-    description: "Modern medical education with state-of-the-art facilities and equipment.",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1480&auto=format&fit=crop",
-    tuitionRange: "₹19-29 Lakhs total",
-    features: ["Advanced Equipment", "Clinical Rotations", "Student-Friendly Campus"],
+    name: "South Ural State Medical University",
     country: "russia",
+    location: "Russia",
+    city: "Chelyabinsk",
+    tuitionFee: 4800,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Modern infrastructure and globally recognized curriculum.",
+    features: ["English medium", "Research oriented"],
+    facilities: ["Library", "Labs", "Hostel"],
+    rating: 4.5,
+    category: "Medical",
   },
   {
     id: 8,
-    name: "South Ural State Medical University",
-    location: "Chelyabinsk, Russia",
-    description: "Leading medical university with comprehensive education and clinical practice.",
-    image: "https://images.unsplash.com/photo-1533042789716-e9a9c97cf4ee?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹21-31 Lakhs total", 
-    features: ["WHO Recognized", "Hospital Affiliations", "Advanced Research"],
+    name: "Tver State Medical University",
     country: "russia",
+    location: "Russia",
+    city: "Tver",
+    tuitionFee: 4700,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Well-established university with English programs.",
+    features: ["WHO listed", "Clinical exposure"],
+    facilities: ["Library", "Hospital"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 9,
-    name: "Tver State Medical University",
-    location: "Tver, Russia",
-    description: "Renowned for innovative teaching methods and strong international connections.",
-    image: "https://images.unsplash.com/photo-1547448415-e9f5b28e570d?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹20-30 Lakhs total",
-    features: ["International Collaborations", "Modern Campus", "Clinical Training"],
+    name: "Kabardino Balkarian State University",
     country: "russia",
+    location: "Russia",
+    city: "Nalchik",
+    tuitionFee: 4500,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Offers a variety of programs including MBBS.",
+    features: ["Affordable", "Recognized by NMC"],
+    facilities: ["Library", "Labs"],
+    rating: 4.1,
+    category: "Medical",
   },
   {
     id: 10,
     name: "Ulyanovsk State University",
-    location: "Ulyanovsk, Russia", 
-    description: "Progressive medical institution with strong focus on practical skills development.",
-    image: "https://images.unsplash.com/photo-1593377201809-2bf7bef6dc5d?q=80&w=1373&auto=format&fit=crop",
-    tuitionRange: "₹19-29 Lakhs total",
-    features: ["Practical Training", "Modern Facilities", "English Medium"],
     country: "russia",
+    location: "Russia",
+    city: "Ulyanovsk",
+    tuitionFee: 4600,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "High reputation in research and clinical training.",
+    features: ["Low cost", "English curriculum"],
+    facilities: ["Library", "Sports Facilities"],
+    rating: 4.2,
+    category: "Medical",
   },
   {
     id: 11,
     name: "Orenburg State Medical University",
-    location: "Orenburg, Russia",
-    description: "Established medical university known for quality education and research excellence.",
-    image: "https://images.unsplash.com/photo-1607582544116-448c7a129338?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹20-30 Lakhs total",
-    features: ["Research Excellence", "Clinical Experience", "Modern Infrastructure"],
     country: "russia",
+    location: "Russia",
+    city: "Orenburg",
+    tuitionFee: 4700,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Well-established Russian MBBS destination.",
+    features: ["Top FMGE results", "Affordable"],
+    facilities: ["Library", "Canteen", "Hostel"],
+    rating: 4.3,
+    category: "Medical",
   },
+
   // Georgia
   {
     id: 12,
-    name: "SEU - Georgian National University",
-    location: "Tbilisi, Georgia",
-    description: "Top-rated university with advanced medical labs, strong clinical exposure, and international faculty.",
-    image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=1473&auto=format&fit=crop",
-    tuitionRange: "₹30-35 Lakhs total",
-    features: ["100% English Medium", "European Standard", "High FMGE Success"],
+    name: "Batumi Shote Rustaveli State University",
     country: "georgia",
+    location: "Georgia",
+    city: "Batumi",
+    tuitionFee: 5000,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Public university known for modern MBBS education.",
+    features: ["WHO approved", "English medium", "Affordable"],
+    facilities: ["Library", "Hostel", "Labs"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 13,
-    name: "Tbilisi State Medical University",
-    location: "Tbilisi, Georgia",
-    description: "Georgia's oldest and most prestigious medical university.",
-    image: "https://images.unsplash.com/photo-1593377201809-2bf7bef6dc5d?q=80&w=1373&auto=format&fit=crop",
-    tuitionRange: "₹25-35 Lakhs total",
-    features: ["Established in 1918", "Strong Clinical Training", "Modern Campus"],
+    name: "Caucasus International University",
     country: "georgia",
+    location: "Georgia",
+    city: "Tbilisi",
+    tuitionFee: 5200,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Private medical university with modern facilities.",
+    features: ["English taught", "Highly rated", "International students"],
+    facilities: ["Library", "Sports Center", "Hostel"],
+    rating: 4.4,
+    category: "Medical",
   },
   {
     id: 14,
-    name: "Batumi Shota Rustaveli State University",
-    location: "Batumi, Georgia",
-    description: "Coastal university offering quality medical education with modern facilities.",
-    image: "https://images.unsplash.com/photo-1600697230637-36eec499637e?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹28-38 Lakhs total",
-    features: ["Scenic Location", "English Medium", "NMC Recognized"],
+    name: "European University",
     country: "georgia",
+    location: "Georgia",
+    city: "Tbilisi",
+    tuitionFee: 5100,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Recognized for strong medical curriculum and exposure.",
+    features: ["Recognized by NMC", "Clinical training", "Affordable"],
+    facilities: ["Library", "Labs", "Hostel"],
+    rating: 4.2,
+    category: "Medical",
   },
   {
     id: 15,
-    name: "Caucasus International University",
-    location: "Tbilisi, Georgia",
-    description: "Modern university with European standards and international recognition.",
-    image: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹27-37 Lakhs total",
-    features: ["International Standards", "Clinical Training", "Modern Infrastructure"],
+    name: "Georgian National University (SEU)",
     country: "georgia",
+    location: "Georgia",
+    city: "Tbilisi",
+    tuitionFee: 5000,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "One of Georgia’s top private universities.",
+    features: ["NMC approved", "English medium", "Affordable tuition"],
+    facilities: ["Library", "Sports Grounds"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 16,
-    name: "European University",
-    location: "Tbilisi, Georgia",
-    description: "EU-standard medical education with emphasis on practical clinical skills.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹29-39 Lakhs total",
-    features: ["European Curriculum", "Modern Facilities", "Clinical Rotations"],
+    name: "Tbilisi State Medical University",
     country: "georgia",
+    location: "Georgia",
+    city: "Tbilisi",
+    tuitionFee: 5300,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Oldest and most prestigious medical university in Georgia.",
+    features: ["Top-tier education", "FMGE success", "Globally recognized"],
+    facilities: ["Library", "Labs", "Clinical Centers"],
+    rating: 4.5,
+    category: "Medical",
   },
+
   // Philippines
   {
     id: 17,
     name: "Lyceum of the Philippines University",
-    location: "Manila, Philippines",
-    description: "Renowned institution offering quality medical education at affordable costs.",
-    image: "https://images.unsplash.com/photo-1596496685980-ff44e1c59a91?q=80&w=1470&auto=format&fit=crop", 
-    tuitionRange: "₹15-25 Lakhs total",
-    features: ["English Medium", "Clinical Training", "Affordable Education"],
     country: "philippines",
+    location: "Philippines",
+    city: "Manila",
+    tuitionFee: 4200,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "Offers an American-style curriculum and excellent clinical training.",
+    features: ["English medium", "US-based system", "Affordable"],
+    facilities: ["Library", "Labs", "Hostel"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 18,
     name: "Davao Medical School Foundation",
-    location: "Davao City, Philippines",
-    description: "Specialized medical institution with strong focus on community healthcare.",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹18-28 Lakhs total",
-    features: ["Community Focus", "Modern Campus", "Practical Training"],
     country: "philippines",
+    location: "Philippines",
+    city: "Davao",
+    tuitionFee: 4300,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "Popular among Indian students for quality education and FMGE results.",
+    features: ["FMGE success", "English medium", "WHO recognized"],
+    facilities: ["Library", "Clinical Labs", "Hostel"],
+    rating: 4.5,
+    category: "Medical",
   },
   {
     id: 19,
     name: "Emilio Aguinaldo Medical Center",
-    location: "Cavite, Philippines",
-    description: "Comprehensive medical training with advanced hospital facilities.",
-    image: "https://images.unsplash.com/photo-1551884170-09fb70a3a2ed?q=80&w=1474&auto=format&fit=crop",
-    tuitionRange: "₹16-26 Lakhs total",
-    features: ["Hospital-Based", "Clinical Experience", "Modern Equipment"],
     country: "philippines",
+    location: "Philippines",
+    city: "Manila",
+    tuitionFee: 4000,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Well-equipped and focused on hands-on clinical experience.",
+    features: ["Affordable", "Modern training", "English programs"],
+    facilities: ["Hospital", "Library", "Labs"],
+    rating: 4.2,
+    category: "Medical",
   },
   {
     id: 20,
     name: "Our Lady of Fatima University",
-    location: "Valenzuela, Philippines",
-    description: "Leading medical university with focus on holistic healthcare education.",
-    image: "https://images.unsplash.com/photo-1607235332404-68d4a152c0c1?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹17-27 Lakhs total", 
-    features: ["Holistic Approach", "Modern Facilities", "Strong Faculty"],
     country: "philippines",
+    location: "Philippines",
+    city: "Valenzuela",
+    tuitionFee: 4100,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Accredited university known for high educational standards.",
+    features: ["Global recognition", "Clinical exposure", "English taught"],
+    facilities: ["Library", "Sports Facilities", "Hostel"],
+    rating: 4.4,
+    category: "Medical",
   },
   {
     id: 21,
     name: "UV Gullas College of Medicine",
-    location: "Cebu City, Philippines",
-    description: "Established medical college known for excellent FMGE preparation.",
-    image: "https://images.unsplash.com/photo-1563447080728-2b142f559d25?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹18-28 Lakhs total",
-    features: ["High FMGE Success", "English Medium", "Clinical Exposure"],
     country: "philippines",
+    location: "Philippines",
+    city: "Cebu",
+    tuitionFee: 4150,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "Highly reputed private medical college with excellent facilities.",
+    features: ["English programs", "Affordable cost", "Recognized worldwide"],
+    facilities: ["Library", "Labs", "Hostel"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 22,
     name: "University of Perpetual Help System",
-    location: "Las Piñas, Philippines",
-    description: "Comprehensive medical education integrating theory and practice.",
-    image: "https://images.unsplash.com/photo-1579711739633-67345a366c82?q=80&w=1470&auto=format&fit=crop", 
-    tuitionRange: "₹16-26 Lakhs total",
-    features: ["Integrated Curriculum", "Modern Campus", "Practical Experience"],
     country: "philippines",
+    location: "Philippines",
+    city: "Las Piñas",
+    tuitionFee: 4200,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Focuses on practical training and academic excellence.",
+    features: ["Modern infrastructure", "NMC approved", "English medium"],
+    facilities: ["Library", "Clinical Labs", "Cafeteria"],
+    rating: 4.4,
+    category: "Medical",
   },
+
   // Belarus
   {
     id: 23,
     name: "Belarusian State Medical University",
-    location: "Minsk, Belarus",
-    description: "Prestigious medical university with a rich history of medical excellence.",
-    image: "https://images.unsplash.com/photo-1543333995-a78aea2eee50?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹22-32 Lakhs total",
-    features: ["Historical Institution", "WHO Recognized", "Strong Research"],
     country: "belarus",
+    location: "Belarus",
+    city: "Minsk",
+    tuitionFee: 4500,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "Premier medical university in Belarus, known for global recognition.",
+    features: ["WHO approved", "Affordable tuition", "Modern facilities"],
+    facilities: ["Library", "Hostel", "Labs"],
+    rating: 4.4,
+    category: "Medical",
   },
   {
     id: 24,
     name: "Grodno State Medical University",
-    location: "Grodno, Belarus",
-    description: "Leading medical education provider with advanced clinical training.",
-    image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹20-30 Lakhs total", 
-    features: ["Clinical Focus", "Modern Equipment", "International Recognition"],
     country: "belarus",
+    location: "Belarus",
+    city: "Grodno",
+    tuitionFee: 4400,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Offers practical medical training and modern campus life.",
+    features: ["Clinical exposure", "Modern labs", "Affordable"],
+    facilities: ["Library", "Hostel", "Hospital"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 25,
     name: "Vitebsk State Medical University",
-    location: "Vitebsk, Belarus",
-    description: "Renowned for innovative medical education and strong clinical practice.",
-    image: "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹21-31 Lakhs total",
-    features: ["Innovation Focus", "Clinical Training", "NMC Approved"],
     country: "belarus",
+    location: "Belarus",
+    city: "Vitebsk",
+    tuitionFee: 4300,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "Provides international-standard education at affordable cost.",
+    features: ["Recognized by NMC", "English programs", "Modern campus"],
+    facilities: ["Library", "Gym", "Labs"],
+    rating: 4.2,
+    category: "Medical",
   },
+
   // Moldova
   {
     id: 26,
     name: "Nicolae Testemitanu State University of Medicine and Pharmacy",
-    location: "Chisinau, Moldova",
-    description: "Leading medical institution in Moldova with European standards.",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1470&auto=format&fit=crop", 
-    tuitionRange: "₹24-34 Lakhs total",
-    features: ["European Standards", "English Medium", "WHO Recognized"],
     country: "moldova",
+    location: "Moldova",
+    city: "Chisinau",
+    tuitionFee: 4200,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "National university offering top-notch medical programs.",
+    features: ["WHO recognized", "Clinical training", "English curriculum"],
+    facilities: ["Library", "Labs", "Hostel"],
+    rating: 4.3,
+    category: "Medical",
   },
   // Bulgaria
   {
     id: 27,
     name: "Medical University Pleven",
-    location: "Pleven, Bulgaria",
-    description: "Modern European medical university with advanced simulation centers.",
-    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1332&auto=format&fit=crop",
-    tuitionRange: "₹25-35 Lakhs total",
-    features: ["EU Standards", "Simulation Training", "Modern Facilities"],
     country: "bulgaria",
+    location: "Bulgaria",
+    city: "Pleven",
+    tuitionFee: 4600,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "Renowned medical university with strong international presence.",
+    features: ["EU standard", "English medium", "Affordable tuition"],
+    facilities: ["Library", "Labs", "Student Hostel"],
+    rating: 4.4,
+    category: "Medical",
   },
+
   // Bosnia
   {
     id: 28,
     name: "The University of East Sarajevo",
-    location: "East Sarajevo, Bosnia and Herzegovina",
-    description: "Quality medical education with European recognition and standards.",
-    image: "https://images.unsplash.com/photo-1577274803759-eb132760ecb3?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹24-34 Lakhs total", 
-    features: ["European Recognition", "Clinical Training", "Affordable Education"],
     country: "bosnia",
+    location: "Bosnia and Herzegovina",
+    city: "East Sarajevo",
+    tuitionFee: 4100,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "Public university known for accessible and quality medical education.",
+    features: [
+      "Recognized globally",
+      "Affordable cost",
+      "Multicultural environment",
+    ],
+    facilities: ["Library", "Labs", "Dormitory"],
+    rating: 4.2,
+    category: "Medical",
   },
+
   // Uzbekistan
   {
     id: 29,
     name: "Andijan State Medical Institute",
-    location: "Andijan, Uzbekistan",
-    description: "Established medical institute with strong focus on clinical skills.",
-    image: "https://images.unsplash.com/photo-1551601651-bc60f254d532?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹18-28 Lakhs total",
-    features: ["Clinical Focus", "Modern Campus", "Affordable"],
     country: "uzbekistan",
+    location: "Uzbekistan",
+    city: "Andijan",
+    tuitionFee: 4000,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Government medical institute known for clinical excellence.",
+    features: ["Affordable", "English curriculum", "WHO approved"],
+    facilities: ["Library", "Hostel", "Clinical Labs"],
+    rating: 4.2,
+    category: "Medical",
   },
   {
     id: 30,
     name: "Bukhara State Medical University",
-    location: "Bukhara, Uzbekistan",
-    description: "Historic institution offering quality medical education and training.",
-    image: "https://images.unsplash.com/photo-1551739440-5dd934d3a94a?q=80&w=1394&auto=format&fit=crop",
-    tuitionRange: "₹19-29 Lakhs total",
-    features: ["Historical Setting", "Modern Facilities", "Clinical Practice"],
     country: "uzbekistan",
+    location: "Uzbekistan",
+    city: "Bukhara",
+    tuitionFee: 4100,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Reputed medical university with modern infrastructure.",
+    features: ["Recognized by NMC", "English taught", "Affordable"],
+    facilities: ["Library", "Hostel", "Labs"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 31,
     name: "Tashkent Medical Academy",
-    location: "Tashkent, Uzbekistan",
-    description: "Premier medical academy with comprehensive healthcare education.",
-    image: "https://images.unsplash.com/photo-1607235332404-68d4a152c0c1?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹20-30 Lakhs total",
-    features: ["Comprehensive Programs", "Research Focus", "Clinical Exposure"],
     country: "uzbekistan",
+    location: "Uzbekistan",
+    city: "Tashkent",
+    tuitionFee: 4300,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Prestigious medical academy in Uzbekistan's capital.",
+    features: ["Clinical exposure", "Top-ranked", "English medium"],
+    facilities: ["Library", "Cafeteria", "Labs"],
+    rating: 4.4,
+    category: "Medical",
   },
+
   // Kazakhstan
   {
     id: 32,
     name: "Al-Farabi National University",
-    location: "Almaty, Kazakhstan",
-    description: "Prestigious national university with strong medical programs.",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1480&auto=format&fit=crop",
-    tuitionRange: "₹22-32 Lakhs total",
-    features: ["National Recognition", "Modern Campus", "Research Opportunities"],
     country: "kazakhstan",
+    location: "Kazakhstan",
+    city: "Almaty",
+    tuitionFee: 4700,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Top national university with a strong medical faculty.",
+    features: ["Recognized by WHO", "Affordable", "Modern labs"],
+    facilities: ["Library", "Hostel", "Clinical Training"],
+    rating: 4.5,
+    category: "Medical",
   },
   {
     id: 33,
     name: "Astana Medical University",
-    location: "Astana, Kazakhstan",
-    description: "Modern medical university in the capital with advanced facilities.",
-    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1332&auto=format&fit=crop",
-    tuitionRange: "₹23-33 Lakhs total", 
-    features: ["Advanced Facilities", "English Medium", "Clinical Training"],
     country: "kazakhstan",
+    location: "Kazakhstan",
+    city: "Astana",
+    tuitionFee: 4800,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Highly recognized for MBBS programs and modern training.",
+    features: ["WHO approved", "English medium", "Research focused"],
+    facilities: ["Library", "Labs", "Sports Facility"],
+    rating: 4.4,
+    category: "Medical",
   },
   {
     id: 34,
     name: "Caspian International School of Medicine",
-    location: "Aktau, Kazakhstan",
-    description: "International medical school with focus on global healthcare standards.",
-    image: "https://images.unsplash.com/photo-1551601651-bc60f254d532?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹24-34 Lakhs total",
-    features: ["International Standards", "Global Perspective", "Modern Training"],
     country: "kazakhstan",
+    location: "Kazakhstan",
+    city: "Almaty",
+    tuitionFee: 4600,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Modern institute known for advanced simulation labs.",
+    features: ["Affordable", "English instruction", "WHO listed"],
+    facilities: ["Library", "Clinical Training", "WiFi"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 35,
     name: "Kazakh National Medical University",
-    location: "Almaty, Kazakhstan",
-    description: "Leading medical university with comprehensive healthcare education.",
-    image: "https://images.unsplash.com/photo-1579711739633-67345a366c82?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹22-32 Lakhs total",
-    features: ["Comprehensive Programs", "Modern Facilities", "Clinical Experience"],
     country: "kazakhstan",
+    location: "Kazakhstan",
+    city: "Almaty",
+    tuitionFee: 4900,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "One of the best and oldest medical universities in Kazakhstan.",
+    features: ["Globally recognized", "FMGE success", "Experienced faculty"],
+    facilities: ["Library", "Hostel", "Research Centers"],
+    rating: 4.6,
+    category: "Medical",
   },
   {
     id: 36,
     name: "South Kazakhstan Medical Academy",
-    location: "Shymkent, Kazakhstan",
-    description: "Regional medical academy known for quality education and training.",
-    image: "https://images.unsplash.com/photo-1533042789716-e9a9c97cf4ee?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹21-31 Lakhs total",
-    features: ["Regional Focus", "Practical Training", "Modern Campus"],
     country: "kazakhstan",
+    location: "Kazakhstan",
+    city: "Shymkent",
+    tuitionFee: 4500,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Affordable and popular among international students.",
+    features: ["Low cost", "NMC approved", "Clinical training"],
+    facilities: ["Library", "Labs", "Student Center"],
+    rating: 4.2,
+    category: "Medical",
   },
   {
     id: 37,
     name: "University of International Business",
-    location: "Almaty, Kazakhstan",
-    description: "Modern university combining medical education with business aspects.",
-    image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹23-33 Lakhs total", 
-    features: ["Business Integration", "Modern Approach", "International Faculty"],
     country: "kazakhstan",
+    location: "Kazakhstan",
+    city: "Almaty",
+    tuitionFee: 4400,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Known for integrating business and medical sciences.",
+    features: ["International exposure", "Affordable", "Modern teaching"],
+    facilities: ["Library", "Hostel", "Classrooms"],
+    rating: 4.1,
+    category: "Medical",
   },
+
   // Kyrgyzstan
   {
     id: 38,
     name: "Asian Medical Institute",
-    location: "Kant, Kyrgyzstan",
-    description: "Leading medical institute with focus on Asian and global medical practices.",
-    image: "https://images.unsplash.com/photo-1563447080728-2b142f559d25?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹18-28 Lakhs total",
-    features: ["Asian Focus", "Global Standards", "Affordable Education"],
     country: "kyrgyzstan",
+    location: "Kyrgyzstan",
+    city: "Kant",
+    tuitionFee: 4000,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description:
+      "Top choice for Indian students with affordable MBBS programs.",
+    features: ["English medium", "NMC approved", "Low living cost"],
+    facilities: ["Library", "Labs", "Hostel"],
+    rating: 4.2,
+    category: "Medical",
   },
   {
     id: 39,
     name: "Bishkek International Medical Institute",
-    location: "Bishkek, Kyrgyzstan",
-    description: "International medical institute with modern healthcare education.",
-    image: "https://images.unsplash.com/photo-1607582544116-448c7a129338?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹19-29 Lakhs total",
-    features: ["International Standards", "Modern Campus", "Clinical Experience"],
     country: "kyrgyzstan",
+    location: "Kyrgyzstan",
+    city: "Bishkek",
+    tuitionFee: 4200,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Offers affordable and quality education in the capital city.",
+    features: ["Recognized by WHO", "English medium", "Affordable"],
+    facilities: ["Library", "Clinical Training", "Cafeteria"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 40,
     name: "International School of Medicine",
-    location: "Bishkek, Kyrgyzstan",
-    description: "Global approach to medical education with diverse faculty.",
-    image: "https://images.unsplash.com/photo-1551084157-1e1c973dc482?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹20-30 Lakhs total",
-    features: ["Global Approach", "Diverse Faculty", "Clinical Training"],
     country: "kyrgyzstan",
+    location: "Kyrgyzstan",
+    city: "Bishkek",
+    tuitionFee: 4300,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Prestigious medical school with international student base.",
+    features: ["NMC listed", "Practical training", "English instruction"],
+    facilities: ["Library", "Hostel", "Hospital access"],
+    rating: 4.4,
+    category: "Medical",
   },
   {
     id: 41,
     name: "Osh State Medical University",
-    location: "Osh, Kyrgyzstan",
-    description: "Established university with strong regional healthcare focus.",
-    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1332&auto=format&fit=crop",
-    tuitionRange: "₹19-29 Lakhs total",
-    features: ["Regional Focus", "Established Programs", "Clinical Practice"],
     country: "kyrgyzstan",
+    location: "Kyrgyzstan",
+    city: "Osh",
+    tuitionFee: 4100,
+    currency: "USD",
+    duration: "6 years",
+    medium: "English",
+    image: "",
+    description: "Popular public university known for affordable MBBS.",
+    features: ["Clinical rotations", "Low cost", "English programs"],
+    facilities: ["Library", "Labs", "Student Hostel"],
+    rating: 4.2,
+    category: "Medical",
   },
+
   // Malaysia
   {
     id: 42,
     name: "Lincoln University College",
-    location: "Selangor, Malaysia",
-    description: "Modern university with international standards and recognition.",
-    image: "https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=1332&auto=format&fit=crop",
-    tuitionRange: "₹35-45 Lakhs total",
-    features: ["International Standards", "Modern Campus", "Quality Education"],
     country: "malaysia",
+    location: "Malaysia",
+    city: "Petaling Jaya",
+    tuitionFee: 4500,
+    currency: "USD",
+    duration: "5 years",
+    medium: "English",
+    image: "",
+    description: "A growing university offering MBBS with modern technology.",
+    features: ["English taught", "Affordable", "Urban location"],
+    facilities: ["Library", "WiFi", "Labs"],
+    rating: 4.1,
+    category: "Medical",
   },
   {
     id: 43,
-    name: "MAHSA University",
-    location: "Kuala Lumpur, Malaysia",
-    description: "Leading healthcare university with state-of-the-art facilities.",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1480&auto=format&fit=crop",
-    tuitionRange: "₹36-46 Lakhs total",
-    features: ["Advanced Facilities", "Strong Faculty", "Clinical Training"],
+    name: "Mahsa University",
     country: "malaysia",
+    location: "Malaysia",
+    city: "Selangor",
+    tuitionFee: 4700,
+    currency: "USD",
+    duration: "5 years",
+    medium: "English",
+    image: "",
+    description: "A leading private university in Malaysia for medicine.",
+    features: ["Clinical training", "Modern campus", "NMC approved"],
+    facilities: ["Library", "Simulation Labs", "Hostel"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 44,
     name: "Manipal International University",
-    location: "Nilai, Malaysia",
-    description: "Branch of prestigious Manipal University with global standards.",
-    image: "https://images.unsplash.com/photo-1533042789716-e9a9c97cf4ee?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹38-48 Lakhs total",
-    features: ["Global Network", "Modern Campus", "Quality Education"],
     country: "malaysia",
+    location: "Malaysia",
+    city: "Nilai",
+    tuitionFee: 4800,
+    currency: "USD",
+    duration: "5 years",
+    medium: "English",
+    image: "",
+    description: "Part of the renowned Manipal Group with excellent training.",
+    features: ["Indian curriculum", "International exposure", "English medium"],
+    facilities: ["Library", "Student Housing", "Labs"],
+    rating: 4.4,
+    category: "Medical",
   },
+
   // Nepal
   {
     id: 45,
     name: "Janaki Medical College",
-    location: "Janakpur, Nepal",
-    description: "Quality medical education with focus on rural healthcare needs.",
-    image: "https://images.unsplash.com/photo-1551601651-bc60f254d532?q=80&w=1374&auto=format&fit=crop",
-    tuitionRange: "₹25-35 Lakhs total",
-    features: ["Rural Focus", "Practical Training", "Accessible Education"],
     country: "nepal",
+    location: "Nepal",
+    city: "Janakpur",
+    tuitionFee: 4300,
+    currency: "USD",
+    duration: "5.5 years",
+    medium: "English",
+    image: "",
+    description: "Private medical college approved by NMC and WHO.",
+    features: ["Affordable", "English medium", "Good FMGE result"],
+    facilities: ["Library", "Cafeteria", "Labs"],
+    rating: 4.1,
+    category: "Medical",
   },
   {
     id: 46,
     name: "Kathmandu Medical College",
-    location: "Kathmandu, Nepal",
-    description: "Premier medical institution in Nepal's capital with modern facilities.",
-    image: "https://images.unsplash.com/photo-1563447080728-2b142f559d25?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹27-37 Lakhs total",
-    features: ["Modern Facilities", "Central Location", "Strong Faculty"],
     country: "nepal",
+    location: "Nepal",
+    city: "Kathmandu",
+    tuitionFee: 4600,
+    currency: "USD",
+    duration: "5.5 years",
+    medium: "English",
+    image: "",
+    description: "Leading institute in Nepal for medical education.",
+    features: ["NMC listed", "Modern hospital", "Experienced faculty"],
+    facilities: ["Library", "Hostel", "Labs"],
+    rating: 4.3,
+    category: "Medical",
   },
   {
     id: 47,
     name: "Nepalgunj Medical College",
-    location: "Nepalgunj, Nepal",
-    description: "Regional medical college focusing on practical healthcare skills.",
-    image: "https://images.unsplash.com/photo-1533042789716-e9a9c97cf4ee?q=80&w=1470&auto=format&fit=crop",
-    tuitionRange: "₹26-36 Lakhs total",
-    features: ["Practical Focus", "Regional Healthcare", "Clinical Experience"],
     country: "nepal",
+    location: "Nepal",
+    city: "Nepalgunj",
+    tuitionFee: 4500,
+    currency: "USD",
+    duration: "5.5 years",
+    medium: "English",
+    image: "",
+    description: "Recognized institution with international curriculum.",
+    features: ["Clinical exposure", "WHO/NMC approved", "Low cost"],
+    facilities: ["Library", "Hostel", "Hospital Access"],
+    rating: 4.2,
+    category: "Medical",
   }
 ];
 
-const countryNames: Record<string, string> = {
-  "russia": "Russia",
-  "georgia": "Georgia",
-  "philippines": "Philippines",
-  "belarus": "Belarus",
-  "moldova": "Moldova", 
-  "bulgaria": "Bulgaria",
-  "bosnia": "Bosnia",
-  "uzbekistan": "Uzbekistan",
-  "kazakhstan": "Kazakhstan",
-  "kyrgyzstan": "Kyrgyzstan",
-  "malaysia": "Malaysia",
-  "nepal": "Nepal"
-};
+export default function UniversitySection() {
+  const [selectedCountry, setSelectedCountry] = useState("russia");
 
-const countryGroups = [
-  ["russia", "georgia"], 
-  ["philippines", "belarus"], 
-  ["moldova", "bulgaria", "bosnia"], 
-  ["uzbekistan", "kazakhstan"], 
-  ["kyrgyzstan", "malaysia", "nepal"]
-];
-
-const UniversitySection = () => {
-  const [activeTab, setActiveTab] = useState<string>("russia");
-  const [activeGroup, setActiveGroup] = useState<number>(0);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("animate-in");
-          }
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const section = sectionRef.current;
-    if (section) {
-      const elements = section.querySelectorAll(".section-animate");
-      for (const el of elements) {
-        observer.observe(el);
-      }
-    }
-
-    return () => {
-      if (section) {
-        const elements = section.querySelectorAll(".section-animate");
-        for (const el of elements) {
-          observer.unobserve(el);
-        }
-      }
-    };
-  }, []);
-
-  // Find the group containing the active tab
-  useEffect(() => {
-    const groupIndex = countryGroups.findIndex(group => 
-      group.includes(activeTab)
-    );
-    if (groupIndex !== -1) {
-      setActiveGroup(groupIndex);
-    }
-  }, [activeTab]);
+  const countries = Array.from(new Set(universities.map((uni) => uni.country)));
+  const filteredUniversities = universities.filter(
+    (uni) => uni.country === selectedCountry
+  );
 
   return (
-    <section id="universities" ref={sectionRef} className="section-container">
-      <div className="max-w-3xl mx-auto text-center mb-16">
-        <div className="chip mb-4 section-animate">Top Universities</div>
-        <h2 className="heading-md mb-6 section-animate stagger-1">
-          Explore Premier Medical Universities Abroad
-        </h2>
-        <p className="text-gray-600 section-animate stagger-2">
-          Discover world-class medical universities across various countries offering
-          high-quality MBBS programs with international standards.
-        </p>
-      </div>
-
-      <div className="container mx-auto px-4">
-        <Tabs
-          defaultValue={activeTab}
-          onValueChange={setActiveTab}
-          className="w-full"
-        >
-          {countryGroups.map((group) => (
-            <div
-              key={`group-${group.join('-')}`}
-              className={`mb-8 ${
-                activeGroup === countryGroups.indexOf(group) ? "block" : "hidden"
-              }`}
-            >
-              <TabsList className="w-full flex flex-wrap justify-center mb-8">
-                {group.map((country) => (
-                  <TabsTrigger
-                    key={country}
-                    value={country}
-                    className="px-6 py-3"
-                  >
-                    {countryNames[country]}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
+    <div className="px-4 md:px-8 py-10">
+      <Tabs defaultValue={selectedCountry} onValueChange={setSelectedCountry}>
+        <TabsList className="flex flex-wrap justify-center gap-2 mb-6">
+          {countries.map((country) => (
+            <TabsTrigger key={country} value={country}>
+              {country.charAt(0).toUpperCase() + country.slice(1)}
+            </TabsTrigger>
           ))}
+        </TabsList>
 
-          {Object.keys(countryNames).map((country) => (
-            <TabsContent key={country} value={country} className="mt-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {universities
-                  .filter((uni) => uni.country === country)
-                  .map((university) => (
-                    <div
-                      key={university.id}
-                      className="bg-white rounded-xl shadow-md overflow-hidden transform transition duration-200 hover:shadow-xl hover:-translate-y-1"
-                    >
-                      <div className="h-48 overflow-hidden">
-                        <img
-                          src={university.image}
-                          alt={university.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="p-6">
-                        <h3 className="text-xl font-bold mb-2 text-primary">
-                          {university.name}
-                        </h3>
-                        <p className="text-gray-600 mb-4">
-                          {university.location}
-                        </p>
-                        <p className="text-gray-700 mb-4 line-clamp-3">
-                          {university.description}
-                        </p>
-                        <div className="mb-4">
-                          <span className="text-primary font-medium">
-                            Tuition: {university.tuitionRange}
-                          </span>
-                        </div>
-                        <div className="space-y-2">
-                          {university.features.map((feature) => (
-                            <div
-                              key={`feature-${university.id}-${feature}`}
-                              className="flex items-center text-gray-700"
-                            >
-                              <Check
-                                size={16}
-                                className="text-green-500 mr-2 flex-shrink-0"
-                              />
-                              <span className="text-sm">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="mt-6">
-                          <Link to={`/university/${university.id}`}>
-                            <Button
-                              variant="outline"
-                              className="w-full bg-white border-primary text-primary hover:bg-primary hover:text-white"
-                            >
-                              View Details
-                            </Button>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-
-              <div className="mt-12 text-center">
-                <Link to={`/university/${universities.find(uni => uni.country === country)?.id || 1}`}>
-                  <Button className="bg-primary hover:bg-primary/90">
-                    View Sample {countryNames[country]} University
-                  </Button>
-                </Link>
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-
-        <div className="mt-16 bg-gray-50 rounded-xl p-8">
-          <h3 className="text-2xl font-bold mb-4 text-center">
-            Compare Universities
-          </h3>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>University</TableHead>
-                <TableHead>Location</TableHead>
-                <TableHead>Tuition</TableHead>
-                <TableHead>Key Features</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {universities.slice(0, 5).map((university) => (
-                <TableRow key={university.id}>
-                  <TableCell className="font-medium">
-                    {university.name}
-                  </TableCell>
-                  <TableCell>{university.location}</TableCell>
-                  <TableCell>{university.tuitionRange}</TableCell>
-                  <TableCell>
-                    <ul className="list-disc pl-5">
-                      {university.features.map((feature) => (
-                        <li key={`compare-${university.id}-${feature}`} className="text-sm">
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
-    </section>
+        <TabsContent value={selectedCountry}>
+          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl">
+            {filteredUniversities.map((uni) => (
+              <UniversityCard key={uni.id} university={uni} viewMode="grid" />
+            ))}
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
   );
-};
-
-export default UniversitySection;
+}

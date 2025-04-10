@@ -35,6 +35,21 @@ export type University = {
   facilities: string[];
   rating: number;
   category: string;
+  description?: string;
+  longDescription?: string;
+  establishedYear?: string;
+  studentCount?: string;
+  facultyCount?: string;
+  hospitalAffiliations?: string[];
+  recognition?: string[];
+  courses?: { name: string; duration: string; fees: string; }[];
+  admissionProcess?: string[];
+  eligibility?: string[];
+  advantages?: string[];
+  documents?: string[];
+  scholarships?: string[];
+  hostelInfo?: string;
+  indianFoodAvailability?: string;
 };
 
 export type Filters = {

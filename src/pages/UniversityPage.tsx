@@ -56,34 +56,55 @@ const universities: University[] = [
     id: 1,
     name: "Kabardino Balkarian State University",
     location: "Nalchik, Russia",
-    description: "Renowned for Surgery, General Medicine, and Cardiology with excellent research facilities.",
-    longDescription: "Kabardino Balkarian State University is one of Russia's most prestigious medical universities, offering world-class education in medicine with special focus on Surgery, General Medicine, and Cardiology. The university provides state-of-the-art research facilities and clinical training opportunities to its students.",
-    image: "/placeholder.svg",
+    description:
+      "Renowned for Surgery, General Medicine, and Cardiology with excellent research facilities.",
+    longDescription:
+      "Kabardino Balkarian State University is one of Russia's most prestigious medical universities, offering world-class education in medicine with special focus on Surgery, General Medicine, and Cardiology. The university provides state-of-the-art research facilities and clinical training opportunities to its students.",
+    image: "./public/UNIVERSITY IMAGES/RUSSIA/KABARDINO.jpg",
     tuitionRange: "₹20-30 Lakhs total",
     features: ["English-Medium", "WHO & NMC Approved", "Established in 1957"],
     country: "russia",
     establishedYear: "1957",
     studentCount: "15,000+",
-    hospitalAffiliations: ["Nalchik General Hospital", "Kabardino Cardiac Center", "University Teaching Hospital"],
-    recognition: ["WHO", "NMC (National Medical Commission, India)", "FAIMER", "WFME"],
-    facilities: ["Modern Laboratories", "Digital Library", "Simulation Centers", "Sports Complex", "Student Hostels"],
+    hospitalAffiliations: [
+      "Nalchik General Hospital",
+      "Kabardino Cardiac Center",
+      "University Teaching Hospital",
+    ],
+    recognition: [
+      "WHO",
+      "NMC (National Medical Commission, India)",
+      "FAIMER",
+      "WFME",
+    ],
+    facilities: [
+      "Modern Laboratories",
+      "Digital Library",
+      "Simulation Centers",
+      "Sports Complex",
+      "Student Hostels",
+    ],
     courses: [
-      { name: "MBBS (General Medicine)", duration: "6 years", fees: "₹20-30 Lakhs total" },
+      {
+        name: "MBBS (General Medicine)",
+        duration: "6 years",
+        fees: "₹20-30 Lakhs total",
+      },
       { name: "Dentistry", duration: "5 years", fees: "₹22-32 Lakhs total" },
-      { name: "Pharmacy", duration: "5 years", fees: "₹18-25 Lakhs total" }
+      { name: "Pharmacy", duration: "5 years", fees: "₹18-25 Lakhs total" },
     ],
     admissionProcess: [
       "Online Application Submission",
       "Document Verification",
       "Admission Offer Letter",
       "Visa Processing Assistance",
-      "Pre-Departure Orientation"
+      "Pre-Departure Orientation",
     ],
     eligibility: [
       "Minimum 50% in PCB (Physics, Chemistry, Biology)",
       "NEET Qualification (for Indian Students)",
       "Age 17+ years as of December 31st",
-      "Good Health Status"
+      "Good Health Status",
     ],
     advantages: [
       "Globally Recognized Degree",
@@ -91,7 +112,7 @@ const universities: University[] = [
       "Modern Teaching Methodology",
       "Multicultural Environment",
       "Strong Alumni Network",
-      "Clinical Exposure from Early Years"
+      "Clinical Exposure from Early Years",
     ],
     documents: [
       "10th & 12th Mark Sheets",
@@ -99,122 +120,215 @@ const universities: University[] = [
       "Valid Passport",
       "Medical Certificate",
       "Police Clearance Certificate",
-      "Passport Size Photographs"
+      "Passport Size Photographs",
     ],
     scholarships: [
       "Merit-Based Scholarships",
       "Sports Excellence Scholarships",
-      "Research Fellowships"
+      "Research Fellowships",
     ],
     facultyCount: "800+",
-    hostelInfo: "Separate hostels for boys and girls with 24/7 security and modern amenities",
-    indianFoodAvailability: "Available in university canteen and nearby Indian restaurants"
+    hostelInfo:
+      "Separate hostels for boys and girls with 24/7 security and modern amenities",
+    indianFoodAvailability:
+      "Available in university canteen and nearby Indian restaurants",
   },
   {
     id: 2,
     name: "Altai State Medical University",
     location: "Barnaul, Russia",
-    description: "One of Russia's oldest medical universities with excellent research facilities.",
-    longDescription: "Established as one of Russia's oldest medical institutions, Altai State Medical University has built a reputation for excellence in medical education. The university offers a comprehensive curriculum with a perfect blend of theoretical knowledge and practical training in modern healthcare facilities.",
+    description:
+      "One of Russia's oldest medical universities with excellent research facilities.",
+    longDescription:
+      "Established as one of Russia's oldest medical institutions, Altai State Medical University has built a reputation for excellence in medical education. The university offers a comprehensive curriculum with a perfect blend of theoretical knowledge and practical training in modern healthcare facilities.",
     image: "/placeholder.svg",
     tuitionRange: "₹25-35 Lakhs total",
     features: ["6-Year Program", "Modern Campus", "Strong Alumni Network"],
     country: "russia",
     establishedYear: "1954",
     studentCount: "12,000+",
-    hospitalAffiliations: ["Altai Regional Clinical Hospital", "Barnaul Medical Center", "University Hospital"],
+    hospitalAffiliations: [
+      "Altai Regional Clinical Hospital",
+      "Barnaul Medical Center",
+      "University Hospital",
+    ],
     recognition: ["WHO", "NMC", "Ministry of Education and Science of Russia"],
-    facilities: ["Advanced Research Centers", "International Library", "Student Housing", "Sports Facilities"],
+    facilities: [
+      "Advanced Research Centers",
+      "International Library",
+      "Student Housing",
+      "Sports Facilities",
+    ],
     courses: [
       { name: "MBBS", duration: "6 years", fees: "₹25-35 Lakhs total" },
       { name: "Pediatrics", duration: "6 years", fees: "₹26-36 Lakhs total" },
-      { name: "Preventive Medicine", duration: "6 years", fees: "₹24-34 Lakhs total" }
-    ]
+      {
+        name: "Preventive Medicine",
+        duration: "6 years",
+        fees: "₹24-34 Lakhs total",
+      },
+    ],
   },
   {
     id: 3,
     name: "Kazan Federal University",
     location: "Kazan, Russia",
-    description: "A prestigious institution offering cutting-edge medical education.",
-    longDescription: "Kazan Federal University stands as one of Russia's most esteemed educational institutions, known for its cutting-edge medical programs. With a focus on innovative teaching methodologies and research, the university prepares students to excel in the global healthcare sector through comprehensive training and international exposure.",
+    description:
+      "A prestigious institution offering cutting-edge medical education.",
+    longDescription:
+      "Kazan Federal University stands as one of Russia's most esteemed educational institutions, known for its cutting-edge medical programs. With a focus on innovative teaching methodologies and research, the university prepares students to excel in the global healthcare sector through comprehensive training and international exposure.",
     image: "/placeholder.svg",
     tuitionRange: "₹30-40 Lakhs total",
     features: ["Advanced Research", "Clinical Rotations", "Modern Labs"],
     country: "russia",
     establishedYear: "1804",
     studentCount: "25,000+",
-    hospitalAffiliations: ["Kazan University Hospital", "Federal Medical Center", "Regional Clinical Hospital"],
+    hospitalAffiliations: [
+      "Kazan University Hospital",
+      "Federal Medical Center",
+      "Regional Clinical Hospital",
+    ],
     recognition: ["WHO", "NMC", "Ministry of Health of Russia", "ECFMG"],
-    facilities: ["Research Institutes", "Digital Libraries", "Simulation Labs", "International Student Dormitories"],
+    facilities: [
+      "Research Institutes",
+      "Digital Libraries",
+      "Simulation Labs",
+      "International Student Dormitories",
+    ],
     courses: [
-      { name: "General Medicine", duration: "6 years", fees: "₹30-40 Lakhs total" },
-      { name: "Medical Biochemistry", duration: "5 years", fees: "₹28-38 Lakhs total" },
-      { name: "Medical Biophysics", duration: "5 years", fees: "₹29-39 Lakhs total" }
-    ]
+      {
+        name: "General Medicine",
+        duration: "6 years",
+        fees: "₹30-40 Lakhs total",
+      },
+      {
+        name: "Medical Biochemistry",
+        duration: "5 years",
+        fees: "₹28-38 Lakhs total",
+      },
+      {
+        name: "Medical Biophysics",
+        duration: "5 years",
+        fees: "₹29-39 Lakhs total",
+      },
+    ],
   },
   {
     id: 4,
     name: "SEU - Georgian National University",
     location: "Tbilisi, Georgia",
-    description: "Top-rated university with advanced medical labs, strong clinical exposure, and international faculty.",
-    longDescription: "SEU - Georgian National University is one of the most preferred medical universities in Georgia, offering world-class education with modern facilities and international recognition. The university provides direct clinical exposure from the first year and maintains high FMGE and USMLE success rates among its graduates.",
+    description:
+      "Top-rated university with advanced medical labs, strong clinical exposure, and international faculty.",
+    longDescription:
+      "SEU - Georgian National University is one of the most preferred medical universities in Georgia, offering world-class education with modern facilities and international recognition. The university provides direct clinical exposure from the first year and maintains high FMGE and USMLE success rates among its graduates.",
     image: "/placeholder.svg",
     tuitionRange: "₹30-35 Lakhs total",
     features: ["100% English Medium", "European Standard", "High FMGE Success"],
     country: "georgia",
     establishedYear: "2001",
     studentCount: "8,000+",
-    hospitalAffiliations: ["SEU University Hospital", "Tbilisi Medical Center", "International Clinical Center"],
+    hospitalAffiliations: [
+      "SEU University Hospital",
+      "Tbilisi Medical Center",
+      "International Clinical Center",
+    ],
     recognition: ["WHO", "NMC", "WFME", "Ministry of Education of Georgia"],
-    facilities: ["Modern Medical Labs", "Advanced Clinical Training Centers", "Digital Libraries", "Student Dormitories"],
+    facilities: [
+      "Modern Medical Labs",
+      "Advanced Clinical Training Centers",
+      "Digital Libraries",
+      "Student Dormitories",
+    ],
     courses: [
       { name: "MBBS", duration: "6 years", fees: "₹30-35 Lakhs total" },
       { name: "Dentistry", duration: "5 years", fees: "₹32-37 Lakhs total" },
-      { name: "Pharmacy", duration: "5 years", fees: "₹28-33 Lakhs total" }
-    ]
+      { name: "Pharmacy", duration: "5 years", fees: "₹28-33 Lakhs total" },
+    ],
   },
   {
     id: 5,
     name: "Tbilisi State Medical University",
     location: "Tbilisi, Georgia",
     description: "Georgia's oldest and most prestigious medical university.",
-    longDescription: "As Georgia's oldest and most prestigious medical institution, Tbilisi State Medical University offers a rich tradition of excellence in medical education combined with modern teaching approaches. The university's international faculty and strong clinical training programs prepare students for successful medical careers worldwide.",
+    longDescription:
+      "As Georgia's oldest and most prestigious medical institution, Tbilisi State Medical University offers a rich tradition of excellence in medical education combined with modern teaching approaches. The university's international faculty and strong clinical training programs prepare students for successful medical careers worldwide.",
     image: "/placeholder.svg",
     tuitionRange: "₹25-35 Lakhs total",
-    features: ["Established in 1918", "Strong Clinical Training", "Modern Campus"],
+    features: [
+      "Established in 1918",
+      "Strong Clinical Training",
+      "Modern Campus",
+    ],
     country: "georgia",
     establishedYear: "1918",
     studentCount: "10,000+",
-    hospitalAffiliations: ["Tbilisi State University Hospital", "National Medical Center", "Children's Clinical Hospital"],
+    hospitalAffiliations: [
+      "Tbilisi State University Hospital",
+      "National Medical Center",
+      "Children's Clinical Hospital",
+    ],
     recognition: ["WHO", "NMC", "UNESCO", "FAIMER"],
-    facilities: ["Historical Campus", "Research Laboratories", "Clinical Skills Centers", "International Dormitories"],
+    facilities: [
+      "Historical Campus",
+      "Research Laboratories",
+      "Clinical Skills Centers",
+      "International Dormitories",
+    ],
     courses: [
       { name: "Medicine", duration: "6 years", fees: "₹25-35 Lakhs total" },
       { name: "Dentistry", duration: "5 years", fees: "₹26-36 Lakhs total" },
-      { name: "Public Health", duration: "4 years", fees: "₹22-30 Lakhs total" }
-    ]
+      {
+        name: "Public Health",
+        duration: "4 years",
+        fees: "₹22-30 Lakhs total",
+      },
+    ],
   },
   {
     id: 6,
     name: "New Vision University",
     location: "Tbilisi, Georgia",
-    description: "Recognized by WHO, NMC, and WFME with state-of-the-art hospital affiliations.",
-    longDescription: "New Vision University represents the new generation of medical education in Georgia, offering internationally recognized programs with state-of-the-art facilities. The university focuses on providing hands-on clinical experience and maintains strong affiliations with leading hospitals to ensure students receive comprehensive practical training.",
+    description:
+      "Recognized by WHO, NMC, and WFME with state-of-the-art hospital affiliations.",
+    longDescription:
+      "New Vision University represents the new generation of medical education in Georgia, offering internationally recognized programs with state-of-the-art facilities. The university focuses on providing hands-on clinical experience and maintains strong affiliations with leading hospitals to ensure students receive comprehensive practical training.",
     image: "/placeholder.svg",
     tuitionRange: "₹30-40 Lakhs total",
-    features: ["Advanced Facilities", "International Faculty", "Hospital Affiliations"],
+    features: [
+      "Advanced Facilities",
+      "International Faculty",
+      "Hospital Affiliations",
+    ],
     country: "georgia",
     establishedYear: "2013",
     studentCount: "5,000+",
-    hospitalAffiliations: ["New Vision University Hospital", "Tbilisi International Medical Center", "Modern Healthcare Facility"],
-    recognition: ["WHO", "NMC", "WFME", "Ministry of Education and Science of Georgia"],
-    facilities: ["Modern Campus", "Simulation Centers", "Research Labs", "Student Housing"],
+    hospitalAffiliations: [
+      "New Vision University Hospital",
+      "Tbilisi International Medical Center",
+      "Modern Healthcare Facility",
+    ],
+    recognition: [
+      "WHO",
+      "NMC",
+      "WFME",
+      "Ministry of Education and Science of Georgia",
+    ],
+    facilities: [
+      "Modern Campus",
+      "Simulation Centers",
+      "Research Labs",
+      "Student Housing",
+    ],
     courses: [
-      { name: "Medicine (MD)", duration: "6 years", fees: "₹30-40 Lakhs total" },
+      {
+        name: "Medicine (MD)",
+        duration: "6 years",
+        fees: "₹30-40 Lakhs total",
+      },
       { name: "Dentistry", duration: "5 years", fees: "₹32-42 Lakhs total" },
-      { name: "Nursing", duration: "4 years", fees: "₹25-35 Lakhs total" }
-    ]
-  }
+      { name: "Nursing", duration: "4 years", fees: "₹25-35 Lakhs total" },
+    ],
+  },
 ];
 
 const UniversityPage = () => {

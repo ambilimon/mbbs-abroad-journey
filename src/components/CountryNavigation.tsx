@@ -1,21 +1,25 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { availableCountries } from "./inquiry-form/types";
 
-const CountryNavigation = () => {
+interface CountryNavigationProps {
+  currentCountry?: string;
+}
+
+const CountryNavigation = ({ currentCountry }: CountryNavigationProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="flex items-center gap-1">
-          Study Destinations <ChevronDown className="h-4 w-4" />
+          {currentCountry ? `MBBS in ${currentCountry}` : "Study Destinations"}
+          <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
