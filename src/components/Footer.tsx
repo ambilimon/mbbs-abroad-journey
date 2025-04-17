@@ -67,7 +67,8 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-gray-400">
               <li className="flex flex-col">
                 <span className="font-medium text-white">Address:</span>
-                <span>123 Education Street, Mumbai, Maharashtra 400001, India</span>
+                <span>#79khb colony, 2nd phase opposite karanataka bank,</span>
+                <span>gopal, shimoga -577205.</span>
               </li>
               <li className="flex flex-col">
                 <span className="font-medium text-white">Phone:</span>
@@ -76,8 +77,7 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex flex-col">
                 <span className="font-medium text-white">Email:</span>
-                <a href="mailto:info@mbbsabroadjourney.com" className="hover:text-white transition duration-300">info@mbbsabroadjourney.com</a>
-                <a href="mailto:support@mbbsabroadjourney.com" className="hover:text-white transition duration-300">support@mbbsabroadjourney.com</a>
+                <a href="mailto:info@futuredoctoredu.com" className="hover:text-white transition duration-300">info@futuredoctoredu.com</a>
               </li>
             </ul>
           </div>
@@ -87,7 +87,7 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm mb-4 md:mb-0">
-            © {currentYear} MBBS Abroad Journey. All rights reserved.
+            © {currentYear} Future Doctor. All rights reserved.
           </p>
           <div className="flex flex-wrap gap-4 text-sm text-gray-400">
             <Link to="/privacy-policy" className="hover:text-white transition duration-300">Privacy Policy</Link>
