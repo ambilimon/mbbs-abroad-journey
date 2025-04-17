@@ -74,8 +74,8 @@ const Navbar = () => {
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-md py-2"
-          : "bg-transparent py-4"
+          ? "bg-white/95 backdrop-blur-sm shadow-md py-1"
+          : "bg-transparent py-2"
       }`}
     >
       <div className="container px-4 mx-auto flex justify-between items-center">
