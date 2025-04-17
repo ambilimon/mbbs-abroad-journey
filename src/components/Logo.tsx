@@ -22,7 +22,6 @@ const Logo = ({ className = "", variant = 'default', showTagline = true }: LogoP
         />
         {showTagline && (
           <div className={`ml-2 text-xs ${taglineColor} hidden md:block`}>
-            Your Gateway to MBBS Abroad
           </div>
         )}
       </div>
