@@ -92,7 +92,7 @@ const FeaturedUniversity = () => {
           <div className="relative">
             <div className="h-full min-h-[350px] lg:min-h-0">
               <img
-                src="https://images.unsplash.com/photo-1593377201809-2bf7bef6dc5d?q=80&w=1373&auto=format&fit=crop"
+                src="/UNIVERSITY IMAGES/RUSSIA/ALTAI.jpg"
                 alt="Tbilisi State Medical University Campus"
                 className="w-full h-full object-cover"
               />

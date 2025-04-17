@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { ShimmerButton } from "@/components/ShimmerButton";
@@ -48,10 +47,10 @@ const CountryUniversityList = ({ universities, country }: CountryUniversityListP
             
             <div className="mt-auto flex gap-2">
               <Link to={`/university/${university.id}`} className="flex-1">
-                <ShimmerButton size="sm" className="w-full">View Details</ShimmerButton>
+                <ShimmerButton size="default" className="w-full h-auto min-h-[38px] px-3 py-2">View</ShimmerButton>
               </Link>
               <Link to="/#application" className="flex-shrink-0">
-                <ShimmerButton size="sm" variant="outline" shimmerColor="rgba(37, 99, 235, 0.4)">Apply</ShimmerButton>
+                <ShimmerButton size="default" variant="outline" shimmerColor="rgba(37, 99, 235, 0.4)" className="h-auto min-h-[38px] px-3 py-2">Apply</ShimmerButton>
               </Link>
             </div>
           </CardContent>

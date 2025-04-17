@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ShimmerButton } from "@/components/ShimmerButton";
@@ -37,6 +36,30 @@ interface University {
   [key: string]: any;
 }
 
+// Sample university data for initialization
+const sampleUniversities: University[] = [
+  {
+    id: 1,
+    name: "Tbilisi State Medical University",
+    location: "Tbilisi, Georgia",
+    country: "Georgia",
+    description: "One of the leading medical universities in Georgia with a strong focus on international students.",
+    tuitionRange: "₹20-30 Lakhs total",
+    image: "https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=1486&auto=format&fit=crop",
+    features: ["NMC Approved", "English Medium", "Hostel Available"],
+  },
+  {
+    id: 2,
+    name: "First Moscow State Medical University",
+    location: "Moscow, Russia",
+    country: "Russia",
+    description: "Russia's oldest and most prestigious medical school offering comprehensive medical education.",
+    tuitionRange: "₹25-35 Lakhs total",
+    image: "https://images.unsplash.com/photo-1591123120675-6f7f1aae0e5b?q=80&w=1469&auto=format&fit=crop",
+    features: ["NMC Approved", "English Medium", "Modern Labs"],
+  },
+];
+
 interface UniversityListProps {
   onEdit: (id: number) => void;
   searchQuery?: string;
@@ -53,11 +76,23 @@ const UniversityList = ({ onEdit, searchQuery = "", viewMode = "grid" }: Univers
     try {
       const stored = localStorage.getItem('universities');
       if (stored) {
-        setUniversities(JSON.parse(stored));
+        const parsedData = JSON.parse(stored);
+        setUniversities(parsedData);
+      } else {
+        // Initialize with sample data if no universities exist
+        localStorage.setItem('universities', JSON.stringify(sampleUniversities));
+        setUniversities(sampleUniversities);
+        toast({
+          title: "Sample data loaded",
+          description: "Sample university data has been loaded for demonstration purposes.",
+        });
       }
       setLoading(false);
     } catch (e) {
       console.error("Error loading universities", e);
+      // Initialize with sample data if there's an error
+      localStorage.setItem('universities', JSON.stringify(sampleUniversities));
+      setUniversities(sampleUniversities);
       setLoading(false);
     }
   }, []);
