@@ -45,7 +45,7 @@ const AboutUsPage = () => {
               </div>
               <div className="rounded-lg overflow-hidden shadow-md">
                 <img 
-                  src="/UNIVERSITY IMAGES/Services/Us.jpg" 
+                  src="https://images.unsplash.com/photo-1615729947596-a598e5de0ab3" 
                   alt="Medical students in a classroom" 
                   className="w-full h-auto object-cover"
                 />

@@ -1,3 +1,4 @@
+
 import { MapPin, Star } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -9,24 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { University } from "@/pages/UniversitiesPage";
 import { Link } from "react-router-dom";
-
-// Update University type to have more optional properties
-export interface University {
-  id: number;
-  name: string;
-  country: string;
-  city: string;
-  tuitionFee?: number;
-  currency?: string;
-  image: string;
-  facilities?: string[];
-  rating?: number;
-  category?: string;
-  description?: string;
-  location?: string;
-  features?: string[];
-}
 
 interface UniversityCardProps {
   university: University;
@@ -39,16 +24,13 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
     name,
     country,
     city,
-    tuitionFee = 0,
-    currency = "₹",
+    tuitionFee,
+    currency,
     image,
-    facilities = [],
-    rating = 4.5,
-    category = "Medical",
+    facilities,
+    rating,
+    category,
   } = university;
-
-  // Use a consistent array for features/facilities
-  const displayFacilities = facilities.length > 0 ? facilities : (university.features || []);
 
   if (viewMode === "list") {
     return (
@@ -83,28 +65,27 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
             <CardContent className="p-0 py-3 flex-grow">
               <div className="flex flex-wrap gap-1 mb-3">
                 <Badge variant="secondary" className="text-xs">{category}</Badge>
-                {displayFacilities.slice(0, 3).map((facility, index) => (
-                  <Badge key={index} variant="outline" className="text-xs">
+                {facilities.slice(0, 3).map((facility) => (
+                  <Badge key={facility} variant="outline" className="text-xs">
                     {facility}
                   </Badge>
                 ))}
-                {displayFacilities.length > 3 && (
+                {facilities.length > 3 && (
                   <Badge variant="outline" className="text-xs">
-                    +{displayFacilities.length - 3} more
+                    +{facilities.length - 3} more
                   </Badge>
                 )}
               </div>
               <p className="text-lg font-semibold text-primary">
-                {currency}{tuitionFee > 0 ? tuitionFee.toLocaleString() : "Contact for fees"} 
-                {tuitionFee > 0 ? " / year" : ""}
+                {currency}{tuitionFee.toLocaleString()} / year
               </p>
             </CardContent>
             <CardFooter className="p-0 pt-3 flex justify-between items-center gap-3">
-              <Link to={`/university-details/${id}`} className="flex-1">
-                <Button className="w-full px-3 py-2 h-auto">View</Button>
+              <Link to={`/university/${id}`} className="flex-1">
+                <Button className="w-full">View Details</Button>
               </Link>
-              <Link to="/apply-now" className="flex-1">
-                <Button variant="outline" className="w-full px-3 py-2 h-auto">Apply Now</Button>
+              <Link to="/#application" className="flex-1">
+                <Button variant="outline" className="w-full">Apply Now</Button>
               </Link>
             </CardFooter>
           </div>
@@ -131,8 +112,8 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
       </div>
       <CardHeader>
         <div className="flex justify-between items-start">
-          <CardTitle className="text-base mb-1 min-h-[2.5rem]">{name}</CardTitle>
-          <Badge variant="secondary" className="text-xs whitespace-nowrap ml-2 flex-shrink-0">{category}</Badge>
+          <CardTitle className="line-clamp-1">{name}</CardTitle>
+          <Badge variant="secondary" className="text-xs whitespace-nowrap">{category}</Badge>
         </div>
         <CardDescription className="flex items-center text-sm mt-1">
           <MapPin className="h-3.5 w-3.5 mr-1 flex-shrink-0" />
@@ -141,28 +122,27 @@ export function UniversityCard({ university, viewMode }: UniversityCardProps) {
       </CardHeader>
       <CardContent className="flex-grow">
         <div className="flex flex-wrap gap-1 mb-3">
-          {displayFacilities.slice(0, 3).map((facility, index) => (
-            <Badge key={index} variant="outline" className="text-xs">
+          {facilities.slice(0, 3).map((facility) => (
+            <Badge key={facility} variant="outline" className="text-xs">
               {facility}
             </Badge>
           ))}
-          {displayFacilities.length > 3 && (
+          {facilities.length > 3 && (
             <Badge variant="outline" className="text-xs">
-              +{displayFacilities.length - 3} more
+              +{facilities.length - 3} more
             </Badge>
           )}
         </div>
         <p className="text-lg font-semibold text-primary">
-          {currency}{tuitionFee > 0 ? tuitionFee.toLocaleString() : "Contact for fees"}
-          {tuitionFee > 0 ? " / year" : ""}
+          {currency}{tuitionFee.toLocaleString()} / year
         </p>
       </CardContent>
       <CardFooter className="grid grid-cols-2 gap-3 pt-2">
-        <Link to={`/university-details/${id}`} className="col-span-1">
-          <Button size="default" className="w-full px-3 py-2 h-auto min-h-[38px]">View</Button>
+        <Link to={`/university/${id}`} className="col-span-1">
+          <Button size="sm" className="w-full">View Details</Button>
         </Link>
-        <Link to="/apply-now" className="col-span-1">
-          <Button size="default" variant="outline" className="w-full px-3 py-2 h-auto min-h-[38px]">Apply</Button>
+        <Link to="/#application" className="col-span-1">
+          <Button size="sm" variant="outline" className="w-full">Apply</Button>
         </Link>
       </CardFooter>
     </Card>

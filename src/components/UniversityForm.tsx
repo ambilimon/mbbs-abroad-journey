@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -80,6 +81,7 @@ const countryOptions = [
 
 const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormProps) => {
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState("basic");
   const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [newImageUrl, setNewImageUrl] = useState("");
   
@@ -213,11 +215,18 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-8">
-          {/* Basic Information Section */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Basic Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <Tabs defaultValue="basic" value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 w-full mb-6">
+            <TabsTrigger value="basic">Basic Info</TabsTrigger>
+            <TabsTrigger value="details">Details</TabsTrigger>
+            <TabsTrigger value="courses">Courses</TabsTrigger>
+            <TabsTrigger value="admission">Admission</TabsTrigger>
+            <TabsTrigger value="facilities">Facilities</TabsTrigger>
+            <TabsTrigger value="gallery">Gallery & FAQ</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="basic" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="name"
@@ -251,7 +260,7 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
               control={form.control}
               name="country"
               render={({ field }) => (
-                <FormItem className="mb-6">
+                <FormItem>
                   <FormLabel>Country*</FormLabel>
                   <Select 
                     onValueChange={field.onChange} 
@@ -279,7 +288,7 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="mb-6">
+                <FormItem>
                   <FormLabel>Description*</FormLabel>
                   <FormControl>
                     <Textarea 
@@ -325,14 +334,10 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
                 )}
               />
             </div>
-          </div>
+          </TabsContent>
 
-          <Separator />
-
-          {/* University Details Section */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">University Details</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <TabsContent value="details" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="established"
@@ -362,7 +367,7 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="website"
@@ -396,7 +401,7 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
               control={form.control}
               name="contactPhone"
               render={({ field }) => (
-                <FormItem className="mb-6">
+                <FormItem>
                   <FormLabel>Contact Phone</FormLabel>
                   <FormControl>
                     <Input placeholder="+1 234 567 8900" {...field} />
@@ -422,13 +427,9 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
                 </FormItem>
               )}
             />
-          </div>
+          </TabsContent>
 
-          <Separator />
-
-          {/* Courses Section */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Courses Information</h2>
+          <TabsContent value="courses" className="space-y-6">
             <FormField
               control={form.control}
               name="coursesOffered"
@@ -449,18 +450,14 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
                 </FormItem>
               )}
             />
-          </div>
+          </TabsContent>
 
-          <Separator />
-
-          {/* Admission Section */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Admission Information</h2>
+          <TabsContent value="admission" className="space-y-6">
             <FormField
               control={form.control}
               name="admissionProcess"
               render={({ field }) => (
-                <FormItem className="mb-6">
+                <FormItem>
                   <FormLabel>Admission Process</FormLabel>
                   <FormControl>
                     <Textarea 
@@ -478,7 +475,7 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
               control={form.control}
               name="eligibility"
               render={({ field }) => (
-                <FormItem className="mb-6">
+                <FormItem>
                   <FormLabel>Eligibility Requirements</FormLabel>
                   <FormControl>
                     <Textarea 
@@ -492,7 +489,7 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
               )}
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
                 name="intakes"
@@ -548,13 +545,9 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
                 </FormItem>
               )}
             />
-          </div>
+          </TabsContent>
 
-          <Separator />
-
-          {/* Facilities Section */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Facilities Information</h2>
+          <TabsContent value="facilities" className="space-y-6">
             <FormField
               control={form.control}
               name="facilities"
@@ -572,14 +565,10 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
                 </FormItem>
               )}
             />
-          </div>
+          </TabsContent>
 
-          <Separator />
-
-          {/* Gallery & FAQ Section */}
-          <div>
-            <h2 className="text-xl font-semibold mb-4">Gallery & FAQ</h2>
-            <div className="mb-6">
+          <TabsContent value="gallery" className="space-y-6">
+            <div>
               <h3 className="text-lg font-medium mb-2">Gallery Images</h3>
               <p className="text-sm text-gray-500 mb-4">Add images to showcase the university campus and facilities</p>
               
@@ -624,6 +613,8 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
               </div>
             </div>
 
+            <Separator className="my-6" />
+
             <FormField
               control={form.control}
               name="faq"
@@ -644,20 +635,58 @@ const UniversityForm = ({ universityId, onSuccess, onCancel }: UniversityFormPro
                 </FormItem>
               )}
             />
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
 
         <div className="flex justify-between mt-8 pt-4 border-t">
-          <Button type="button" variant="outline" onClick={onCancel}>
-            Cancel
-          </Button>
-          <ShimmerButton 
-            type="submit"
-            shimmerColor="rgba(59, 130, 246, 0.5)"
-            background="linear-gradient(45deg, #3b82f6, #1d4ed8)"
-          >
-            {universityId !== null ? 'Update University' : 'Add University'}
-          </ShimmerButton>
+          <div>
+            {activeTab !== "basic" && (
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => {
+                  const tabs = ["basic", "details", "courses", "admission", "facilities", "gallery"];
+                  const currentIndex = tabs.indexOf(activeTab);
+                  if (currentIndex > 0) {
+                    setActiveTab(tabs[currentIndex - 1]);
+                  }
+                }}
+              >
+                Previous
+              </Button>
+            )}
+          </div>
+          
+          <div className="flex gap-4">
+            <Button type="button" variant="outline" onClick={onCancel}>
+              Cancel
+            </Button>
+            
+            {activeTab !== "gallery" ? (
+              <ShimmerButton
+                type="button"
+                onClick={() => {
+                  const tabs = ["basic", "details", "courses", "admission", "facilities", "gallery"];
+                  const currentIndex = tabs.indexOf(activeTab);
+                  if (currentIndex < tabs.length - 1) {
+                    setActiveTab(tabs[currentIndex + 1]);
+                  }
+                }}
+                shimmerColor="rgba(59, 130, 246, 0.5)"
+                background="linear-gradient(45deg, #3b82f6, #1d4ed8)"
+              >
+                Next
+              </ShimmerButton>
+            ) : (
+              <ShimmerButton 
+                type="submit"
+                shimmerColor="rgba(59, 130, 246, 0.5)"
+                background="linear-gradient(45deg, #3b82f6, #1d4ed8)"
+              >
+                {universityId !== null ? 'Update University' : 'Add University'}
+              </ShimmerButton>
+            )}
+          </div>
         </div>
       </form>
     </Form>

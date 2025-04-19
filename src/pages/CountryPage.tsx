@@ -64,22 +64,6 @@ const countryInfo: Record<
     image:
       "https://images.unsplash.com/photo-1584812720081-6e600e93d083?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
   },
-  philippines: {
-    heading: "Study MBBS in Philippines",
-    description:
-      "The Philippines offers American-patterned medical education with English as the medium of instruction. Filipino medical universities are recognized globally and provide quality education at affordable costs.",
-    benefits: [
-      "American-patterned education system with USMLE coaching",
-      "English as primary medium of instruction",
-      "WHO and NMC recognized medical degrees",
-      "Affordable tuition fees compared to Western countries",
-      "Clinical rotations in affiliated hospitals",
-      "Cultural similarity with India makes adaptation easier",
-      "Safe and welcoming environment for international students",
-    ],
-    image:
-      "https://images.unsplash.com/photo-1552168324-d612d77725e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-  },
 };
 
 const CountryPage = () => {

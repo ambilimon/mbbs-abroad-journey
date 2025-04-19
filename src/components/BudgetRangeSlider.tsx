@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
@@ -26,7 +27,7 @@ export function BudgetRangeSlider({
   step,
   value,
   onChange,
-  currency = "$",
+  currency = "₹",
   onCurrencyChange
 }: BudgetRangeSliderProps) {
   const [localValue, setLocalValue] = useState(value);
@@ -72,7 +73,18 @@ export function BudgetRangeSlider({
   };
 
   const formatCurrency = (value: number) => {
-    return `${currency}${value.toLocaleString()}`;
+    switch(currency) {
+      case "₹":
+        return `${currency}${value.toLocaleString('en-IN')}`;
+      case "$":
+        return `${currency}${value.toLocaleString('en-US')}`;
+      case "€":
+        return `${currency}${value.toLocaleString('de-DE')}`;
+      case "£":
+        return `${currency}${value.toLocaleString('en-GB')}`;
+      default:
+        return `${currency}${value.toLocaleString()}`;
+    }
   };
 
   const handleCurrencyChange = (newCurrency: string) => {
@@ -93,16 +105,16 @@ export function BudgetRangeSlider({
             <SelectValue placeholder="Currency" />
           </SelectTrigger>
           <SelectContent>
+            <SelectItem value="₹">₹ INR</SelectItem>
             <SelectItem value="$">$ USD</SelectItem>
             <SelectItem value="€">€ EUR</SelectItem>
             <SelectItem value="£">£ GBP</SelectItem>
-            <SelectItem value="₹">₹ INR</SelectItem>
           </SelectContent>
         </Select>
       </div>
       
-      <div className="py-1">
-        <div className="flex justify-between mb-2 text-sm">
+      <div className="py-4">
+        <div className="flex justify-between mb-2 text-sm text-muted-foreground">
           <span>{formatCurrency(localValue[0])}</span>
           <span>{formatCurrency(localValue[1])}</span>
         </div>
@@ -116,8 +128,8 @@ export function BudgetRangeSlider({
         />
       </div>
       
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
+      <div className="flex items-center justify-between gap-4">
+        <div className="space-y-1.5 w-full">
           <Label htmlFor="min-budget">Min</Label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
@@ -136,7 +148,7 @@ export function BudgetRangeSlider({
           </div>
         </div>
         
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 w-full">
           <Label htmlFor="max-budget">Max</Label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">

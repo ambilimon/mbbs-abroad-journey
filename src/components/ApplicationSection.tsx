@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from "react";
 import { Rocket, Phone, Globe, Check } from "lucide-react";
 import AnimatedButton from "./AnimatedButton";
@@ -204,11 +205,11 @@ const ApplicationSection = () => {
               <div className="space-y-3">
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 text-blue-700 mr-2" />
-                  <span className="text-sm">+91 9901712001</span>
+                  <span className="text-sm">+91 98765 43210</span>
                 </div>
                 <div className="flex items-center">
                   <Globe className="h-5 w-5 text-blue-700 mr-2" />
-                  <span className="text-sm">info@futuredoctoredu.com</span>
+                  <span className="text-sm">info@mbbsabroad.com</span>
                 </div>
               </div>
             </div>

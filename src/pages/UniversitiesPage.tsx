@@ -1,9 +1,11 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { UniversityCard } from "@/components/UniversityCard";
 import { FilterSidebar } from "@/components/FilterSidebar";
 import { CategoriesSidebar } from "@/components/CategoriesSidebar";
+import { universities } from "@/data/universities";
 import { Button } from "@/components/ui/button";
 import { 
   ListFilter, 
@@ -21,9 +23,6 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 
-// Import universities from UniversitySection
-import { universities } from "../components/UniversitySection";
-
 // Define types for filtering
 export type University = {
   id: number;
@@ -37,10 +36,6 @@ export type University = {
   rating: number;
   category: string;
   description?: string;
-  location?: string;
-  features?: string[];
-  duration?: string;
-  medium?: string;
   longDescription?: string;
   establishedYear?: string;
   studentCount?: string;
@@ -79,39 +74,24 @@ const UniversitiesPage = () => {
     currency: "₹",
   });
 
-  // Clear all filters
-  const clearFilters = () => {
-    setFilters({
-      countries: [],
-      categories: [],
-      minFee: 0,
-      maxFee: 5000000,
-      facilities: [],
-      currency: "₹",
-    });
-    setSearchTerm("");
-  };
-
   // Apply filters to universities
   const filteredUniversities = universities.filter((university) => {
     // Filter by search term
     if (searchTerm && 
         !university.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        !(university.country && university.country.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        !(university.city && university.city.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        !(university.category && university.category.toLowerCase().includes(searchTerm.toLowerCase()))) {
+        !university.country.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        !university.city.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        !university.category.toLowerCase().includes(searchTerm.toLowerCase())) {
       return false;
     }
     
     // Filter by countries if any selected
-    if (filters.countries.length > 0 && 
-        !(university.country && filters.countries.includes(university.country.toLowerCase()))) {
+    if (filters.countries.length > 0 && !filters.countries.includes(university.country)) {
       return false;
     }
 
     // Filter by categories if any selected
-    if (filters.categories.length > 0 && 
-        !(university.category && filters.categories.includes(university.category))) {
+    if (filters.categories.length > 0 && !filters.categories.includes(university.category)) {
       return false;
     }
 
@@ -121,7 +101,7 @@ const UniversitiesPage = () => {
     }
 
     // Filter by facilities if any selected
-    if (filters.facilities.length > 0 && university.facilities) {
+    if (filters.facilities.length > 0) {
       // Check if university has all selected facilities
       return filters.facilities.every((facility) => 
         university.facilities.includes(facility)
@@ -152,7 +132,7 @@ const UniversitiesPage = () => {
               className="md:hidden"
             >
               <ListFilter className="h-4 w-4 mr-2" />
-              {showFilterSidebar ? "Hide Filters" : "Show Filters"}
+              Filters
             </Button>
             <div className="font-medium">
               {filteredUniversities.length} {filteredUniversities.length === 1 ? 'University' : 'Universities'} found
@@ -189,34 +169,30 @@ const UniversitiesPage = () => {
 
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left Sidebar - Filters */}
-          <aside className={`${showFilterSidebar ? 'block' : 'hidden'} md:block w-full md:w-1/4 lg:w-1/5 space-y-6`}>
-            <FilterSidebar 
-              filters={filters} 
-              setFilters={setFilters} 
-              onClose={() => setShowFilterSidebar(false)}
-            />
-          </aside>
+          {showFilterSidebar && (
+            <aside className="w-full md:w-1/4 lg:w-1/5 space-y-6">
+              <FilterSidebar 
+                filters={filters} 
+                setFilters={setFilters} 
+                onClose={() => setShowFilterSidebar(false)}
+              />
+            </aside>
+          )}
 
           {/* Main Content - University Cards */}
-          <div className="flex-1">
+          <div className={`flex-1 ${viewMode === "grid" ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" : "space-y-4"}`}>
             {filteredUniversities.length > 0 ? (
-              <div className={viewMode === "grid" 
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max" 
-                : "space-y-4"
-              }>
-                {filteredUniversities.map((university) => (
-                  <UniversityCard 
-                    key={university.id} 
-                    university={university} 
-                    viewMode={viewMode}
-                  />
-                ))}
-              </div>
+              filteredUniversities.map((university) => (
+                <UniversityCard 
+                  key={university.id} 
+                  university={university} 
+                  viewMode={viewMode}
+                />
+              ))
             ) : (
               <div className="w-full text-center py-12 bg-muted rounded-lg">
                 <h3 className="text-xl font-medium mb-2">No universities found</h3>
                 <p className="text-muted-foreground">Try adjusting your filters to see more results.</p>
-                <Button variant="outline" onClick={clearFilters} className="mt-4">Clear All Filters</Button>
               </div>
             )}
           </div>
@@ -281,9 +257,9 @@ const UniversitiesPage = () => {
                 <div className="bg-primary/10 p-3 rounded-full w-fit mb-4">
                   <Download className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Free Resources</h3>
+                <h3 className="text-xl font-semibold mb-2">Downloadable Resources</h3>
                 <p className="text-muted-foreground mb-4">
-                  Download free university brochures, country guides, and application checklists.
+                  PDFs, checklists, and guides to help you prepare for application, admission, and studying abroad.
                 </p>
                 <Link to="/resources/downloads">
                   <Button variant="outline" className="w-full">
@@ -293,9 +269,42 @@ const UniversitiesPage = () => {
               </CardContent>
             </Card>
           </div>
+
+          <div className="mt-10 bg-muted rounded-xl p-8">
+            <div className="flex flex-col md:flex-row gap-6 items-center">
+              <div className="flex-1">
+                <Badge variant="secondary" className="mb-2">Expert Assistance</Badge>
+                <h3 className="text-2xl font-bold mb-3">Need Help Finding the Right University?</h3>
+                <p className="text-muted-foreground mb-4">
+                  Our education consultants can help you navigate through options and find the perfect match based on your budget, career goals, and preferences.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <Link to="/#application">
+                    <Button>
+                      <GraduationCap className="mr-2 h-4 w-4" />
+                      Get Free Counseling
+                    </Button>
+                  </Link>
+                  <Link to="/resources/comparison">
+                    <Button variant="outline">
+                      <Search className="mr-2 h-4 w-4" />
+                      Compare Universities
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+              <div className="md:w-1/3 relative">
+                <img 
+                  src="public/lovable-uploads/fb26b009-cb40-4508-a3f2-b78eb415dccd.png" 
+                  alt="Educational Counseling"
+                  className="rounded-lg shadow-lg max-h-64 object-cover"
+                />
+              </div>
+            </div>
+          </div>
         </section>
       </main>
-      
+
       <Footer />
     </div>
   );
