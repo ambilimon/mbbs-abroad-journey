@@ -869,23 +869,29 @@ export default function UniversitySection() {
 
   return (
     <div className="px-4 md:px-8 py-10">
-      <Tabs defaultValue={selectedCountry} onValueChange={handleCountryChange}>
-        <TabsList className="flex flex-wrap justify-center gap-2 mb-6">
-          {countries.map((country) => (
-            <TabsTrigger key={country} value={country}>
-              {country.charAt(0).toUpperCase() + country.slice(1)}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-
-        <TabsContent value={selectedCountry}>
-          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl">
-            {filteredUniversities.map((uni) => (
-              <UniversityCard key={uni.id} university={uni} viewMode="grid" />
+      <div className="max-w-[100vw] overflow-hidden">
+        <Tabs defaultValue={selectedCountry} onValueChange={handleCountryChange}>
+          <TabsList className="flex flex-wrap justify-center gap-2 mb-6 p-1 overflow-x-auto max-w-full mx-auto">
+            {countries.map((country) => (
+              <TabsTrigger 
+                key={country} 
+                value={country}
+                className="whitespace-nowrap px-3 py-1.5"
+              >
+                {country.charAt(0).toUpperCase() + country.slice(1)}
+              </TabsTrigger>
             ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+          </TabsList>
+
+          <TabsContent value={selectedCountry}>
+            <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl">
+              {filteredUniversities.map((uni) => (
+                <UniversityCard key={uni.id} university={uni} viewMode="grid" />
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
