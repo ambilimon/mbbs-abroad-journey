@@ -46,61 +46,27 @@ const ContactPage = () => {
                   <h2 className="text-2xl font-bold text-blue-900 mb-6">Contact Information</h2>
                   
                   <div className="space-y-6">
-                    <div className="flex items-start">
-                      <div className="bg-blue-100 rounded-full p-3 mr-4">
-                        <MapPin className="h-6 w-6 text-blue-700" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900">Our Office</h3>
-                        <p className="text-gray-600 mt-1">
-                          #79khb colony, 2nd phase opposite Karnataka bank, Gopal, Shimoga - 577205
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start">
-                      <div className="bg-blue-100 rounded-full p-3 mr-4">
-                        <Mail className="h-6 w-6 text-blue-700" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900">Email Us</h3>
-                        <p className="text-gray-600 mt-1">
-                          <a href="mailto:info@futuredoctoredu.com" className="hover:text-blue-700 transition-colors">
-                            info@futuredoctoredu.com
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start">
-                      <div className="bg-blue-100 rounded-full p-3 mr-4">
-                        <Phone className="h-6 w-6 text-blue-700" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900">Call Us</h3>
-                        <p className="text-gray-600 mt-1">
-                          <a href="tel:+919901712001" className="hover:text-blue-700 transition-colors">
-                            +91 9901712001
-                          </a>
-                        </p>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Address</h3>
+                      <div className="flex items-start space-x-2">
+                        <MapPin className="h-6 w-6 mt-1 text-primary" />
                         <p className="text-gray-600">
-                          <a href="tel:+919902342001" className="hover:text-blue-700 transition-colors">
-                            +91 9902342001
-                          </a>
+                          #79khb colony, 2nd phase opposite Karnataka bank, Gopal, Shimoga -577205.
                         </p>
                       </div>
                     </div>
-                    
-                    <div className="flex items-start">
-                      <div className="bg-blue-100 rounded-full p-3 mr-4">
-                        <Clock className="h-6 w-6 text-blue-700" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900">Working Hours</h3>
-                        <p className="text-gray-600 mt-1">Monday - Friday: 9:00 AM - 6:00 PM</p>
-                        <p className="text-gray-600">Saturday: 10:00 AM - 4:00 PM</p>
-                        <p className="text-gray-600">Sunday: Closed</p>
-                      </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Phone</h3>
+                      <p className="text-gray-600">
+                        <a href="tel:+919901712001" className="hover:text-primary">+91 9901712001</a><br />
+                        <a href="tel:+919902342001" className="hover:text-primary">+91 9902342001</a>
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold mb-2">Email</h3>
+                      <p className="text-gray-600">
+                        <a href="mailto:info@futuredoctoredu.com" className="hover:text-primary">info@futuredoctoredu.com</a>
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -141,13 +107,15 @@ const ContactPage = () => {
             <h2 className="text-3xl font-bold text-center text-blue-900 mb-12">Find Us on Map</h2>
             <div className="rounded-xl overflow-hidden shadow-lg h-[400px]">
               <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d241317.1160984904!2d72.72145953266844!3d19.08250800284276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1651994941454!5m2!1sen!2sin" 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3870.1436340454567!2d75.56543661482946!3d13.932799990212744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbba8650e75eb49%3A0x9e3d6c1f0000000!2sKarnataka%20Bank%2C%20KHB%20Colony%2C%20Shimoga%2C%20Karnataka%20577205!5e0!3m2!1sen!2sin!4v1651994941454!5m2!1sen!2sin"
                 width="100%" 
                 height="100%" 
                 style={{ border: 0 }} 
                 allowFullScreen
                 loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
                 title="Office Location Map"
+                aria-label="Map showing our office location in Shimoga"
               ></iframe>
             </div>
           </div>

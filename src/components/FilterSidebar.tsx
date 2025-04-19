@@ -1,224 +1,182 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { X, ChevronDown, ChevronUp } from "lucide-react";
+import { Filters } from "@/pages/UniversitiesPage";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { University } from "@/pages/UniversitiesPage";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { 
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger 
+} from "@/components/ui/collapsible";
+import { BudgetRangeSlider } from "@/components/BudgetRangeSlider";
+import { facilityOptions } from "@/data/universities";
 
 interface FilterSidebarProps {
-  universities: University[];
-  selectedCountries: string[];
-  selectedCategories: string[];
-  selectedFacilities: string[];
-  minFee?: number;
-  maxFee?: number;
-  onCountryChange: (country: string) => void;
-  onCategoryChange: (category: string) => void;
-  onFacilityChange: (facility: string) => void;
-  onFeeRangeChange: (min?: number, max?: number) => void;
-  onReset: () => void;
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  onClose: () => void;
 }
 
-export function FilterSidebar({
-  universities,
-  selectedCountries,
-  selectedCategories,
-  selectedFacilities,
-  minFee,
-  maxFee,
-  onCountryChange,
-  onCategoryChange,
-  onFacilityChange,
-  onFeeRangeChange,
-  onReset,
-}: FilterSidebarProps) {
-  const [expandedSections, setExpandedSections] = useState({
-    countries: true,
-    categories: true,
-    facilities: true,
-    fees: true,
-  });
+export function FilterSidebar({ filters, setFilters, onClose }: FilterSidebarProps) {
+  const [priceRange, setPriceRange] = useState<[number, number]>([filters.minFee, filters.maxFee]);
+  const [facilitiesOpen, setFacilitiesOpen] = useState(true);
 
-  // Extract unique values
-  const uniqueCountries = Array.from(new Set(universities.map(u => u.country))).sort();
-  const uniqueCategories = Array.from(new Set(universities.map(u => u.category))).sort();
-  const uniqueFacilities = Array.from(new Set(universities.flatMap(u => u.facilities || []))).sort();
-
-  const toggleSection = (section: keyof typeof expandedSections) => {
-    setExpandedSections(prev => ({
-      ...prev,
-      [section]: !prev[section],
-    }));
+  const handlePriceChange = (values: [number, number]) => {
+    setPriceRange(values);
+    setFilters({
+      ...filters,
+      minFee: values[0],
+      maxFee: values[1],
+    });
   };
 
-  const handleFeeChange = (type: "min" | "max", value: string) => {
-    const numValue = value ? Number(value) : undefined;
-    if (type === "min") {
-      onFeeRangeChange(numValue, maxFee);
-    } else {
-      onFeeRangeChange(minFee, numValue);
-    }
+  const handleCurrencyChange = (currency: string) => {
+    setFilters({
+      ...filters,
+      currency,
+    });
   };
+
+  const handleFacilityChange = (facility: string, checked: boolean) => {
+    setFilters({
+      ...filters,
+      facilities: checked
+        ? [...filters.facilities, facility]
+        : filters.facilities.filter((f) => f !== facility),
+    });
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      countries: [],
+      categories: [],
+      minFee: 0,
+      maxFee: 50000,
+      facilities: [],
+      currency: "$",
+    });
+    setPriceRange([0, 50000]);
+  };
+
+  // Add Indian Food to the facilities list if it's not already included
+  const extendedFacilityOptions = [...facilityOptions];
+  if (!extendedFacilityOptions.includes("Indian Food")) {
+    extendedFacilityOptions.push("Indian Food");
+  }
 
   return (
-    <div className="w-full max-w-xs space-y-4 p-4 bg-card rounded-lg border">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Filters</h3>
-        <Button variant="ghost" size="sm" onClick={onReset}>
-          Reset
-        </Button>
-      </div>
-
+    <Card className="sticky top-24">
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardTitle className="text-lg">Filters</CardTitle>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={clearFilters}>
+            Reset
+          </Button>
+          <Button variant="ghost" size="sm" className="md:hidden" onClick={onClose}>
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardHeader>
       <Separator />
-
-      {/* Countries Section */}
-      <div>
-        <button
-          className="flex justify-between items-center w-full py-2"
-          onClick={() => toggleSection("countries")}
-        >
-          <span className="font-medium">Countries</span>
-          {expandedSections.countries ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
-        </button>
-        {expandedSections.countries && (
-          <div className="space-y-2 mt-2">
-            {uniqueCountries.map((country) => (
-              <div key={country} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`country-${country}`}
-                  checked={selectedCountries.includes(country)}
-                  onCheckedChange={() => onCountryChange(country)}
-                />
-                <Label
-                  htmlFor={`country-${country}`}
-                  className="text-sm cursor-pointer"
-                >
-                  {country}
-                </Label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <Separator />
-
-      {/* Categories Section */}
-      <div>
-        <button
-          className="flex justify-between items-center w-full py-2"
-          onClick={() => toggleSection("categories")}
-        >
-          <span className="font-medium">Categories</span>
-          {expandedSections.categories ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
-        </button>
-        {expandedSections.categories && (
-          <div className="space-y-2 mt-2">
-            {uniqueCategories.map((category) => (
-              <div key={category} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`category-${category}`}
-                  checked={selectedCategories.includes(category)}
-                  onCheckedChange={() => onCategoryChange(category)}
-                />
-                <Label
-                  htmlFor={`category-${category}`}
-                  className="text-sm cursor-pointer"
-                >
-                  {category}
-                </Label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <Separator />
-
-      {/* Facilities Section */}
-      <div>
-        <button
-          className="flex justify-between items-center w-full py-2"
-          onClick={() => toggleSection("facilities")}
-        >
-          <span className="font-medium">Facilities</span>
-          {expandedSections.facilities ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
-        </button>
-        {expandedSections.facilities && (
-          <div className="space-y-2 mt-2">
-            {uniqueFacilities.map((facility) => (
-              <div key={facility} className="flex items-center space-x-2">
-                <Checkbox
-                  id={`facility-${facility}`}
-                  checked={selectedFacilities.includes(facility)}
-                  onCheckedChange={() => onFacilityChange(facility)}
-                />
-                <Label
-                  htmlFor={`facility-${facility}`}
-                  className="text-sm cursor-pointer"
-                >
-                  {facility}
-                </Label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <Separator />
-
-      {/* Fee Range Section */}
-      <div>
-        <button
-          className="flex justify-between items-center w-full py-2"
-          onClick={() => toggleSection("fees")}
-        >
-          <span className="font-medium">Annual Fee Range</span>
-          {expandedSections.fees ? (
-            <ChevronUp className="h-4 w-4" />
-          ) : (
-            <ChevronDown className="h-4 w-4" />
-          )}
-        </button>
-        {expandedSections.fees && (
-          <div className="space-y-4 mt-2">
-            <div className="space-y-2">
-              <Label htmlFor="min-fee">Minimum (₹)</Label>
-              <Input
-                id="min-fee"
-                type="number"
-                placeholder="Min"
-                value={minFee || ""}
-                onChange={(e) => handleFeeChange("min", e.target.value)}
+      <CardContent className="pt-4">
+        <ScrollArea className="h-[calc(100vh-240px)] pr-4">
+          <div className="space-y-6">
+            {/* Budget filter */}
+            <div className="space-y-3">
+              <h3 className="font-medium">Budget Range</h3>
+              <BudgetRangeSlider
+                minValue={0}
+                maxValue={50000}
+                step={1000}
+                value={priceRange}
+                onChange={handlePriceChange}
+                currency={filters.currency || "$"}
+                onCurrencyChange={handleCurrencyChange}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="max-fee">Maximum (₹)</Label>
-              <Input
-                id="max-fee"
-                type="number"
-                placeholder="Max"
-                value={maxFee || ""}
-                onChange={(e) => handleFeeChange("max", e.target.value)}
-              />
-            </div>
+
+            <Separator />
+
+            {/* Facilities filter */}
+            <Collapsible 
+              open={facilitiesOpen} 
+              onOpenChange={setFacilitiesOpen}
+              className="space-y-3"
+            >
+              <CollapsibleTrigger asChild>
+                <div className="flex items-center justify-between cursor-pointer">
+                  <h3 className="font-medium">Facilities</h3>
+                  {facilitiesOpen ? (
+                    <ChevronUp className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                  )}
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="space-y-3">
+                <div className="grid grid-cols-1 gap-3">
+                  {extendedFacilityOptions.map((facility) => (
+                    <div key={facility} className="flex items-center space-x-2">
+                      <Checkbox
+                        id={`facility-${facility}`}
+                        checked={filters.facilities.includes(facility)}
+                        onCheckedChange={(checked) =>
+                          handleFacilityChange(facility, checked === true)
+                        }
+                      />
+                      <Label
+                        htmlFor={`facility-${facility}`}
+                        className="text-sm font-normal leading-none cursor-pointer"
+                      >
+                        {facility}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
+
+            {/* Applied filters summary */}
+            {(filters.facilities.length > 0 || 
+              filters.minFee > 0 || 
+              filters.maxFee < 50000) && (
+              <>
+                <Separator />
+                <div className="space-y-3">
+                  <h3 className="font-medium">Applied Filters</h3>
+                  <div className="space-y-2">
+                    {filters.minFee > 0 || filters.maxFee < 50000 ? (
+                      <div className="text-sm text-muted-foreground">
+                        Budget: {filters.currency}{filters.minFee.toLocaleString()} - {filters.currency}{filters.maxFee.toLocaleString()}
+                      </div>
+                    ) : null}
+                    
+                    {filters.facilities.length > 0 && (
+                      <div className="space-y-1">
+                        <div className="text-sm text-muted-foreground">
+                          Facilities: {filters.facilities.length}
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {filters.facilities.map(facility => (
+                            <div key={facility} className="text-xs bg-secondary px-2 py-1 rounded-full">
+                              {facility}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
-        )}
-      </div>
-    </div>
+        </ScrollArea>
+      </CardContent>
+    </Card>
   );
 }

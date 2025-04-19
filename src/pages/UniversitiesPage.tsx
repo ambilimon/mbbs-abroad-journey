@@ -1,36 +1,74 @@
 import { useState } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { UniversityCard } from "@/components/UniversityCard";
 import { FilterSidebar } from "@/components/FilterSidebar";
+import { CategoriesSidebar } from "@/components/CategoriesSidebar";
 import { Button } from "@/components/ui/button";
+import { 
+  ListFilter, 
+  Grid3X3, 
+  List, 
+  BookOpen, 
+  Search, 
+  Lightbulb,
+  GraduationCap,
+  Download
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
-import { Filter, Search } from "lucide-react";
+import { Link } from "react-router-dom";
 
-export interface University {
-  id: string;
+// Import universities from UniversitySection
+import { universities } from "../components/UniversitySection";
+
+// Define types for filtering
+export type University = {
+  id: number;
   name: string;
   country: string;
-  category: string;
-  annualFee: number;
+  city: string;
+  tuitionFee: number;
   currency: string;
+  image: string;
   facilities: string[];
   rating: number;
-  imageUrl: string;
-  description: string;
-}
+  category: string;
+  description?: string;
+  location?: string;
+  features?: string[];
+  duration?: string;
+  medium?: string;
+  longDescription?: string;
+  establishedYear?: string;
+  studentCount?: string;
+  facultyCount?: string;
+  hospitalAffiliations?: string[];
+  recognition?: string[];
+  courses?: { name: string; duration: string; fees: string; }[];
+  admissionProcess?: string[];
+  eligibility?: string[];
+  advantages?: string[];
+  documents?: string[];
+  scholarships?: string[];
+  hostelInfo?: string;
+  indianFoodAvailability?: string;
+};
 
-export interface Filters {
+export type Filters = {
   countries: string[];
   categories: string[];
   minFee: number;
   maxFee: number;
   facilities: string[];
-  currency: string;
-}
+  currency?: string;
+};
 
-export default function UniversitiesPage() {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+const UniversitiesPage = () => {
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [showFilterSidebar, setShowFilterSidebar] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filters, setFilters] = useState<Filters>({
     countries: [],
@@ -38,37 +76,59 @@ export default function UniversitiesPage() {
     minFee: 0,
     maxFee: 5000000,
     facilities: [],
-    currency: "₹"
+    currency: "₹",
   });
 
-  // Sample universities data (replace with actual data)
-  const universities: University[] = [
-    {
-      id: "1",
-      name: "Medical University of Georgia",
-      country: "georgia",
-      category: "Medical",
-      annualFee: 2500000,
+  // Clear all filters
+  const clearFilters = () => {
+    setFilters({
+      countries: [],
+      categories: [],
+      minFee: 0,
+      maxFee: 5000000,
+      facilities: [],
       currency: "₹",
-      facilities: ["Library", "Laboratory", "Hostel"],
-      rating: 4.5,
-      imageUrl: "/universities/georgia-1.jpg",
-      description: "One of the leading medical universities in Georgia..."
-    },
-    // ... more universities
-  ];
+    });
+    setSearchTerm("");
+  };
 
-  const filteredUniversities = universities.filter(university => {
-    const matchesSearch = university.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      university.country.toLowerCase().includes(searchTerm.toLowerCase());
+  // Apply filters to universities
+  const filteredUniversities = universities.filter((university) => {
+    // Filter by search term
+    if (searchTerm && 
+        !university.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        !(university.country && university.country.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        !(university.city && university.city.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        !(university.category && university.category.toLowerCase().includes(searchTerm.toLowerCase()))) {
+      return false;
+    }
+    
+    // Filter by countries if any selected
+    if (filters.countries.length > 0 && 
+        !(university.country && filters.countries.includes(university.country.toLowerCase()))) {
+      return false;
+    }
 
-    const matchesCountry = filters.countries.length === 0 || filters.countries.includes(university.country.toLowerCase());
-    const matchesCategory = filters.categories.length === 0 || filters.categories.includes(university.category);
-    const matchesFee = university.annualFee >= filters.minFee && university.annualFee <= filters.maxFee;
-    const matchesFacilities = filters.facilities.length === 0 ||
-      filters.facilities.every(facility => university.facilities.includes(facility));
+    // Filter by categories if any selected
+    if (filters.categories.length > 0 && 
+        !(university.category && filters.categories.includes(university.category))) {
+      return false;
+    }
 
-    return matchesSearch && matchesCountry && matchesCategory && matchesFee && matchesFacilities;
+    // Filter by fee range
+    if (university.tuitionFee < filters.minFee || university.tuitionFee > filters.maxFee) {
+      return false;
+    }
+
+    // Filter by facilities if any selected
+    if (filters.facilities.length > 0 && university.facilities) {
+      // Check if university has all selected facilities
+      return filters.facilities.every((facility) => 
+        university.facilities.includes(facility)
+      );
+    }
+
+    return true;
   });
 
   return (
@@ -76,66 +136,169 @@ export default function UniversitiesPage() {
       <Navbar />
       
       <main className="flex-1 container mx-auto px-4 py-8">
-        <div className="flex flex-col space-y-6">
-          {/* Header */}
-          <div className="flex flex-col space-y-4">
-            <h1 className="text-3xl font-bold">Universities</h1>
-            <p className="text-muted-foreground">
-              Explore our curated list of top medical universities worldwide
-            </p>
-          </div>
+        <div className="mb-8 text-center">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 text-primary">Find Your Perfect University</h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Explore and filter through top medical universities across the globe to find the ideal match for your academic journey.
+          </p>
+        </div>
 
-          {/* Search and Filter Bar */}
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-              <Input
-                placeholder="Search universities..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
+        <div className="flex justify-between items-center mb-6 gap-4 flex-wrap">
+          <div className="flex items-center gap-2">
             <Button
               variant="outline"
-              className="md:hidden flex items-center gap-2"
-              onClick={() => setIsFilterOpen(true)}
+              size="sm"
+              onClick={() => setShowFilterSidebar(!showFilterSidebar)}
+              className="md:hidden"
             >
-              <Filter className="h-4 w-4" />
-              Filters
+              <ListFilter className="h-4 w-4 mr-2" />
+              {showFilterSidebar ? "Hide Filters" : "Show Filters"}
             </Button>
-          </div>
-
-          {/* Main Content */}
-          <div className="grid grid-cols-12 gap-6">
-            {/* Filter Sidebar */}
-            <div className={`${isFilterOpen ? 'block' : 'hidden'} md:block col-span-12 md:col-span-3`}>
-              <FilterSidebar
-                filters={filters}
-                setFilters={setFilters}
-                onClose={() => setIsFilterOpen(false)}
-              />
+            <div className="font-medium">
+              {filteredUniversities.length} {filteredUniversities.length === 1 ? 'University' : 'Universities'} found
             </div>
-
-            {/* Universities Grid */}
-            <div className="col-span-12 md:col-span-9">
-              {filteredUniversities.length === 0 ? (
-                <div className="text-center py-12">
-                  <p className="text-muted-foreground">No universities found matching your criteria</p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredUniversities.map((university) => (
-                    <UniversityCard key={university.id} university={university} />
-                  ))}
-                </div>
-              )}
+          </div>
+          
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <Input
+              placeholder="Search universities..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="max-w-xs flex-1"
+            />
+            <div className="hidden md:flex items-center border rounded-md">
+              <Button
+                variant={viewMode === "grid" ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("grid")}
+                className="rounded-r-none"
+              >
+                <Grid3X3 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "list" ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setViewMode("list")}
+                className="rounded-l-none"
+              >
+                <List className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         </div>
-      </main>
 
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Left Sidebar - Filters */}
+          <aside className={`${showFilterSidebar ? 'block' : 'hidden'} md:block w-full md:w-1/4 lg:w-1/5 space-y-6`}>
+            <FilterSidebar 
+              filters={filters} 
+              setFilters={setFilters} 
+              onClose={() => setShowFilterSidebar(false)}
+            />
+          </aside>
+
+          {/* Main Content - University Cards */}
+          <div className="flex-1">
+            {filteredUniversities.length > 0 ? (
+              <div className={viewMode === "grid" 
+                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-max" 
+                : "space-y-4"
+              }>
+                {filteredUniversities.map((university) => (
+                  <UniversityCard 
+                    key={university.id} 
+                    university={university} 
+                    viewMode={viewMode}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="w-full text-center py-12 bg-muted rounded-lg">
+                <h3 className="text-xl font-medium mb-2">No universities found</h3>
+                <p className="text-muted-foreground">Try adjusting your filters to see more results.</p>
+                <Button variant="outline" onClick={clearFilters} className="mt-4">Clear All Filters</Button>
+              </div>
+            )}
+          </div>
+
+          {/* Right Sidebar - Categories */}
+          <aside className="hidden lg:block w-1/4">
+            <CategoriesSidebar 
+              filters={filters} 
+              setFilters={setFilters} 
+              universities={universities}
+            />
+          </aside>
+        </div>
+
+        {/* Research Resources Section */}
+        <section className="mt-16 mb-8">
+          <div className="text-center mb-8">
+            <Badge variant="outline" className="mb-3">Research Resources</Badge>
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Your Complete Research Guide</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Access comprehensive resources to help you make an informed decision for your medical education abroad.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card className="hover:shadow-md transition-all">
+              <CardContent className="p-6">
+                <div className="bg-primary/10 p-3 rounded-full w-fit mb-4">
+                  <BookOpen className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">University Guides</h3>
+                <p className="text-muted-foreground mb-4">
+                  In-depth guides for each country's education system, admission requirements, and university rankings.
+                </p>
+                <Link to="/resources/guides">
+                  <Button variant="outline" className="w-full">
+                    View Guides
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-all">
+              <CardContent className="p-6">
+                <div className="bg-primary/10 p-3 rounded-full w-fit mb-4">
+                  <Lightbulb className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Decision Tools</h3>
+                <p className="text-muted-foreground mb-4">
+                  Interactive tools to compare universities, calculate costs, and evaluate return on investment.
+                </p>
+                <Link to="/resources/tools">
+                  <Button variant="outline" className="w-full">
+                    Use Tools
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-md transition-all">
+              <CardContent className="p-6">
+                <div className="bg-primary/10 p-3 rounded-full w-fit mb-4">
+                  <Download className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">Free Resources</h3>
+                <p className="text-muted-foreground mb-4">
+                  Download free university brochures, country guides, and application checklists.
+                </p>
+                <Link to="/resources/downloads">
+                  <Button variant="outline" className="w-full">
+                    Download
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
+      </main>
+      
       <Footer />
     </div>
   );
-}
+};
+
+export default UniversitiesPage;

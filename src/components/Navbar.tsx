@@ -56,7 +56,7 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/universities", label: "Universities" },
     { href: "/apply-now", label: "Apply Now" },
-    { href: "/#contact", label: "Contact" },
+    { href: "/contact", label: "Contact" },
   ];
 
   // Updated isActive function to handle hash links correctly

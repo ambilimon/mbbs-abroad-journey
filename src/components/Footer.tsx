@@ -1,6 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaFacebookF, FaTwitter, FaLinkedinIn, FaInstagram } from 'react-icons/fa';
+import { 
+  FaFacebookF, 
+  FaTwitter, 
+  FaLinkedinIn, 
+  FaInstagram,
+  FaMapPin,
+  FaPhone,
+  FaEnvelope 
+} from 'react-icons/fa';
 import Logo from './Logo';
 
 const Footer: React.FC = () => {
@@ -63,28 +71,25 @@ const Footer: React.FC = () => {
           </div>
           
           <div className="mb-6">
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900">Contact Us</h3>
-              <div className="space-y-2 text-gray-600">
-                <p>
-                  #79khb colony, 2nd phase opposite Karnataka bank,<br />
-                  Gopal, Shimoga - 577205
-                </p>
-                <p>
-                  <a href="tel:+919901712001" className="hover:text-blue-700 transition-colors">
-                    +91 9901712001
-                  </a>
-                </p>
-                <p>
-                  <a href="tel:+919902342001" className="hover:text-blue-700 transition-colors">
-                    +91 9902342001
-                  </a>
-                </p>
-                <p>
-                  <a href="mailto:info@futuredoctoredu.com" className="hover:text-blue-700 transition-colors">
-                    info@futuredoctoredu.com
-                  </a>
-                </p>
+            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+            <div className="flex flex-col space-y-4">
+              <div className="flex items-center space-x-2">
+                <FaPhone size={24} className="text-gray-400" />
+                <a href="tel:+919901712001" className="hover:text-blue-600">+91 9901712001</a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <FaPhone size={24} className="text-gray-400" />
+                <a href="tel:+919902342001" className="hover:text-blue-600">+91 9902342001</a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <FaEnvelope size={24} className="text-gray-400" />
+                <a href="mailto:info@futuredoctoredu.com" className="hover:text-blue-600">info@futuredoctoredu.com</a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <FaMapPin size={24} className="text-gray-400" />
+                <address className="not-italic hover:text-blue-600">
+                  #79khb colony, 2nd phase opposite Karnataka bank, Gopal, Shimoga -577205.
+                </address>
               </div>
             </div>
           </div>
