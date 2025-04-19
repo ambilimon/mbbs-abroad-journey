@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { ShimmerButton } from "@/components/ShimmerButton";
-import { ExternalLink, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { University } from "@/data/medical-universities";
 
 interface CountryUniversityListProps {

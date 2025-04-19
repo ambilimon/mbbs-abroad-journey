@@ -1,5 +1,5 @@
 import { useSupabase } from '@/hooks/useSupabase';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
 import { ShimmerButton } from "./ShimmerButton";
 import { 
@@ -52,11 +52,14 @@ const carouselUniversities = [
   }
 ];
 
-const HeroSection = () => {
+export default function HeroSection() {
   const { user } = useSupabase();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [carouselApi, setCarouselApi] = useState<CarouselApi | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState("russia");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!carouselApi) {
@@ -101,6 +104,14 @@ const HeroSection = () => {
       }
     };
   }, []);
+
+  const handleCountrySelect = async (country: string) => {
+    setIsLoading(true);
+    setSelectedCountry(country);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    setIsLoading(false);
+    navigate(`/mbbs-in-${country.toLowerCase()}`);
+  };
 
   return (
     <section
@@ -171,7 +182,7 @@ const HeroSection = () => {
                 setApi={setCarouselApi}
               >
                 <CarouselContent>
-                  {carouselUniversities.map((university, index) => (
+                  {carouselUniversities.map((university) => (
                     <CarouselItem key={university.id}>
                       <div className="p-1">
                         <div className="rounded-2xl overflow-hidden shadow-smooth-lg">
@@ -256,6 +267,4 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
-
-export default HeroSection;
+}

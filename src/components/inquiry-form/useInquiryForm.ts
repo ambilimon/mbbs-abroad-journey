@@ -1,96 +1,44 @@
-
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/lib/supabase";
-import { saveStudentInquiry } from "@/lib/database";
-import { inquiryFormSchema, StudentInquiryFormValues, StudentInquiryFormProps } from "./types";
+import { useNavigate } from "react-router-dom";
 
-export const useInquiryForm = ({ universityId, onSuccess }: StudentInquiryFormProps) => {
+export interface InquiryFormData {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+}
+
+export function useInquiryForm() {
+  const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Setup form with Zod validation
-  const form = useForm<StudentInquiryFormValues>({
-    resolver: zodResolver(inquiryFormSchema),
-    defaultValues: {
-      name: "",
-      phone: "",
-      email: "",
-      preferredCountries: [],
-      message: "",
-    },
-  });
+  const navigate = useNavigate();
 
-  const onSubmit = async (values: StudentInquiryFormValues) => {
-    setIsSubmitting(true);
-    
+  const handleSubmit = async (data: InquiryFormData) => {
+    setIsLoading(true);
     try {
-      // Save to Supabase
-      const inquiryData = {
-        ...values,
-        timestamp: new Date().toISOString(),
-        status: 'new',
-      };
-      
-      const { success, error } = await saveStudentInquiry(inquiryData);
-      
-      if (!success) {
-        throw error;
-      }
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
-        title: "Inquiry Submitted!",
-        description: "We'll contact you shortly about your application.",
+        title: "Success!",
+        description: "Your inquiry has been submitted. We'll contact you soon.",
       });
       
-      // Reset form
-      form.reset();
-      
-      if (onSuccess) {
-        onSuccess();
-      }
-    } catch (e) {
-      console.error("Error saving inquiry", e);
-      
-      // Fallback to localStorage
-      try {
-        const inquiries = JSON.parse(localStorage.getItem('inquiries') || '[]');
-        inquiries.push({
-          ...values,
-          timestamp: new Date().toISOString(),
-          id: Date.now()
-        });
-        localStorage.setItem('inquiries', JSON.stringify(inquiries));
-        
-        toast({
-          title: "Inquiry Submitted!",
-          description: "We'll contact you shortly about your application.",
-        });
-        
-        // Reset form
-        form.reset();
-        
-        if (onSuccess) {
-          onSuccess();
-        }
-      } catch (e) {
-        console.error("Error saving inquiry to localStorage", e);
-        toast({
-          title: "Error",
-          description: "There was a problem submitting your inquiry.",
-          variant: "destructive",
-        });
-      }
+      navigate("/thank-you");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
     } finally {
-      setIsSubmitting(false);
+      setIsLoading(false);
     }
   };
 
   return {
-    form,
-    isSubmitting,
-    onSubmit
+    isLoading,
+    handleSubmit,
   };
-};
+}
