@@ -44,7 +44,7 @@ const OurServicesPage = () => {
               </div>
               <div className="rounded-lg overflow-hidden shadow-md">
                 <img 
-                  src="https://images.unsplash.com/photo-1466721591366-2d5fba72006d" 
+                  src="/UNIVERSITY IMAGES/Services/Doc.jpeg" 
                   alt="Students receiving guidance"
                   className="w-full h-auto object-cover"
                 />

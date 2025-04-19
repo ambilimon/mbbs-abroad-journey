@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { X, ChevronDown, ChevronUp } from "lucide-react";
 import { Filters } from "@/pages/UniversitiesPage";
@@ -8,6 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 import { 
   Collapsible,
   CollapsibleContent,
@@ -58,7 +58,7 @@ export function FilterSidebar({ filters, setFilters, onClose }: FilterSidebarPro
       minFee: 0,
       maxFee: 50000,
       facilities: [],
-      currency: "₹",
+      currency: "$",
     });
     setPriceRange([0, 50000]);
   };
@@ -91,11 +91,11 @@ export function FilterSidebar({ filters, setFilters, onClose }: FilterSidebarPro
               <h3 className="font-medium">Budget Range</h3>
               <BudgetRangeSlider
                 minValue={0}
-                maxValue={5000000}
-                step={50000}
+                maxValue={50000}
+                step={1000}
                 value={priceRange}
                 onChange={handlePriceChange}
-                currency={filters.currency || "₹"}
+                currency={filters.currency || "$"}
                 onCurrencyChange={handleCurrencyChange}
               />
             </div>
@@ -144,15 +144,15 @@ export function FilterSidebar({ filters, setFilters, onClose }: FilterSidebarPro
             {/* Applied filters summary */}
             {(filters.facilities.length > 0 || 
               filters.minFee > 0 || 
-              filters.maxFee < 5000000) && (
+              filters.maxFee < 50000) && (
               <>
                 <Separator />
                 <div className="space-y-3">
                   <h3 className="font-medium">Applied Filters</h3>
                   <div className="space-y-2">
-                    {filters.minFee > 0 || filters.maxFee < 5000000 ? (
+                    {filters.minFee > 0 || filters.maxFee < 50000 ? (
                       <div className="text-sm text-muted-foreground">
-                        Budget: {filters.currency || "₹"}{filters.minFee.toLocaleString()} - {filters.currency || "₹"}{filters.maxFee.toLocaleString()}
+                        Budget: {filters.currency}{filters.minFee.toLocaleString()} - {filters.currency}{filters.maxFee.toLocaleString()}
                       </div>
                     ) : null}
                     
