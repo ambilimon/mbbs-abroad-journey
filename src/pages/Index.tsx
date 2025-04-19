@@ -11,29 +11,34 @@ import Footer from "@/components/Footer";
 import { initializeDatabase } from "@/lib/database";
 import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/use-toast";
-import { useQuery } from "@tanstack/react-query";
 
 const Index = () => {
-  // Fetch universities data
-  const { data: universities, error } = useQuery({
-    queryKey: ['universities'],
-    queryFn: async () => {
-      const { data, error } = await supabase.from('universities').select('*');
-      if (error) throw error;
-      return data;
-    }
-  });
-
+  // Initialization of Supabase with sample data
   useEffect(() => {
-    if (error) {
-      console.error('Error fetching universities:', error);
-      toast({
-        title: "Error loading universities",
-        description: "Please try refreshing the page",
-        variant: "destructive",
-      });
-    }
-  }, [error]);
+    const initializeSupabase = async () => {
+      try {
+        // Check if universities table exists in Supabase
+        const { error } = await supabase
+          .from('universities')
+          .select('*', { count: 'exact', head: true });
+          
+        // If there's an error like table doesn't exist, we'll create it
+        if (error && error.code === '42P01') {
+          console.log('Universities table does not exist, getting sample data from localStorage');
+          const storedUniversities = localStorage.getItem('universities');
+          
+          if (storedUniversities) {
+            const universities = JSON.parse(storedUniversities);
+            await initializeDatabase(universities);
+          }
+        }
+      } catch (error) {
+        console.error('Error initializing Supabase:', error);
+      }
+    };
+    
+    initializeSupabase();
+  }, []);
 
   // Intersection Observer for animations
   useEffect(() => {
@@ -58,13 +63,28 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Navbar */}
       <Navbar />
+
+      {/* Hero Section */}
       <HeroSection />
+
+      {/* Why MBBS Abroad Section */}
       <WhyMBBSAbroad />
+
+      {/* Webinar Promo Section */}
       <WebinarPromoSection />
-      <UniversitySection universities={universities || []} />
+
+      {/* University Section */}
+      <UniversitySection />
+
+      {/* Featured University */}
       <FeaturedUniversity />
+
+      {/* Application Section */}
       <ApplicationSection />
+
+      {/* Footer */}
       <Footer />
     </div>
   );

@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown, ChevronRight, Globe } from "lucide-react";
 import { Link, useLocation, useParams } from "react-router-dom";
+
+import { ShimmerButton } from "@/components/ShimmerButton";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
+
 import CountryNavigation from "./CountryNavigation";
 import Logo from "./Logo";
 
@@ -14,9 +17,10 @@ const Navbar = () => {
   const location = useLocation();
   const { country } = useParams();
 
+  const isCountryPage = location.pathname.startsWith("/country/");
   const formattedCountry = country
     ? country.charAt(0).toUpperCase() + country.slice(1)
-    : undefined;
+    : null;
 
   // Organized countries by region for better UI (matching CountryNavigation)
   const countriesByRegion = {
