@@ -53,7 +53,7 @@ const ContactPage = () => {
                       <div>
                         <h3 className="font-semibold text-gray-900">Our Office</h3>
                         <p className="text-gray-600 mt-1">
-                          123 Education Street, Mumbai, Maharashtra 400001, India
+                          #79khb colony, 2nd phase opposite Karnataka bank, Gopal, Shimoga - 577205
                         </p>
                       </div>
                     </div>
@@ -65,13 +65,8 @@ const ContactPage = () => {
                       <div>
                         <h3 className="font-semibold text-gray-900">Email Us</h3>
                         <p className="text-gray-600 mt-1">
-                          <a href="mailto:info@mbbsabroadjourney.com" className="hover:text-blue-700 transition-colors">
-                            info@mbbsabroadjourney.com
-                          </a>
-                        </p>
-                        <p className="text-gray-600">
-                          <a href="mailto:support@mbbsabroadjourney.com" className="hover:text-blue-700 transition-colors">
-                            support@mbbsabroadjourney.com
+                          <a href="mailto:info@futuredoctoredu.com" className="hover:text-blue-700 transition-colors">
+                            info@futuredoctoredu.com
                           </a>
                         </p>
                       </div>
@@ -84,13 +79,13 @@ const ContactPage = () => {
                       <div>
                         <h3 className="font-semibold text-gray-900">Call Us</h3>
                         <p className="text-gray-600 mt-1">
-                          <a href="tel:+919876543210" className="hover:text-blue-700 transition-colors">
-                            +91 9876543210
+                          <a href="tel:+919901712001" className="hover:text-blue-700 transition-colors">
+                            +91 9901712001
                           </a>
                         </p>
                         <p className="text-gray-600">
-                          <a href="tel:+919876543211" className="hover:text-blue-700 transition-colors">
-                            +91 9876543211
+                          <a href="tel:+919902342001" className="hover:text-blue-700 transition-colors">
+                            +91 9902342001
                           </a>
                         </p>
                       </div>

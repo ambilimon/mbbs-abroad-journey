@@ -1,10 +1,33 @@
-
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Rocket, Phone, Globe, Check } from "lucide-react";
 import AnimatedButton from "./AnimatedButton";
+import { countryUniversities } from "@/data/countryUniversities";
 
 const ApplicationSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    neetScore: "",
+    country: "",
+    university: "",
+    message: ""
+  });
+
+  // Get available universities based on selected country
+  const availableUniversities = formData.country ? countryUniversities[formData.country] || [] : [];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => {
+      // If country changes, reset university selection
+      if (id === 'country') {
+        return { ...prev, [id]: value, university: '' };
+      }
+      return { ...prev, [id]: value };
+    });
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -124,6 +147,8 @@ const ApplicationSection = () => {
                   <input
                     type="text"
                     id="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="Enter your full name"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -135,6 +160,8 @@ const ApplicationSection = () => {
                   <input
                     type="email"
                     id="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="Enter your email"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -149,17 +176,21 @@ const ApplicationSection = () => {
                   <input
                     type="tel"
                     id="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     placeholder="Enter your phone number"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
-                  <label htmlFor="neet" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label htmlFor="neetScore" className="block text-sm font-medium text-gray-700 mb-1">
                     NEET Score
                   </label>
                   <input
                     type="text"
-                    id="neet"
+                    id="neetScore"
+                    value={formData.neetScore}
+                    onChange={handleChange}
                     placeholder="Enter your NEET score"
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -172,14 +203,38 @@ const ApplicationSection = () => {
                 </label>
                 <select
                   id="country"
+                  value={formData.country}
+                  onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="">Select your preferred country</option>
-                  <option value="russia">Russia</option>
-                  <option value="georgia">Georgia</option>
-                  <option value="kazakhstan">Kazakhstan</option>
-                  <option value="kyrgyzstan">Kyrgyzstan</option>
-                  <option value="other">Other</option>
+                  {Object.keys(countryUniversities).map((country) => (
+                    <option key={country} value={country}>
+                      {country.charAt(0).toUpperCase() + country.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="university" className="block text-sm font-medium text-gray-700 mb-1">
+                  Preferred University
+                </label>
+                <select
+                  id="university"
+                  value={formData.university}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  disabled={!formData.country}
+                >
+                  <option value="">
+                    {formData.country ? "Select your preferred university" : "Please select a country first"}
+                  </option>
+                  {availableUniversities.map((university) => (
+                    <option key={university.id} value={university.value}>
+                      {university.name}
+                    </option>
+                  ))}
                 </select>
               </div>
               
@@ -189,6 +244,8 @@ const ApplicationSection = () => {
                 </label>
                 <textarea
                   id="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   rows={3}
                   placeholder="Any specific questions or requirements"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
@@ -205,11 +262,11 @@ const ApplicationSection = () => {
               <div className="space-y-3">
                 <div className="flex items-center">
                   <Phone className="h-5 w-5 text-blue-700 mr-2" />
-                  <span className="text-sm">+91 98765 43210</span>
+                  <span className="text-sm">+91 9901712001</span>
                 </div>
                 <div className="flex items-center">
                   <Globe className="h-5 w-5 text-blue-700 mr-2" />
-                  <span className="text-sm">info@mbbsabroad.com</span>
+                  <span className="text-sm">info@futuredoctoredu.com</span>
                 </div>
               </div>
             </div>

@@ -63,23 +63,30 @@ const Footer: React.FC = () => {
           </div>
           
           <div className="mb-6">
-            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li className="flex flex-col">
-                <span className="font-medium text-white">Address:</span>
-                <span>#79khb colony, 2nd phase opposite karanataka bank,</span>
-                <span>gopal, shimoga -577205.</span>
-              </li>
-              <li className="flex flex-col">
-                <span className="font-medium text-white">Phone:</span>
-                <a href="tel:+919901712001" className="hover:text-white transition duration-300">+91 9901712001</a>
-                <a href="tel:+919902342001" className="hover:text-white transition duration-300">+91 9902342001</a>
-              </li>
-              <li className="flex flex-col">
-                <span className="font-medium text-white">Email:</span>
-                <a href="mailto:info@futuredoctoredu.com" className="hover:text-white transition duration-300">info@futuredoctoredu.com</a>
-              </li>
-            </ul>
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900">Contact Us</h3>
+              <div className="space-y-2 text-gray-600">
+                <p>
+                  #79khb colony, 2nd phase opposite Karnataka bank,<br />
+                  Gopal, Shimoga - 577205
+                </p>
+                <p>
+                  <a href="tel:+919901712001" className="hover:text-blue-700 transition-colors">
+                    +91 9901712001
+                  </a>
+                </p>
+                <p>
+                  <a href="tel:+919902342001" className="hover:text-blue-700 transition-colors">
+                    +91 9902342001
+                  </a>
+                </p>
+                <p>
+                  <a href="mailto:info@futuredoctoredu.com" className="hover:text-blue-700 transition-colors">
+                    info@futuredoctoredu.com
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
         

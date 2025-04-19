@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Rocket, Phone, Globe, Check } from "lucide-react";
 import AnimatedButton from "@/components/AnimatedButton";
 import { useToast } from "@/components/ui/use-toast";
+import { countryUniversities } from "@/data/countryUniversities";
 
 const ApplyNowPage = () => {
   const { toast } = useToast();
@@ -18,9 +19,18 @@ const ApplyNowPage = () => {
     message: ""
   });
 
+  // Get available universities based on selected country
+  const availableUniversities = formData.country ? countryUniversities[formData.country] || [] : [];
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { id, value } = e.target;
-    setFormData(prev => ({ ...prev, [id]: value }));
+    setFormData(prev => {
+      // If country changes, reset university selection
+      if (id === 'country') {
+        return { ...prev, [id]: value, university: '' };
+      }
+      return { ...prev, [id]: value };
+    });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -270,19 +280,11 @@ const ApplyNowPage = () => {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
                     >
                       <option value="">Select your preferred country</option>
-                      <option value="russia">Russia</option>
-                      <option value="georgia">Georgia</option>
-                      <option value="philippines">Philippines</option>
-                      <option value="belarus">Belarus</option>
-                      <option value="moldova">Moldova</option>
-                      <option value="bulgaria">Bulgaria</option>
-                      <option value="bosnia">Bosnia</option>
-                      <option value="uzbekistan">Uzbekistan</option>
-                      <option value="kazakhstan">Kazakhstan</option>
-                      <option value="kyrgyzstan">Kyrgyzstan</option>
-                      <option value="malaysia">Malaysia</option>
-                      <option value="nepal">Nepal</option>
-                      <option value="other">Other</option>
+                      {Object.keys(countryUniversities).map((country) => (
+                        <option key={country} value={country}>
+                          {country.charAt(0).toUpperCase() + country.slice(1)}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   
@@ -295,21 +297,16 @@ const ApplyNowPage = () => {
                       value={formData.university}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                      disabled={!formData.country}
                     >
-                      <option value="">Select your preferred university</option>
-                      <option value="altai">Altai State Medical University</option>
-                      <option value="bashkir">Bashkir State Medical University</option>
-                      <option value="mari">Mari State University</option>
-                      <option value="batumi">Batumi Shota Rustaveli State University</option>
-                      <option value="caucasus">Caucasus International University</option>
-                      <option value="lyceum">Lyceum of the Philippines University</option>
-                      <option value="davao">Davao Medical School Foundation</option>
-                      <option value="belarusian">Belarusian State Medical University</option>
-                      <option value="grodno">Grodno State Medical University</option>
-                      <option value="nicolae">Nicolae Testemitanu State University of Medicine</option>
-                      <option value="pleven">Medical University Pleven</option>
-                      <option value="andijan">Andijan State Medical Institute</option>
-                      <option value="other">Other</option>
+                      <option value="">
+                        {formData.country ? "Select your preferred university" : "Please select a country first"}
+                      </option>
+                      {availableUniversities.map((university) => (
+                        <option key={university.id} value={university.value}>
+                          {university.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   
@@ -337,11 +334,11 @@ const ApplyNowPage = () => {
                   <div className="space-y-3">
                     <div className="flex items-center">
                       <Phone className="h-5 w-5 text-blue-700 mr-2" />
-                      <span className="text-sm">+91 98765 43210</span>
+                      <span className="text-sm">+91 9901712001</span>
                     </div>
                     <div className="flex items-center">
                       <Globe className="h-5 w-5 text-blue-700 mr-2" />
-                      <span className="text-sm">info@mbbsabroad.com</span>
+                      <span className="text-sm">info@futuredoctoredu.com</span>
                     </div>
                   </div>
                 </div>

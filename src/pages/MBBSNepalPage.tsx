@@ -562,15 +562,15 @@ const MBBSNepalPage = () => {
                 <p className="mb-4">Have queries about MBBS in Nepal? Our expert counselors are here to help.</p>
                 <div className="flex items-center mb-3">
                   <MapPin className="w-5 h-5 mr-2" />
-                  <span>123 Education Street, Mumbai, India</span>
+                  <span>#79khb colony, 2nd phase opposite Karnataka bank, Gopal, Shimoga - 577205</span>
                 </div>
                 <div className="flex items-center mb-3">
                   <Star className="w-5 h-5 mr-2" />
-                  <span>+91 9876543210</span>
+                  <span>+91 9901712001</span>
                 </div>
                 <div className="flex items-center">
                   <Star className="w-5 h-5 mr-2" />
-                  <span>info@mbbsabroadjourney.com</span>
+                  <span>info@futuredoctoredu.com</span>
                 </div>
               </div>
             </div>
