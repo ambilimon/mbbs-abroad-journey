@@ -117,14 +117,14 @@ const Navbar = () => {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "md:hidden fixed top-[60px] left-0 w-full h-[calc(100vh-60px)] bg-white z-50 transform transition-all duration-300 ease-in-out overflow-y-auto",
+          "md:hidden fixed top-[60px] left-0 w-full min-h-[calc(100vh-60px)] bg-white z-50 transform transition-all duration-300 ease-in-out overflow-y-auto",
           isOpen
             ? "translate-y-0 opacity-100"
             : "translate-y-[-100%] opacity-0 pointer-events-none"
         )}
       >
-        <div className="container h-full px-4 mx-auto py-8 flex flex-col">
-          <div className="space-y-6">
+        <div className="container px-4 mx-auto py-6">
+          <div className="space-y-4">
             {/* Main Navigation Links */}
             {navLinks.map((link) => (
               <Link
@@ -143,7 +143,7 @@ const Navbar = () => {
             ))}
 
             {/* Mobile Study Destinations Dropdown */}
-            <div className="space-y-4">
+            <div className="space-y-4 pb-6">
               <button
                 type="button"
                 className="flex items-center justify-between w-full text-lg font-medium text-gray-700 hover:text-primary transition-colors"
@@ -158,7 +158,7 @@ const Navbar = () => {
               </button>
               
               {showMobileCountries && (
-                <div className="pl-4 space-y-4 border-l-2 border-gray-200">
+                <div className="pl-4 space-y-6 border-l-2 border-gray-200">
                   {/* All Universities Link */}
                   <Link
                     to="/universities"
@@ -171,9 +171,9 @@ const Navbar = () => {
                   
                   {/* Countries organized by region */}
                   {Object.entries(countriesByRegion).map(([region, countries]) => (
-                    <div key={region} className="space-y-3">
+                    <div key={region} className="space-y-4 mb-6">
                       <h4 className="font-medium text-gray-500">{region}</h4>
-                      <div className="space-y-3 pl-2">
+                      <div className="space-y-4 pl-2">
                         {countries.map((country) => (
                           <Link
                             key={country}
@@ -190,12 +190,6 @@ const Navbar = () => {
                 </div>
               )}
             </div>
-
-            {isCountryPage && formattedCountry && (
-              <span className="block text-lg font-semibold text-primary">
-                {formattedCountry}
-              </span>
-            )}
           </div>
         </div>
       </div>
